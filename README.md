@@ -1,10 +1,8 @@
 ## VOA
-<hr>
 
 Plan, track and manage agile and software development projects.
 
 ## Quick Build
-<hr>
 
 1. Modify application.yml
 ```
@@ -14,13 +12,11 @@ password: ${DB_PASSWORD:your mariaDB password}
 ```
 
 ## Requirements
-<hr>
 
 Java 17<br/>
 mariaDB 10.9.2
 
 ## License
-<hr>
 
 Network-Monitoring is licensed under the [MIT License]. The terms of the license are as follows:
 ```

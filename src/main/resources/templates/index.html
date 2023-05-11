@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="../static/css/style.css" th:href="@{/css/style.css}" />
+</head>
+<body>
+    <div id="gnb">
+        <div class="search-wrap">
+            <div class="search-icon"></div>
+            <input type="text" class="search-input border-0" placeholder="Search..."/>
+        </div>
+        <div id="createIssue" class="button">CREATE</div>
+        <div class="profile-wrap">
+            <div id="profile-name">ㅁㅁㅁ</div>
+        </div>
+    </div>
+    <div class="contents box">
+        <table id="issue-table">
+            <thead>
+            <tr class="row">
+                <th class="header">유형</th>
+                <th class="header">키</th>
+                <th class="header">담당자</th>
+                <th class="header">보고자</th>
+                <th class="header">우선</th>
+                <th class="header">상태</th>
+                <th class="header">버전</th>
+                <th class="header">변경일</th>
+                <th class="header">해결책</th>
+                <th class="header">요약</th>
+                <th class="header">생성일</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="row">
+                    <td class="item">ㅁㅁ</td>
+                    <td class="item">PRJ-1</td>
+                    <td class="item">ㅁㅁㅁ</td>
+                    <td class="item">ㅁㅁㅁ</td>
+                    <td class="item">위</td>
+                    <td class="item">ㅁㅁ</td>
+                    <td class="item">222</td>
+                    <td class="item">2023/05/05</td>
+                    <td class="item">해결</td>
+                    <td class="item">ㅁㅁㅁㅁㅁ</td>
+                    <td class="item">2023/05/05</td>
+            </tr>
+            <tr class="row">
+                <td class="item">ㅁㅁ</td>
+                <td class="item">PRJ-1</td>
+                <td class="item">ㅁㅁㅁ</td>
+                <td class="item">ㅁㅁㅁ</td>
+                <td class="item">위</td>
+                <td class="item">ㅁㅁ</td>
+                <td class="item">222</td>
+                <td class="item">2023/05/05</td>
+                <td class="item">해결</td>
+                <td class="item">ㅁㅁㅁㅁㅁ</td>
+                <td class="item">2023/05/05</td>
+            </tr>
+            <tr class="row">
+                <td class="item">ㅁㅁ</td>
+                <td class="item">PRJ-1</td>
+                <td class="item">ㅁㅁㅁ</td>
+                <td class="item">ㅁㅁㅁ</td>
+                <td class="item">위</td>
+                <td class="item">ㅁㅁ</td>
+                <td class="item">222</td>
+                <td class="item">2023/05/05</td>
+                <td class="item">해결</td>
+                <td class="item">ㅁㅁㅁㅁㅁ</td>
+                <td class="item">2023/05/05</td>
+            </tr>
+            <tr class="row">
+                <td class="item">ㅁㅁ</td>
+                <td class="item">PRJ-1</td>
+                <td class="item">ㅁㅁㅁ</td>
+                <td class="item">ㅁㅁㅁ</td>
+                <td class="item">위</td>
+                <td class="item">ㅁㅁ</td>
+                <td class="item">222</td>
+                <td class="item">2023/05/05</td>
+                <td class="item">해결</td>
+                <td class="item">ㅁㅁㅁㅁㅁ</td>
+                <td class="item">2023/05/05</td>
+            </tr>
+            <tr class="row">
+                <td class="item">ㅁㅁ</td>
+                <td class="item">PRJ-1</td>
+                <td class="item">ㅁㅁㅁ</td>
+                <td class="item">ㅁㅁㅁ</td>
+                <td class="item">위</td>
+                <td class="item">ㅁㅁ</td>
+                <td class="item">222</td>
+                <td class="item">2023/05/05</td>
+                <td class="item">해결</td>
+                <td class="item">ㅁㅁㅁㅁㅁ</td>
+                <td class="item">2023/05/05</td>
+            </tr>
+            <tr class="row">
+                <td class="item">ㅁㅁ</td>
+                <td class="item">PRJ-1</td>
+                <td class="item">ㅁㅁㅁ</td>
+                <td class="item">ㅁㅁㅁ</td>
+                <td class="item">위</td>
+                <td class="item">ㅁㅁ</td>
+                <td class="item">222</td>
+                <td class="item">2023/05/05</td>
+                <td class="item">해결</td>
+                <td class="item">ㅁㅁㅁㅁㅁ</td>
+                <td class="item">2023/05/05</td>
+            </tr>
+            <tr class="row">
+                <td class="item">ㅁㅁ</td>
+                <td class="item">PRJ-1</td>
+                <td class="item">ㅁㅁㅁ</td>
+                <td class="item">ㅁㅁㅁ</td>
+                <td class="item">위</td>
+                <td class="item">ㅁㅁ</td>
+                <td class="item">222</td>
+                <td class="item">2023/05/05</td>
+                <td class="item">해결</td>
+                <td class="item">ㅁㅁㅁㅁㅁ</td>
+                <td class="item">2023/05/05</td>
+            </tr>
+            <tr class="row">
+                <td class="item">ㅁㅁ</td>
+                <td class="item">PRJ-1</td>
+                <td class="item">ㅁㅁㅁ</td>
+                <td class="item">ㅁㅁㅁ</td>
+                <td class="item">위</td>
+                <td class="item">ㅁㅁ</td>
+                <td class="item">222</td>
+                <td class="item">2023/05/05</td>
+                <td class="item">해결</td>
+                <td class="item">ㅁㅁㅁㅁㅁ</td>
+                <td class="item">2023/05/05</td>
+            </tr>
+            <tr class="row">
+                <td class="item">ㅁㅁ</td>
+                <td class="item">PRJ-1</td>
+                <td class="item">ㅁㅁㅁ</td>
+                <td class="item">ㅁㅁㅁ</td>
+                <td class="item">위</td>
+                <td class="item">ㅁㅁ</td>
+                <td class="item">222</td>
+                <td class="item">2023/05/05</td>
+                <td class="item">해결</td>
+                <td class="item">ㅁㅁㅁㅁㅁ</td>
+                <td class="item">2023/05/05</td>
+            </tr>
+            <tr class="row">
+                <td class="item">ㅁㅁ</td>
+                <td class="item">PRJ-1</td>
+                <td class="item">ㅁㅁㅁ</td>
+                <td class="item">ㅁㅁㅁ</td>
+                <td class="item">위</td>
+                <td class="item">ㅁㅁ</td>
+                <td class="item">222</td>
+                <td class="item">2023/05/05</td>
+                <td class="item">해결</td>
+                <td class="item">ㅁㅁㅁㅁㅁ</td>
+                <td class="item">2023/05/05</td>
+            </tr>
+            <tr class="row">
+                <td class="item">ㅁㅁ</td>
+                <td class="item">PRJ-1</td>
+                <td class="item">ㅁㅁㅁ</td>
+                <td class="item">ㅁㅁㅁ</td>
+                <td class="item">위</td>
+                <td class="item">ㅁㅁ</td>
+                <td class="item">222</td>
+                <td class="item">2023/05/05</td>
+                <td class="item">해결</td>
+                <td class="item">ㅁㅁㅁㅁㅁ</td>
+                <td class="item">2023/05/05</td>
+            </tr>
+            <tr class="row">
+                <td class="item">ㅁㅁ</td>
+                <td class="item">PRJ-1</td>
+                <td class="item">ㅁㅁㅁ</td>
+                <td class="item">ㅁㅁㅁ</td>
+                <td class="item">위</td>
+                <td class="item">ㅁㅁ</td>
+                <td class="item">222</td>
+                <td class="item">2023/05/05</td>
+                <td class="item">해결</td>
+                <td class="item">ㅁㅁㅁㅁㅁ</td>
+                <td class="item">2023/05/05</td>
+            </tr>
+            <tr class="row">
+                <td class="item">ㅁㅁ</td>
+                <td class="item">PRJ-1</td>
+                <td class="item">ㅁㅁㅁ</td>
+                <td class="item">ㅁㅁㅁ</td>
+                <td class="item">위</td>
+                <td class="item">ㅁㅁ</td>
+                <td class="item">222</td>
+                <td class="item">2023/05/05</td>
+                <td class="item">해결</td>
+                <td class="item">ㅁㅁㅁㅁㅁ</td>
+                <td class="item">2023/05/05</td>
+            </tr>
+            <tr class="row">
+                <td class="item">ㅁㅁ</td>
+                <td class="item">PRJ-1</td>
+                <td class="item">ㅁㅁㅁ</td>
+                <td class="item">ㅁㅁㅁ</td>
+                <td class="item">위</td>
+                <td class="item">ㅁㅁ</td>
+                <td class="item">222</td>
+                <td class="item">2023/05/05</td>
+                <td class="item">해결</td>
+                <td class="item">ㅁㅁㅁㅁㅁ</td>
+                <td class="item">2023/05/05</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+<!-- 이슈 만들기 템플릿  -->
+    <div id="create-issue" class="hide">
+        <div class="issue-header-wrap">
+            <span class="issue-header-text">이슈 만들기</span>
+        </div>
+        <div class="issue-wrap">
+            <div class="issue-field-wrap">
+                <div class="issue-title-wrap">
+                    <span class="issue-tiny-text issue-title-align">이슈 유형</span>
+                </div>
+                <div class="issue-content-wrap">
+                    <select class="issue-type-select">
+                        <option value="a">버그</option>
+                        <option value="b">작업</option>
+                        <option value="c">개선사항</option>
+                        <option value="d">스토리</option>
+                    </select>
+                    <span class="issue-content-desc">이슈 유형을 선택해 주세요.</span>
+                </div>
+            </div>
+            <div class="line"></div>
+            <div class="issue-field-wrap">
+                <div class="issue-title-wrap">
+                    <span class="issue-tiny-text">제목</span>
+                </div>
+                <div class="issue-content-wrap">
+                    <input class="issue-input" type="text"/>
+                </div>
+            </div>
+            <div class="issue-field-wrap">
+                <div class="issue-title-wrap">
+                    <span class="issue-tiny-text">우선순위</span>
+                </div>
+                <div class="issue-content-wrap">
+                    <select class="issue-type-select">
+                        <option value="a">버그</option>
+                        <option value="b">작업</option>
+                        <option value="c">개선사항</option>
+                        <option value="d">스토리</option>
+                    </select>
+                </div>
+            </div>
+            <div class="issue-field-wrap">
+                <div class="issue-title-wrap">
+                    <span class="issue-tiny-text issue-title-align">버전</span>
+                </div>
+                <div class="issue-content-wrap">
+                    <input class="issue-input" type="text"/>
+                    <span class="issue-content-desc">키보드 입력을 시작해서 사용 가능한 목록을 가져오거나 아래를 눌러 선택하세요.</span>
+                </div>
+            </div>
+            <div class="issue-field-wrap">
+                <div class="issue-title-wrap">
+                    <span class="issue-tiny-text issue-title-align">담당자</span>
+                </div>
+                <div class="issue-content-wrap">
+                    <select class="issue-type-select">
+                        <option value="a">자동</option>
+                        <option value="b">작업</option>
+                        <option value="c">개선사항</option>
+                        <option value="d">스토리</option>
+                    </select>
+                    <span id="assign-me">나에게 할당</span>
+                </div>
+            </div>
+            <div class="issue-field-wrap">
+                <div class="issue-title-wrap">
+                    <span class="issue-tiny-text issue-title-align">환경</span>
+                </div>
+                <div class="issue-content-wrap">
+                    <textarea></textarea>
+                    <span class="issue-content-desc">예를 들면 운영체제, 소프트웨어 플랫폼 또는 하드웨어 상세내역(이슈를 위해 적절하게 포함되어야 함).</span>
+                </div>
+            </div>
+            <div class="issue-field-wrap">
+                <div class="issue-title-wrap">
+                    <span class="issue-tiny-text">설명</span>
+                </div>
+                <div class="issue-content-wrap">
+                    <textarea></textarea>
+                </div>
+            </div>
+            <div class="issue-field-wrap">
+                <div class="issue-title-wrap">
+                    <span class="issue-tiny-text">첨부파일</span>
+                </div>
+                <div class="issue-content-wrap">
+                    <input class="issue-input" type="text"/>
+                </div>
+            </div>
+            <div class="issue-field-wrap">
+                <div class="issue-title-wrap">
+                    <span class="issue-tiny-text issue-title-align">라벨</span>
+                </div>
+                <div class="issue-content-wrap">
+                    <input class="issue-input" type="text"/>
+                    <span class="issue-content-desc">새 라벨을 만들거나 찾으려면 키보드 입력을 시작하세요. 추천 라벨을 보시려면 목록을 여세요.</span>
+                </div>
+            </div>
+            <div class="issue-field-wrap">
+                <div class="issue-title-wrap">
+                    <span class="issue-tiny-text">연결된 이슈</span>
+                </div>
+                <div class="issue-content-wrap">
+                    <select class="issue-type-select">
+                        <option value="a">버그</option>
+                        <option value="b">작업</option>
+                        <option value="c">개선사항</option>
+                        <option value="d">스토리</option>
+                    </select>
+                </div>
+            </div>
+            <div class="issue-field-wrap">
+                <div class="issue-title-wrap">
+                    <span class="issue-tiny-text issue-title-align">이슈</span>
+                </div>
+                <div class="issue-content-wrap">
+                    <input class="issue-input" type="text"/>
+                    <span class="issue-content-desc">키보드 입력을 시작해서 사용 가능한 목록을 가져오거나 아래를 눌러 선택하세요.</span>
+                </div>
+            </div>
+        </div>
+        <div class="issue-footer-wrap">
+            <button class="create-issue-btn button">만들기</button>
+            <button id="cancel-issue" class="cancel-issue-btn">취소</button>
+        </div>
+    </div>
+</body>
+
+<script>
+    document.getElementById('createIssue').addEventListener('click', () => {
+        document.getElementById('create-issue').classList.remove('hide');
+        document.getElementById('gnb').classList.add('hidden');
+        document.getElementsByClassName('contents')[0].classList.add('hidden');
+    });
+
+    document.getElementById('cancel-issue').addEventListener('click', () => {
+        document.getElementById('create-issue').classList.add('hide');
+        document.getElementById('gnb').classList.remove('hidden');
+        document.getElementsByClassName('contents')[0].classList.remove('hidden');
+    });
+</script>
+
+</html>

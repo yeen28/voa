@@ -1,7 +1,6 @@
 const path = require("path");
 module.exports = {
-    mode: "development",
-    entry: "./ts/index.ts",
+    entry: "./src/index.ts",
     devtool: "inline-source-map",
     module: {
         rules: [
@@ -12,7 +11,8 @@ module.exports = {
         ],
     },
     resolve: {
-        extensions: [".ts", ".js"],
+        // require('./example')과 같이 빈 확장자를 아래 확장자로 import 해줌.
+        extensions: [".ts"],
     },
     output: {
         filename: "bundle.js",

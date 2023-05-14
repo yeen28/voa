@@ -12,7 +12,7 @@
             <div class="search-icon"></div>
             <input type="text" class="search-input border-0" placeholder="Search..."/>
         </div>
-        <div id="createIssue" class="button">CREATE</div>
+        <div id="createIssue" class="button" data-that="issue" data-cmd="open">CREATE</div>
         <div class="profile-wrap">
             <div id="profile-name">ㅁㅁㅁ</div>
         </div>
@@ -344,24 +344,9 @@
             </div>
         </div>
         <div class="issue-footer-wrap">
-            <button class="create-issue-btn button">만들기</button>
-            <button id="cancel-issue" class="cancel-issue-btn">취소</button>
+            <button class="create-issue-btn button" data-that="issue" data-cmd="create">만들기</button>
+            <button id="cancel-issue" class="cancel-issue-btn" data-that="issue" data-cmd="cancel">취소</button>
         </div>
     </div>
 </body>
-
-<script>
-    document.getElementById('createIssue').addEventListener('click', () => {
-        document.getElementById('create-issue').classList.remove('hide');
-        document.getElementById('gnb').classList.add('hidden');
-        document.getElementsByClassName('contents')[0].classList.add('hidden');
-    });
-
-    document.getElementById('cancel-issue').addEventListener('click', () => {
-        document.getElementById('create-issue').classList.add('hide');
-        document.getElementById('gnb').classList.remove('hidden');
-        document.getElementsByClassName('contents')[0].classList.remove('hidden');
-    });
-</script>
-
 </html>

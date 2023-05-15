@@ -1,6 +1,7 @@
 package com.project.voa.service;
 
 import com.project.voa.domain.Issue;
+import com.project.voa.dto.IssueDTO;
 import com.project.voa.repository.IssueRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -14,16 +15,8 @@ public class IssueService {
 	/**
 	 * 이슈 생성
 	 */
-	public void create() {
-		// TODO 파라미터 하드코딩
-		Issue issue = new Issue();
-		issue.setTitle("버그 수정이 필요합니다.");
-		issue.setRank(1);
-		issue.setEnv("Windows11");
-		issue.setDescription("설명입니다.");
-		issue.setIssueLinkType(1000);
-		issue.setIssueLink("link");
-
+	public void create(IssueDTO issueDTO) {
+		Issue issue = Issue.of(issueDTO);
 		issueRepository.save(issue);
 	}
 

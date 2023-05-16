@@ -7,6 +7,8 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class IssueService {
@@ -50,5 +52,14 @@ public class IssueService {
 		// TODO 파라미터 하드코딩
 		Issue issue = issueRepository.findById(id).orElseThrow(EntityNotFoundException::new);
 		issueRepository.delete(issue);
+	}
+
+	/**
+	 * 사용자에게 할당된 이슈들 조회
+	 * @param ownerId
+	 * @return
+	 */
+	public List<Issue> getIssues(final long ownerId) {
+		return issueRepository.findByOwnerId(ownerId);
 	}
 }

@@ -1,8 +1,10 @@
 package com.project.voa.domain;
 
 import jakarta.persistence.*;
+import lombok.NoArgsConstructor;
 
 @Entity
+@NoArgsConstructor
 public class Version extends BaseTimeEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -10,4 +12,8 @@ public class Version extends BaseTimeEntity {
 
 	@Column(length = 100, nullable = false)
 	private String name;
+
+	public Version(String name) {
+		this.name = name;
+	}
 }

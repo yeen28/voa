@@ -16,9 +16,8 @@ public class VersionController {
 
 	@Operation(summary = "버전 추가")
 	@PostMapping("/version")
-	public ResponseEntity<Object> createVersion(String name) {
-		versionService.createVersion(name);
-		return new ResponseEntity<>(HttpStatus.OK);
+	public ResponseEntity<Object> createVersion(@RequestParam String name) {
+		return new ResponseEntity<>(versionService.createVersion(name), HttpStatus.OK);
 	}
 
 	@Operation(summary = "버전 삭제")
@@ -26,8 +25,8 @@ public class VersionController {
 	@DeleteMapping("/version/{id}")
 	public ResponseEntity<Object> deleteVersion(@PathVariable("id") long id) {
 		try {
-		versionService.deleteVersion(id);
-		return new ResponseEntity<>(HttpStatus.OK);
+			versionService.deleteVersion(id);
+			return new ResponseEntity<>(HttpStatus.OK);
 
 		} catch (EntityNotFoundException e) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);

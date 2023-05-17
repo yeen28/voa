@@ -10,13 +10,13 @@ import org.springframework.stereotype.Service;
 public class UserInfoService {
 	private final UserInfoRepository userInfoRepository;
 
-	public void insertUser() {
+	public UserInfo insertUser() {
 		// TODO 파라미터 하드코딩
 		UserInfo userInfo = new UserInfo();
-		userInfo.setUserName("보아");
+		userInfo.setUserName("voa");
 		userInfo.setPassword("123");
 		userInfo.setUserEmail("voa@email.com");
 		userInfo.setProfile("profile");
-		userInfoRepository.save(userInfo);
+		return userInfoRepository.save(userInfo);
 	}
 }

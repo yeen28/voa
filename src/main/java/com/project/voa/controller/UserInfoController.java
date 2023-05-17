@@ -15,7 +15,6 @@ public class UserInfoController {
 	@Operation(summary = "사용자 등록", description = "사용자를 등록합니다.")
 	@PostMapping("/user")
 	public ResponseEntity<Object> createIssue() {
-		userInfoService.insertUser();
-		return new ResponseEntity<>(HttpStatus.OK);
+		return new ResponseEntity<>(userInfoService.insertUser(), HttpStatus.OK);
 	}
 }

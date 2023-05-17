@@ -1,8 +1,8 @@
 package com.project.voa.service;
 
-import com.project.voa.domain.Issue;
+import com.project.voa.domain.*;
 import com.project.voa.dto.IssueDTO;
-import com.project.voa.repository.IssueRepository;
+import com.project.voa.repository.*;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -13,12 +13,21 @@ import java.util.List;
 @RequiredArgsConstructor
 public class IssueService {
 	private final IssueRepository issueRepository;
+	private final IssueTypeRepository issueTypeRepository;
+	private final VersionRepository versionRepository;
+	private final UserInfoRepository userInfoRepository;
+	private final LabelRepository labelRepository;
 
 	/**
 	 * 이슈 생성
 	 */
 	public Issue create(IssueDTO issueDTO) {
-		Issue issue = Issue.of(issueDTO);
+		IssueType issueType = issueTypeRepository.findById(issueDTO.getIssueTypeId()).orElseThrow(EntityNotFoundException::new);
+		List<Version> versions = versionRepository.findByIdIn(issueDTO.getVersionIds());
+		UserInfo owner = userInfoRepository.findById(issueDTO.getOwnerId()).orElseThrow(EntityNotFoundException::new);
+		UserInfo reporter = userInfoRepository.findById(issueDTO.getReporterId()).orElseThrow(EntityNotFoundException::new);
+		List<Label> labels = labelRepository.findByIdIn(issueDTO.getLabelIds());
+		Issue issue = Issue.of(issueDTO, issueType, versions, owner, reporter, labels);
 		return issueRepository.save(issue);
 	}
 

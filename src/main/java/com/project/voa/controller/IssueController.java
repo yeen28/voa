@@ -15,11 +15,16 @@ import org.springframework.web.bind.annotation.*;
 public class IssueController {
 	private final IssueService issueService;
 
-	@Operation(summary = "이슈 생성", description = "이슈를 생성합니다.")
+	@Operation(summary = "이슈 생성")
 	@PostMapping("/issue")
 	public ResponseEntity<Object> createIssue(@RequestBody IssueDTO issueDTO) {
-		issueService.create(issueDTO);
-		return new ResponseEntity<>(HttpStatus.OK);
+		return new ResponseEntity<>(issueService.create(issueDTO), HttpStatus.OK);
+	}
+
+	@Operation(summary = "사용자에게 할당된 이슈 조회")
+	@GetMapping("/issues")
+	public ResponseEntity<Object> getIssues(long ownerId) {
+		return new ResponseEntity<>(issueService.getIssues(ownerId), HttpStatus.OK);
 	}
 
 	@Operation(summary = "이슈 조회", description = "이슈를 조회합니다.")

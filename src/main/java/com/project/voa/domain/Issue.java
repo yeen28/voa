@@ -8,6 +8,7 @@ import java.util.List;
 
 @Entity
 @Setter
+@Getter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -47,7 +48,6 @@ public class Issue extends BaseTimeEntity {
 	@ManyToMany
 	private List<Label> label;
 
-	@Getter
 	@Column
 	private long issueLinkType;
 

@@ -10,15 +10,15 @@ import java.util.List;
 
 @Getter
 public class IssueDTO {
-	private IssueType issueType;
+	private long issueTypeId;
 	private String title;
 	private long rank;
-	private Version version;
-	private UserInfo owner;
-	private UserInfo reporter;
+	private List<Long> versionIds;
+	private long ownerId;
+	private long reporterId;
 	private String env;
 	private String description;
-	private List<Label> label;
+	private List<Long> labelIds;
 	private long issueLinkType;
 	private String issueLink;
 }

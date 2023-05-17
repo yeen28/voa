@@ -13,9 +13,11 @@ public class VersionService {
 
 	/**
 	 * 버전 추가
+	 * @param name
+	 * @return
 	 */
-	public void createVersion(String name) {
-		versionRepository.save(new Version(name));
+	public Version createVersion(String name) {
+		return versionRepository.save(new Version(name));
 	}
 
 	/**

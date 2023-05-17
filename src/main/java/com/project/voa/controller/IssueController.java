@@ -1,8 +1,8 @@
 package com.project.voa.controller;
 
+import com.project.voa.dto.IssueDTO;
 import com.project.voa.service.IssueService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -15,9 +15,10 @@ import org.springframework.web.bind.annotation.*;
 public class IssueController {
 	private final IssueService issueService;
 
+	@Operation(summary = "이슈 생성", description = "이슈를 생성합니다.")
 	@PostMapping("/issue")
-	public ResponseEntity<Object> createIssue() {
-		issueService.create();
+	public ResponseEntity<Object> createIssue(@RequestBody IssueDTO issueDTO) {
+		issueService.create(issueDTO);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 

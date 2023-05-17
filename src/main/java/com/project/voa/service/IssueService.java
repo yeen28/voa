@@ -17,9 +17,9 @@ public class IssueService {
 	/**
 	 * 이슈 생성
 	 */
-	public void create(IssueDTO issueDTO) {
+	public Issue create(IssueDTO issueDTO) {
 		Issue issue = Issue.of(issueDTO);
-		issueRepository.save(issue);
+		return issueRepository.save(issue);
 	}
 
 	/**

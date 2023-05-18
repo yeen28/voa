@@ -6,8 +6,9 @@ import com.project.voa.repository.*;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -21,12 +22,38 @@ public class IssueService {
 	/**
 	 * 이슈 생성
 	 */
-	public Issue create(IssueDTO issueDTO) {
+	public Issue createIssue(IssueDTO issueDTO) {
 		IssueType issueType = issueTypeRepository.findById(issueDTO.getIssueTypeId()).orElseThrow(EntityNotFoundException::new);
-		List<Version> versions = versionRepository.findByIdIn(issueDTO.getVersionIds());
+
+		// version 저장
+		List<Version> versions = new ArrayList<>();
+		issueDTO.getVersionNames().forEach(name -> {
+			Version version = versionRepository.findByName(name);
+			if (Objects.isNull(version)) {
+				version = new Version(name);
+				versionRepository.save(version);
+				versions.add(version);
+			} else {
+				versions.add(version);
+			}
+		});
+
 		UserInfo owner = userInfoRepository.findById(issueDTO.getOwnerId()).orElseThrow(EntityNotFoundException::new);
 		UserInfo reporter = userInfoRepository.findById(issueDTO.getReporterId()).orElseThrow(EntityNotFoundException::new);
-		List<Label> labels = labelRepository.findByIdIn(issueDTO.getLabelIds());
+
+		// label 저장
+		List<Label> labels = new ArrayList<>();
+		issueDTO.getLabelNames().forEach(name -> {
+			Label label = labelRepository.findByName(name);
+			if (Objects.isNull(label)) {
+				label = new Label(name);
+				labelRepository.save(label);
+				labels.add(label);
+			} else {
+				labels.add(label);
+			}
+		});
+
 		Issue issue = Issue.of(issueDTO, issueType, versions, owner, reporter, labels);
 		return issueRepository.save(issue);
 	}

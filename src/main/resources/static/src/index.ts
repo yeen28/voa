@@ -4,11 +4,11 @@ import { Render } from "./Render";
 document.addEventListener('DOMContentLoaded', () => {
     const factory = new Factory();
     const render: Render = factory.getObj('render');
-    render.rend();
+    render.rendIssueTable();
 
     document.addEventListener('click', () => {
         const target: any = event.target;
-        const that: string = target.getAttribute('data-that');
+        const that: string = target.getAttribute('data-obj');
         const cmd: string = target.getAttribute('data-cmd');
 
         if (!that || !cmd) {

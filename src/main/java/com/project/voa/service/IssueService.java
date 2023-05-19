@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -24,38 +24,55 @@ public class IssueService {
 	 */
 	public Issue createIssue(IssueDTO issueDTO) {
 		IssueType issueType = issueTypeRepository.findById(issueDTO.getIssueTypeId()).orElseThrow(EntityNotFoundException::new);
-
-		// version 저장
-		List<Version> versions = new ArrayList<>();
-		issueDTO.getVersionNames().forEach(name -> {
-			Version version = versionRepository.findByName(name);
-			if (Objects.isNull(version)) {
-				version = new Version(name);
-				versionRepository.save(version);
-				versions.add(version);
-			} else {
-				versions.add(version);
-			}
-		});
-
+		List<Version> versions = upsertVersions(issueDTO.getVersionNames());
 		UserInfo owner = userInfoRepository.findById(issueDTO.getOwnerId()).orElseThrow(EntityNotFoundException::new);
 		UserInfo reporter = userInfoRepository.findById(issueDTO.getReporterId()).orElseThrow(EntityNotFoundException::new);
-
-		// label 저장
-		List<Label> labels = new ArrayList<>();
-		issueDTO.getLabelNames().forEach(name -> {
-			Label label = labelRepository.findByName(name);
-			if (Objects.isNull(label)) {
-				label = new Label(name);
-				labelRepository.save(label);
-				labels.add(label);
-			} else {
-				labels.add(label);
-			}
-		});
+		List<Label> labels = upsertLabels(issueDTO.getLabelNames());
 
 		Issue issue = Issue.of(issueDTO, issueType, versions, owner, reporter, labels);
 		return issueRepository.save(issue);
+	}
+
+	/**
+	 * version이 있으면 조회, 없으면 저장
+	 * @param versionNames
+	 * @return
+	 */
+	private List<Version> upsertVersions(List<String> versionNames) {
+		List<Version> versions = new ArrayList<>();
+		versionNames.forEach(name -> {
+			Optional<Version> optName = versionRepository.findByName(name);
+			if (optName.isEmpty()) {
+				Version version = new Version(name);
+				versionRepository.save(version);
+				versions.add(version);
+			} else {
+				versions.add(optName.get());
+			}
+		});
+
+		return versions;
+	}
+
+	/**
+	 * label이 있으면 조회, 없으면 저장
+	 * @param labelNames
+	 * @return
+	 */
+	private List<Label> upsertLabels(List<String> labelNames) {
+		List<Label> labels = new ArrayList<>();
+		labelNames.forEach(name -> {
+			Optional<Label> optName = labelRepository.findByName(name);
+			if (optName.isEmpty()) {
+				Label label = new Label(name);
+				labelRepository.save(label);
+				labels.add(label);
+			} else {
+				labels.add(optName.get());
+			}
+		});
+
+		return labels;
 	}
 
 	/**

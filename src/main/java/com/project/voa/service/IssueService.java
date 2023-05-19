@@ -2,6 +2,7 @@ package com.project.voa.service;
 
 import com.project.voa.domain.*;
 import com.project.voa.dto.IssueDTO;
+import com.project.voa.dto.IssueModel;
 import com.project.voa.repository.*;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +22,7 @@ public class IssueService {
 	/**
 	 * 이슈 생성
 	 */
-	public Issue createIssue(IssueDTO issueDTO) {
+	public IssueModel createIssue(IssueDTO issueDTO) {
 		IssueType issueType = issueTypeRepository.findById(issueDTO.getIssueTypeId()).orElseThrow(EntityNotFoundException::new);
 		List<Version> versions = upsertVersions(issueDTO.getVersionNames());
 		UserInfo owner = userInfoRepository.findById(issueDTO.getOwnerId()).orElseThrow(EntityNotFoundException::new);
@@ -29,7 +30,8 @@ public class IssueService {
 		List<Label> labels = upsertLabels(issueDTO.getLabelNames());
 
 		Issue issue = Issue.of(issueDTO, issueType, versions, owner, reporter, labels);
-		return issueRepository.save(issue);
+		issueRepository.save(issue);
+		return IssueModel.of(issue);
 	}
 
 	/**

@@ -6,9 +6,8 @@ import com.project.voa.repository.*;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -39,19 +38,12 @@ public class IssueService {
 	 * @return
 	 */
 	private List<Version> upsertVersions(List<String> versionNames) {
-		List<Version> versions = new ArrayList<>();
-		versionNames.forEach(name -> {
-			Optional<Version> optName = versionRepository.findByName(name);
-			if (optName.isEmpty()) {
-				Version version = new Version(name);
-				versionRepository.save(version);
-				versions.add(version);
-			} else {
-				versions.add(optName.get());
-			}
-		});
-
-		return versions;
+		return versionNames.stream()
+				.map(name -> versionRepository.findByName(name).orElseGet(() -> {
+					Version newVersion = new Version(name);
+					versionRepository.save(newVersion);
+					return newVersion;
+				})).collect(Collectors.toList());
 	}
 
 	/**
@@ -60,19 +52,12 @@ public class IssueService {
 	 * @return
 	 */
 	private List<Label> upsertLabels(List<String> labelNames) {
-		List<Label> labels = new ArrayList<>();
-		labelNames.forEach(name -> {
-			Optional<Label> optName = labelRepository.findByName(name);
-			if (optName.isEmpty()) {
-				Label label = new Label(name);
-				labelRepository.save(label);
-				labels.add(label);
-			} else {
-				labels.add(optName.get());
-			}
-		});
-
-		return labels;
+		return labelNames.stream()
+				.map(name -> labelRepository.findByName(name).orElseGet(() -> {
+					Label newLabel = new Label(name);
+					labelRepository.save(newLabel);
+					return newLabel;
+				})).collect(Collectors.toList());
 	}
 
 	/**

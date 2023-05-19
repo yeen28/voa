@@ -1,11 +1,11 @@
 import { Render } from "./Render";
-import { Issue } from "./Issue";
+import { IssueManager } from "./IssueManager";
 
 export class Factory {
     private objMap : any = new Map();
     constructor() {
         this.objMap.set('render', new Render());
-        this.objMap.set('issue', new Issue());
+        this.objMap.set('issueManager', new IssueManager());
     }
 
     public getObj(that: string) {

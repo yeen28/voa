@@ -1,5 +1,8 @@
+import { RequestHelper } from './request/RequestHelper';
 export class Render {
-    public rend(): void {
-        console.log('rend');
+    private request: RequestHelper = new RequestHelper();
+
+    public rendIssueTable(): void {
+        this.request.get('/issue', null);
     }
 }

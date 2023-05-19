@@ -235,3 +235,18 @@ textarea {
 tr {
     height: 37px;
 }
+
+.issue-track-body {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    height: 100%;
+    text-align: center;
+}
+
+.issue-item-wrap {
+    height: 100%
+}
+
+.issue-card {
+
+}

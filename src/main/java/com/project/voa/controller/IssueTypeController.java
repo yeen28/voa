@@ -13,7 +13,7 @@ public class IssueTypeController {
 	private final IssueTypeService issueTypeService;
 
 	@Operation(summary = "이슈유형들 조회", description = "이슈유형들을 조회합니다.")
-	@PostMapping("/issueTypes")
+	@GetMapping("/issueTypes")
 	public ResponseEntity<Object> getIssueTypes() {
 		return new ResponseEntity<>(issueTypeService.getIssueTypes(), HttpStatus.OK);
 	}

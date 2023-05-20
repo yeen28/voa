@@ -12,10 +12,9 @@ import org.springframework.web.bind.annotation.*;
 public class IssueTypeController {
 	private final IssueTypeService issueTypeService;
 
-	@Operation(summary = "이슈유형 생성", description = "이슈유형을 생성합니다.")
-	@PostMapping("/issueType")
-	public ResponseEntity<Object> createIssue() {
-		issueTypeService.create();
-		return new ResponseEntity<>(HttpStatus.OK);
+	@Operation(summary = "이슈유형들 조회", description = "이슈유형들을 조회합니다.")
+	@GetMapping("/issueTypes")
+	public ResponseEntity<Object> getIssueTypes() {
+		return new ResponseEntity<>(issueTypeService.getIssueTypes(), HttpStatus.OK);
 	}
 }

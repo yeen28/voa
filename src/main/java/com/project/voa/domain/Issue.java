@@ -20,8 +20,8 @@ public class Issue extends BaseTimeEntity {
 	@ManyToOne
 	private Project project;
 
-	@OneToMany
-	private List<IssueType> issueType;
+	@ManyToOne
+	private IssueType issueType;
 
 	@Getter
 	@Column(length = 100, nullable = false)
@@ -62,12 +62,26 @@ public class Issue extends BaseTimeEntity {
 	@JoinColumn(nullable = false)
 	private UserInfo reporter;
 
-	public static Issue of(IssueDTO issueDTO) {
+	public static Issue of(
+			IssueDTO issueDTO,
+			IssueType issueType,
+			List<Version> versions,
+			UserInfo owner,
+			UserInfo reporter,
+			List<Label> labels
+	) {
 		return Issue.builder()
+				.issueType(issueType)
 				.title(issueDTO.getTitle())
 				.rank(issueDTO.getRank())
-				.owner(issueDTO.getOwner())
-				.reporter(issueDTO.getReporter())
+				.version(versions)
+				.owner(owner)
+				.reporter(reporter)
+				.env(issueDTO.getEnv())
+				.description(issueDTO.getDescription())
+				.label(labels)
+				.issueLinkType(issueDTO.getIssueLinkType())
+				.issueLink(issueDTO.getIssueLink())
 				.build();
 	}
 }

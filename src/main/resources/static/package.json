@@ -4,7 +4,8 @@
   "version": "1.0.0",
   "main": "webpack.config.js",
   "scripts": {
-    "bundle": "webpack"
+    "bundle": "webpack",
+    "watch": "webpack --watch"
   },
   "author": "",
   "license": "ISC",

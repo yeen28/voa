@@ -1,25 +1,63 @@
 package com.project.voa.service;
 
-import com.project.voa.domain.Issue;
+import com.project.voa.domain.*;
 import com.project.voa.dto.IssueDTO;
-import com.project.voa.repository.IssueRepository;
+import com.project.voa.repository.*;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class IssueService {
 	private final IssueRepository issueRepository;
+	private final IssueTypeRepository issueTypeRepository;
+	private final VersionRepository versionRepository;
+	private final UserInfoRepository userInfoRepository;
+	private final LabelRepository labelRepository;
 
 	/**
 	 * 이슈 생성
 	 */
-	public Issue create(IssueDTO issueDTO) {
-		Issue issue = Issue.of(issueDTO);
+	public Issue createIssue(IssueDTO issueDTO) {
+		IssueType issueType = issueTypeRepository.findById(issueDTO.getIssueTypeId()).orElseThrow(EntityNotFoundException::new);
+		List<Version> versions = upsertVersions(issueDTO.getVersionNames());
+		UserInfo owner = userInfoRepository.findById(issueDTO.getOwnerId()).orElseThrow(EntityNotFoundException::new);
+		UserInfo reporter = userInfoRepository.findById(issueDTO.getReporterId()).orElseThrow(EntityNotFoundException::new);
+		List<Label> labels = upsertLabels(issueDTO.getLabelNames());
+
+		Issue issue = Issue.of(issueDTO, issueType, versions, owner, reporter, labels);
 		return issueRepository.save(issue);
+	}
+
+	/**
+	 * version이 있으면 조회, 없으면 저장
+	 * @param versionNames
+	 * @return
+	 */
+	private List<Version> upsertVersions(List<String> versionNames) {
+		return versionNames.stream()
+				.map(name -> versionRepository.findByName(name).orElseGet(() -> {
+					Version newVersion = new Version(name);
+					versionRepository.save(newVersion);
+					return newVersion;
+				})).collect(Collectors.toList());
+	}
+
+	/**
+	 * label이 있으면 조회, 없으면 저장
+	 * @param labelNames
+	 * @return
+	 */
+	private List<Label> upsertLabels(List<String> labelNames) {
+		return labelNames.stream()
+				.map(name -> labelRepository.findByName(name).orElseGet(() -> {
+					Label newLabel = new Label(name);
+					labelRepository.save(newLabel);
+					return newLabel;
+				})).collect(Collectors.toList());
 	}
 
 	/**

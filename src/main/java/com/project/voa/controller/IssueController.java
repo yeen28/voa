@@ -3,6 +3,7 @@ package com.project.voa.controller;
 import com.project.voa.dto.IssueDTO;
 import com.project.voa.service.IssueService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -16,9 +17,10 @@ public class IssueController {
 	private final IssueService issueService;
 
 	@Operation(summary = "이슈 생성")
+	@Parameter(name = "issueDTO", description = "생성할 이슈 정보입니다.", example = "{\"issueTypeId\": 1,\"title\": \"voa issue\",\"rank\": 1,\"versionNames\": [\"2305\"],\"ownerId\": 1,\"reporterId\": 1,\"env\": \"Windows\",\"description\": \"이슈생성합니다.\",\"labelNames\": [\"라벨\"],\"issueLinkType\": 1,\"issueLink\": \"ISSUE-01\"}")
 	@PostMapping("/issue")
 	public ResponseEntity<Object> createIssue(@RequestBody IssueDTO issueDTO) {
-		return new ResponseEntity<>(issueService.create(issueDTO), HttpStatus.OK);
+		return new ResponseEntity<>(issueService.createIssue(issueDTO), HttpStatus.OK);
 	}
 
 	@Operation(summary = "사용자에게 할당된 이슈 조회")

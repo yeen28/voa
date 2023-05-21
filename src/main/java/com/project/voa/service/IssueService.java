@@ -64,24 +64,13 @@ public class IssueService {
 	}
 
 	/**
-	 * issue 얻기
+	 * 이슈 단 건 조회
 	 * @param id
 	 * @return
 	 */
 	public IssueModel getIssue(final long id) {
 		Issue issue = issueRepository.findById(id).orElseThrow(EntityNotFoundException::new);
 		return IssueModel.of(issue);
-	}
-
-	/**
-	 * 이슈 상태만 업데이트
-	 * @param id
-	 * @param issueStatus
-	 */
-	public void updateIssueStatus(final long id, IssueStatus issueStatus) {
-		Issue issue = issueRepository.findById(id).orElseThrow(EntityNotFoundException::new);
-		issue.setIssueStatus(issueStatus);
-		issueRepository.save(issue);
 	}
 
 	/**

@@ -23,7 +23,6 @@ public class Issue extends BaseTimeEntity {
 	@ManyToOne
 	private IssueType issueType;
 
-	@Getter
 	@Column(length = 100, nullable = false)
 	private String title;
 

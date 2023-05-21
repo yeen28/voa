@@ -1,10 +1,13 @@
 package com.project.voa.service;
 
 import com.project.voa.domain.Version;
+import com.project.voa.dto.VersionModel;
 import com.project.voa.repository.VersionRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -27,5 +30,13 @@ public class VersionService {
 	public void deleteVersion(final long id) {
 		Version version = versionRepository.findById(id).orElseThrow(EntityNotFoundException::new);
 		versionRepository.delete(version);
+	}
+
+	/**
+	 * 버전들 조회
+	 * @return
+	 */
+	public List<VersionModel> getVersions() {
+		return VersionModel.versionsToVersionModels((List<Version>) versionRepository.findAll());
 	}
 }

@@ -85,6 +85,17 @@ public class IssueService {
 	}
 
 	/**
+	 * 이슈 상태만 업데이트
+	 * @param id
+	 * @param issueStatus
+	 */
+	public void updateIssueStatus(final long id, IssueStatus issueStatus) {
+		Issue issue = issueRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+		issue.setIssueStatus(issueStatus);
+		issueRepository.save(issue);
+	}
+
+	/**
 	 * issue 업데이트
 	 * @param id
 	 */

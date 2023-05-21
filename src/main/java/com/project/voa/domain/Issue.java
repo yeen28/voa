@@ -30,7 +30,7 @@ public class Issue extends BaseTimeEntity {
 	private long rank;
 
 	@ManyToMany
-	private List<Version> version;
+	private List<Version> versions;
 
 	@ManyToOne
 	private UserInfo userInfo;
@@ -45,7 +45,7 @@ public class Issue extends BaseTimeEntity {
 	private List<Attachment> attachment;
 
 	@ManyToMany
-	private List<Label> label;
+	private List<Label> labels;
 
 	@Column
 	private long issueLinkType;
@@ -61,6 +61,9 @@ public class Issue extends BaseTimeEntity {
 	@JoinColumn(nullable = false)
 	private UserInfo reporter;
 
+	@Column(nullable = false)
+	private IssueStatus issueStatus;
+
 	public static Issue of(
 			IssueDTO issueDTO,
 			IssueType issueType,
@@ -73,14 +76,15 @@ public class Issue extends BaseTimeEntity {
 				.issueType(issueType)
 				.title(issueDTO.getTitle())
 				.rank(issueDTO.getRank())
-				.version(versions)
+				.versions(versions)
 				.owner(owner)
 				.reporter(reporter)
 				.env(issueDTO.getEnv())
 				.description(issueDTO.getDescription())
-				.label(labels)
+				.labels(labels)
 				.issueLinkType(issueDTO.getIssueLinkType())
 				.issueLink(issueDTO.getIssueLink())
+				.issueStatus(IssueStatus.TO_DO)
 				.build();
 	}
 }

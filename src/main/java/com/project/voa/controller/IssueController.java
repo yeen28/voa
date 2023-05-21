@@ -66,11 +66,14 @@ public class IssueController {
 	}
 
 	@Operation(summary = "이슈 내용 수정", description = "이슈 내용을 수정합니다.")
+	@Parameter(name = "issueDTO", description = "수정할 이슈 정보입니다.", example = "{\"issueTypeId\": 2,\"title\": \"update title\",\"rank\": 3,\"versionNames\": [\"2305\"],\"ownerId\": 1,\"reporterId\": 1,\"env\": \"\",\"description\": \"이슈 수정합니다.\",\"labelNames\": [\"라벨\", \"라벨2\"],\"issueLinkType\": 1,\"issueLink\": \"ISSUE-02\", \"issueStatus\": \"DONE\"}")
 	@ApiResponse(responseCode = "404", description = "이슈 id가 존재하지 않는 경우")
 	@PutMapping("/issue/{id}")
-	public ResponseEntity<Object> updateIssue(@PathVariable("id") long id) {
+	public ResponseEntity<Object> updateIssue(
+			@PathVariable("id") long id,
+			@RequestBody IssueDTO issueDTO) {
 		try {
-			issueService.update(id);
+			issueService.updateIssue(id, issueDTO);
 			return new ResponseEntity<>(HttpStatus.OK);
 
 		} catch (EntityNotFoundException e) {

@@ -1,6 +1,7 @@
 package com.project.voa.dto;
 
 import com.project.voa.domain.Issue;
+import com.project.voa.domain.IssueStatus;
 import com.project.voa.domain.Label;
 import com.project.voa.domain.Version;
 import lombok.Builder;
@@ -23,6 +24,7 @@ public class IssueModel {
 	private List<String> labelNames;
 	private String issueLinkType;
 	private String issueLink;
+	private IssueStatus issueStatus;
 	private String createdAt;
 
 	public static IssueModel of(Issue issue) {
@@ -39,6 +41,7 @@ public class IssueModel {
 				.labelNames(issue.getLabels().stream().map(Label::getName).toList())
 				.issueLinkType(String.valueOf(issue.getIssueLinkType()))
 				.issueLink(issue.getIssueLink())
+				.issueStatus(issue.getIssueStatus())
 				.createdAt(issue.getCreatedAt().toString())
 				.build();
 	}

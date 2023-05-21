@@ -1,6 +1,10 @@
 export class RequestHelper {
     public async get(url: string, data: {}, successFunc: any, errorFunc: any) {
-        const serverUrl: string = url + '?' + new URLSearchParams(data);
+        let serverUrl: string = url + '?' + new URLSearchParams(data);
+        if (!data) {
+            serverUrl = serverUrl.replace('?', '');
+        }
+
         await fetch(serverUrl, {
             method: 'GET'
         })

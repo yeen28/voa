@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link href="https://fonts.cdnfonts.com/css/segoe-ui-4" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="../static/css/style.css" th:href="@{/css/style.css}" />
     <script src="./dist/bundle.js"></script>
 </head>
@@ -12,43 +13,40 @@
         <div class="search-icon"></div>
         <input type="text" class="search-input border-0" placeholder="Search..."/>
     </div>
+    <div>
+        <div class="board" data-obj="render" data-cmd="viewBoard"></div>
+        <div class="table" data-obj="render" data-cmd="viewTable"></div>
+    </div>
     <div id="createIssue" class="button" data-obj="issueManager" data-cmd="open">CREATE</div>
     <div class="profile-wrap">
-        <div id="profile-name">ㅁㅁㅁ</div>
+        <div id="profile-name">Jake</div>
     </div>
 </div>
-<div class="contents box">
-    <div class="issue-track-body">
+<div class="contents box track">
+    <div id="issue-track-body">
         <div class="issue-todo-wrap">
             <div class="issue-sub-track-title">
                 <span class="text">Todo</span>
             </div>
-            <div class="issue-item-wrap">
-                <div class="issue-card">
-                    <div class="issue-card-title"></div>
-                    <div class="issue-card-user"></div>
-                    <div class="issue-card-version"></div>
-                    <div class="issue-card-label"></div>
-                </div>
-            </div>
+            <div class="issue-item-wrap issue-todo-item-wrap"></div>
         </div>
         <div class="issue-progress-wrap">
             <div class="issue-sub-track-title">
                 <span class="text">Progress</span>
             </div>
-            <div class="issue-item-wrap"></div>
+            <div class="issue-item-wrap issue-progress-item-wrap"></div>
         </div>
         <div class="issue-resolve-wrap">
             <div class="issue-sub-track-title">
                 <span class="text">Resolve</span>
             </div>
-            <div class="issue-item-wrap"></div>
+            <div class="issue-item-wrap issue-resolve-item-wrap"></div>
         </div>
     </div>
 
-    <table id="issue-table">
+    <table id="issue-table" class="hide">
         <thead>
-        <tr class="row">
+        <tr>
             <th class="header">유형</th>
             <th class="header">키</th>
             <th class="header">담당자</th>
@@ -62,190 +60,7 @@
             <th class="header">생성일</th>
         </tr>
         </thead>
-        <tbody>
-        <tr class="row">
-            <td class="item">ㅁㅁ</td>
-            <td class="item">PRJ-1</td>
-            <td class="item">ㅁㅁㅁ</td>
-            <td class="item">ㅁㅁㅁ</td>
-            <td class="item">위</td>
-            <td class="item">ㅁㅁ</td>
-            <td class="item">222</td>
-            <td class="item">2023/05/05</td>
-            <td class="item">해결</td>
-            <td class="item">ㅁㅁㅁㅁㅁ</td>
-            <td class="item">2023/05/05</td>
-        </tr>
-        <tr class="row">
-            <td class="item">ㅁㅁ</td>
-            <td class="item">PRJ-1</td>
-            <td class="item">ㅁㅁㅁ</td>
-            <td class="item">ㅁㅁㅁ</td>
-            <td class="item">위</td>
-            <td class="item">ㅁㅁ</td>
-            <td class="item">222</td>
-            <td class="item">2023/05/05</td>
-            <td class="item">해결</td>
-            <td class="item">ㅁㅁㅁㅁㅁ</td>
-            <td class="item">2023/05/05</td>
-        </tr>
-        <tr class="row">
-            <td class="item">ㅁㅁ</td>
-            <td class="item">PRJ-1</td>
-            <td class="item">ㅁㅁㅁ</td>
-            <td class="item">ㅁㅁㅁ</td>
-            <td class="item">위</td>
-            <td class="item">ㅁㅁ</td>
-            <td class="item">222</td>
-            <td class="item">2023/05/05</td>
-            <td class="item">해결</td>
-            <td class="item">ㅁㅁㅁㅁㅁ</td>
-            <td class="item">2023/05/05</td>
-        </tr>
-        <tr class="row">
-            <td class="item">ㅁㅁ</td>
-            <td class="item">PRJ-1</td>
-            <td class="item">ㅁㅁㅁ</td>
-            <td class="item">ㅁㅁㅁ</td>
-            <td class="item">위</td>
-            <td class="item">ㅁㅁ</td>
-            <td class="item">222</td>
-            <td class="item">2023/05/05</td>
-            <td class="item">해결</td>
-            <td class="item">ㅁㅁㅁㅁㅁ</td>
-            <td class="item">2023/05/05</td>
-        </tr>
-        <tr class="row">
-            <td class="item">ㅁㅁ</td>
-            <td class="item">PRJ-1</td>
-            <td class="item">ㅁㅁㅁ</td>
-            <td class="item">ㅁㅁㅁ</td>
-            <td class="item">위</td>
-            <td class="item">ㅁㅁ</td>
-            <td class="item">222</td>
-            <td class="item">2023/05/05</td>
-            <td class="item">해결</td>
-            <td class="item">ㅁㅁㅁㅁㅁ</td>
-            <td class="item">2023/05/05</td>
-        </tr>
-        <tr class="row">
-            <td class="item">ㅁㅁ</td>
-            <td class="item">PRJ-1</td>
-            <td class="item">ㅁㅁㅁ</td>
-            <td class="item">ㅁㅁㅁ</td>
-            <td class="item">위</td>
-            <td class="item">ㅁㅁ</td>
-            <td class="item">222</td>
-            <td class="item">2023/05/05</td>
-            <td class="item">해결</td>
-            <td class="item">ㅁㅁㅁㅁㅁ</td>
-            <td class="item">2023/05/05</td>
-        </tr>
-        <tr class="row">
-            <td class="item">ㅁㅁ</td>
-            <td class="item">PRJ-1</td>
-            <td class="item">ㅁㅁㅁ</td>
-            <td class="item">ㅁㅁㅁ</td>
-            <td class="item">위</td>
-            <td class="item">ㅁㅁ</td>
-            <td class="item">222</td>
-            <td class="item">2023/05/05</td>
-            <td class="item">해결</td>
-            <td class="item">ㅁㅁㅁㅁㅁ</td>
-            <td class="item">2023/05/05</td>
-        </tr>
-        <tr class="row">
-            <td class="item">ㅁㅁ</td>
-            <td class="item">PRJ-1</td>
-            <td class="item">ㅁㅁㅁ</td>
-            <td class="item">ㅁㅁㅁ</td>
-            <td class="item">위</td>
-            <td class="item">ㅁㅁ</td>
-            <td class="item">222</td>
-            <td class="item">2023/05/05</td>
-            <td class="item">해결</td>
-            <td class="item">ㅁㅁㅁㅁㅁ</td>
-            <td class="item">2023/05/05</td>
-        </tr>
-        <tr class="row">
-            <td class="item">ㅁㅁ</td>
-            <td class="item">PRJ-1</td>
-            <td class="item">ㅁㅁㅁ</td>
-            <td class="item">ㅁㅁㅁ</td>
-            <td class="item">위</td>
-            <td class="item">ㅁㅁ</td>
-            <td class="item">222</td>
-            <td class="item">2023/05/05</td>
-            <td class="item">해결</td>
-            <td class="item">ㅁㅁㅁㅁㅁ</td>
-            <td class="item">2023/05/05</td>
-        </tr>
-        <tr class="row">
-            <td class="item">ㅁㅁ</td>
-            <td class="item">PRJ-1</td>
-            <td class="item">ㅁㅁㅁ</td>
-            <td class="item">ㅁㅁㅁ</td>
-            <td class="item">위</td>
-            <td class="item">ㅁㅁ</td>
-            <td class="item">222</td>
-            <td class="item">2023/05/05</td>
-            <td class="item">해결</td>
-            <td class="item">ㅁㅁㅁㅁㅁ</td>
-            <td class="item">2023/05/05</td>
-        </tr>
-        <tr class="row">
-            <td class="item">ㅁㅁ</td>
-            <td class="item">PRJ-1</td>
-            <td class="item">ㅁㅁㅁ</td>
-            <td class="item">ㅁㅁㅁ</td>
-            <td class="item">위</td>
-            <td class="item">ㅁㅁ</td>
-            <td class="item">222</td>
-            <td class="item">2023/05/05</td>
-            <td class="item">해결</td>
-            <td class="item">ㅁㅁㅁㅁㅁ</td>
-            <td class="item">2023/05/05</td>
-        </tr>
-        <tr class="row">
-            <td class="item">ㅁㅁ</td>
-            <td class="item">PRJ-1</td>
-            <td class="item">ㅁㅁㅁ</td>
-            <td class="item">ㅁㅁㅁ</td>
-            <td class="item">위</td>
-            <td class="item">ㅁㅁ</td>
-            <td class="item">222</td>
-            <td class="item">2023/05/05</td>
-            <td class="item">해결</td>
-            <td class="item">ㅁㅁㅁㅁㅁ</td>
-            <td class="item">2023/05/05</td>
-        </tr>
-        <tr class="row">
-            <td class="item">ㅁㅁ</td>
-            <td class="item">PRJ-1</td>
-            <td class="item">ㅁㅁㅁ</td>
-            <td class="item">ㅁㅁㅁ</td>
-            <td class="item">위</td>
-            <td class="item">ㅁㅁ</td>
-            <td class="item">222</td>
-            <td class="item">2023/05/05</td>
-            <td class="item">해결</td>
-            <td class="item">ㅁㅁㅁㅁㅁ</td>
-            <td class="item">2023/05/05</td>
-        </tr>
-        <tr class="row">
-            <td class="item">ㅁㅁ</td>
-            <td class="item">PRJ-1</td>
-            <td class="item">ㅁㅁㅁ</td>
-            <td class="item">ㅁㅁㅁ</td>
-            <td class="item">위</td>
-            <td class="item">ㅁㅁ</td>
-            <td class="item">222</td>
-            <td class="item">2023/05/05</td>
-            <td class="item">해결</td>
-            <td class="item">ㅁㅁㅁㅁㅁ</td>
-            <td class="item">2023/05/05</td>
-        </tr>
-        </tbody>
+        <tbody id="issue-table-tbody"></tbody>
     </table>
 </div>
 
@@ -296,7 +111,10 @@
                 <span class="issue-tiny-text issue-title-align">버전</span>
             </div>
             <div class="issue-content-wrap">
-                <input id="issue-version-input" class="issue-input" type="text"/>
+                <input id="issue-version-input" class="issue-input" type="text" data-obj="issueManager" data-cmd="showVersions" autocomplete="off"/>
+                <div id="issue-version-select" class="hide">
+                    <div class="issue-version-select-item">WIP</div>
+                </div>
                 <span class="issue-content-desc">키보드 입력을 시작해서 사용 가능한 목록을 가져오거나 아래를 눌러 선택하세요.</span>
             </div>
         </div>
@@ -341,7 +159,10 @@
                 <span class="issue-tiny-text issue-title-align">라벨</span>
             </div>
             <div class="issue-content-wrap">
-                <input id="issue-label-input" class="issue-input" type="text"/>
+                <input id="issue-label-input" class="issue-input" type="text" data-obj="issueManager" data-cmd="showLabels" autocomplete="off"/>
+                <div id="issue-label-select" class="hide">
+                    <div class="issue-label-select-item">WIP</div>
+                </div>
                 <span class="issue-content-desc">새 라벨을 만들거나 찾으려면 키보드 입력을 시작하세요. 추천 라벨을 보시려면 목록을 여세요.</span>
             </div>
         </div>
@@ -372,4 +193,30 @@
     </div>
 </div>
 </body>
+
+<textarea id="template-new-issue" class="hide">
+    <div class="issue-card-title issue-item-attr">
+        <span class="issue-card-title-icon"></span>
+        <span class="issue-card-title-text"></span>
+    </div>
+    <div class="issue-card-type issue-item-attr"></div>
+    <div class="issue-card-user issue-item-attr"></div>
+    <div class="issue-card-version issue-item-attr"></div>
+    <div class="issue-card-label issue-item-attr"></div>
+</textarea>
+
+<textarea id="template-table-item" class="hide">
+    <td class="table-item table-issue-type"></td>
+    <td class="table-item table-issue-project">PRJ-1</td>
+    <td class="table-item table-issue-owner"></td>
+    <td class="table-item table-issue-reporter"></td>
+    <td class="table-item table-issue-rank">주요</td>
+    <td class="table-item table-issue-status">TODO</td>
+    <td class="table-item table-issue-version"></td>
+    <td class="table-item table-issue-modifiedAt">2023/05/05</td>
+    <td class="table-item table-issue-status">해결</td>
+    <td class="table-item table-issue-title"></td>
+    <td class="table-item table-issue-createdAt"></td>
+</textarea>
+
 </html>

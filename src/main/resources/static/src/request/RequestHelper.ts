@@ -1,15 +1,12 @@
 export class RequestHelper {
-    public async get(url: string, data: {}) {
-        const serverUrl: string = url + new URLSearchParams(data);
-        await fetch(url, {
+    public async get(url: string, data: {}, successFunc: any, errorFunc: any) {
+        const serverUrl: string = url + '?' + new URLSearchParams(data);
+        await fetch(serverUrl, {
             method: 'GET'
         })
-        .then((res) => {
-            console.log(res);
-        })
-        .then((err) => {
-            console.error(err);
-        });
+        .then((res) => res.json())
+        .then((data) => successFunc(data))
+        .catch(errorFunc)
     }
 
     public async post(url: string, data: {}, successFunc: any, errorFunc: any): Promise<any> {
@@ -20,7 +17,8 @@ export class RequestHelper {
             },
             body: JSON.stringify(data),
         })
-        .then(successFunc)
-        .then(errorFunc)
+        .then((res) => res.json())
+        .then((data) => successFunc(data))
+        .catch(errorFunc)
     }
 }

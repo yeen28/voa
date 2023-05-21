@@ -33,8 +33,7 @@ public class IssueController {
 	@ApiResponse(responseCode = "404", description = "이슈 id가 존재하지 않는 경우")
 	@GetMapping("/issue/{id}")
 	public ResponseEntity<Object> getIssue(@PathVariable("id") long id) {
-		String title = issueService.getIssue(id).getTitle();
-		return new ResponseEntity<>(title, HttpStatus.OK);
+		return new ResponseEntity<>(issueService.getIssue(id), HttpStatus.OK);
 	}
 
 	@Operation(summary = "이슈 내용 수정", description = "이슈 내용을 수정합니다.")

@@ -1,4 +1,5 @@
 export class NewIssue {
+    public id: string;
     public projectId: string;
     public issueTypeId: string;
     public issueType: string;

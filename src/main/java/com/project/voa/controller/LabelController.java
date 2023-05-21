@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 public class LabelController {
 	private final LabelService labelService;
 
-	@Operation(summary = "labels 조회")
+	@Operation(summary = "label들 조회")
 	@GetMapping("/labels")
 	public ResponseEntity<Object> getLabels() {
 		return new ResponseEntity<>(labelService.getLabels(), HttpStatus.OK);

@@ -11,6 +11,7 @@ html {
 
 body {
     width: calc(100% - 200px);
+    height: 100%;
     display: grid;
     grid-template-rows: 60px auto;
     box-sizing: border-box;
@@ -181,7 +182,7 @@ select {
 
 .cancel-issue-btn {
     border: none;
-    padding: 5px 0px;
+    padding: 5px;
     color: #3b73af;
     font-size: 14px;
     margin: 0px 20px;
@@ -350,4 +351,53 @@ tr {
 
 .row:hover {
     background: rgba(55, 53, 47, 0.03);
+ }
+
+ /** 이슈 편집 페이지 **/
+ #edit-issue {
+    position: absolute;
+    top: 140px;
+    left: 95px;
+    border-right: 1px solid #ccc;
+    border-left: 1px solid #ccc;
+    border-radius: 5px;
+ }
+
+ #edit-issue input {
+    background-color: ghostwhite;
+    border: none;
+ }
+
+ #edit-issue select {
+    border: none;
+    background-color: ghostwhite;
+    -webkit-appearance: none;
+ }
+
+ #edit-issue textarea {
+    background-color: ghostwhite;
+    border: none;
+ }
+
+ #edit-issue .issue-header-wrap {
+    background: white;
+    background-color: ghostwhite;
+    border-top: 1px solid #ccc;
+    border-bottom: none;
+    border-radius: 5px;
+ }
+
+ #edit-issue .issue-footer-wrap {
+    border-top: none;
+    background-color: ghostwhite;
+    border-bottom: 1px solid #ccc;
+    border-radius: 5px;
+ }
+
+ #edit-issue .issue-title-align {
+    top: initial;
+ }
+
+ #edit-issue .issue-wrap {
+    background-color: ghostwhite;
  }

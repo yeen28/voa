@@ -67,8 +67,9 @@ public class IssueService {
 	 * @param id
 	 * @return
 	 */
-	public Issue getIssue(final long id) {
-		return issueRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+	public IssueModel getIssue(final long id) {
+		Issue issue = issueRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+		return IssueModel.of(issue);
 	}
 
 	/**

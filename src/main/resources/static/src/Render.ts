@@ -29,6 +29,7 @@ export class Render {
 
         document.getElementById('issue-track-body').classList.remove('hide');
         document.getElementById('issue-table').classList.add('hide');
+        document.getElementById('edit-issue').classList.add('hide');
         this.rendBoard();
     }
 
@@ -40,6 +41,7 @@ export class Render {
 
         document.getElementById('issue-table').classList.remove('hide');
         document.getElementById('issue-track-body').classList.add('hide');
+        document.getElementById('edit-issue').classList.add('hide');
         this.rendTable();
     }
 
@@ -66,6 +68,9 @@ export class Render {
     public rendIssueIntoTable(issue: NewIssue): void {
         let elRowIssue: any = document.createElement('tr');
         elRowIssue.classList.add('row')
+        elRowIssue.setAttribute('data-id', issue.id);
+        elRowIssue.setAttribute('data-obj', 'render');
+        elRowIssue.setAttribute('data-cmd', 'clickIssueEvent');
         elRowIssue.innerHTML = (document.getElementById('template-table-item') as HTMLTextAreaElement).value;
 
         elRowIssue.getElementsByClassName('table-issue-title')[0].textContent = issue.title;
@@ -101,6 +106,9 @@ export class Render {
     public rendIssueIntoBoard(issue: NewIssue): void {
         let elIssueCard: any = document.createElement('div');
         elIssueCard.classList.add('issue-card')
+        elIssueCard.setAttribute('data-id', issue.id);
+        elIssueCard.setAttribute('data-obj', 'render');
+        elIssueCard.setAttribute('data-cmd', 'clickIssueEvent');
         elIssueCard.innerHTML = (document.getElementById('template-new-issue') as HTMLTextAreaElement).value;
 
         elIssueCard.getElementsByClassName('issue-card-title-text')[0].textContent = issue.title;
@@ -120,5 +128,39 @@ export class Render {
     public rendLabels(): void {
         document.getElementById('issue-version-select').classList.add('hide');
         document.getElementById('issue-label-select').classList.remove('hide');
+    }
+
+    /**
+     * 이슈 편집 페이지 오픈
+     */
+    public clickIssueEvent(): void {
+        const successFunc: Function = (issue: NewIssue) => {
+            const elEditIssue: any = document.getElementById('edit-issue');
+            (document.getElementById('issue-edit-title-input') as HTMLInputElement).value = issue.title;
+            (document.getElementById('issue-edit-version-input') as HTMLInputElement).value = issue.versionNames.join(',');
+            (document.getElementById('issue-edit-owner-select') as HTMLSelectElement).value = issue.ownerName;
+            (document.getElementById('issue-edit-env-content') as HTMLTextAreaElement).value = issue.env;
+            (document.getElementById('issue-edit-desc-content') as HTMLTextAreaElement).value = issue.description;
+            (document.getElementById('issue-edit-label-input') as HTMLInputElement).value = issue.labelNames.join(',');
+            elEditIssue.classList.remove('hide');
+        };
+
+        const errorFunc: Function = (res: Response) => {
+             console.log(res);
+        }
+
+        const id: string = ((event.target as HTMLElement).closest('.issue-card') || (event.target as HTMLElement).closest('.row')).getAttribute('data-id');
+        this.request.get(`/issue/${id}`, {}, successFunc, errorFunc);
+    }
+
+    public updateIssue(): void {
+        //WIP request
+        const elEditIssue: any = document.getElementById('edit-issue');
+        elEditIssue.classList.add('hide');
+    }
+
+    public cancelEditIssue(): void {
+        const elEditIssue: any = document.getElementById('edit-issue');
+        elEditIssue.classList.add('hide');
     }
 }

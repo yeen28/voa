@@ -7,10 +7,14 @@ document.addEventListener('DOMContentLoaded', () => {
     render.rendBoard();
 
     document.addEventListener('click', () => {
-        const target: any = event.target;
+        let target: any = event.target;
+        if (!!target.closest('.issue-card') || !!target.closest('.row')) {
+            target = target.closest('.issue-card') || target.closest('.row');
+        }
+
         const that: string = target.getAttribute('data-obj');
         const cmd: string = target.getAttribute('data-cmd');
-
+    
         if (!that || !cmd) {
             document.getElementById('issue-version-select').classList.add('hide');
             document.getElementById('issue-label-select').classList.add('hide');

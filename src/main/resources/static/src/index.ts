@@ -4,7 +4,7 @@ import { Render } from "./Render";
 document.addEventListener('DOMContentLoaded', () => {
     const factory = new Factory();
     const render: Render = factory.getObj('render');
-    render.rendIssueTable();
+    render.rendBoard();
 
     document.addEventListener('click', () => {
         const target: any = event.target;
@@ -12,7 +12,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const cmd: string = target.getAttribute('data-cmd');
 
         if (!that || !cmd) {
-            console.warn('Not Found cmd or that');
+            document.getElementById('issue-version-select').classList.add('hide');
+            document.getElementById('issue-label-select').classList.add('hide');
             return;
         }
 

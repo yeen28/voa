@@ -99,7 +99,7 @@ public class IssueService {
 	 * @param ownerId
 	 * @return
 	 */
-	public List<Issue> getIssues(final long ownerId) {
-		return issueRepository.findByOwnerId(ownerId);
+	public List<IssueModel> getIssues(final long ownerId) {
+		return IssueModel.of(issueRepository.findByOwnerId(ownerId));
 	}
 }

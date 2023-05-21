@@ -1,15 +1,19 @@
 export class NewIssue {
-    private projectId: string;
-    private issueTypeId: string;
-    private title: string;
-    private labelNames: string[];
-    private versionNames: string[];
-    private env: string;
-    private description: string;
-    private rank: string;
-    private ownerId: string;
-    private reporterId: string;
-	private issueLink: string;
+    public projectId: string;
+    public issueTypeId: string;
+    public issueType: string;
+    public title: string;
+    public labelNames: string[];
+    public versionNames: string[];
+    public env: string;
+    public description: string;
+    public rank: string;
+    public ownerId: string;
+    public ownerName: string;
+    public reporterId: string;
+    public reporterName: string;
+	public issueLink: string;
+	public createdAt: string;
 
     constructor(
         projectId: string,

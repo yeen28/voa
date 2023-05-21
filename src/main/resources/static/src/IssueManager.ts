@@ -1,5 +1,6 @@
 import { RequestHelper } from './request/RequestHelper';
 import { NewIssue } from './model/NewIssue';
+import { Render } from './Render';
 
 export class IssueManager {
     private elCreateIssue: Element;
@@ -7,6 +8,7 @@ export class IssueManager {
     private elGnb: Element;
 
     private request: RequestHelper = new RequestHelper();
+    private render: Render = new Render();
 
     constructor() {
         this.elCreateIssue = document.getElementById('create-issue');
@@ -86,9 +88,14 @@ export class IssueManager {
             this.getIssueRelation()
         );
 
-        const successFunc: Function = (res: Response) => {
-            console.log(res);
+        const successFunc: Function = (newIssue: NewIssue) => {
             this.cancel();
+
+            if (document.getElementById('issue-track-body').classList.contains('hide')) {
+                this.render.rendIssueIntoTable(newIssue);
+            } else {
+                this.render.rendIssueIntoBoard(newIssue);
+            }
         }
 
         const errorFunc: Function = (res: Response) => {
@@ -96,6 +103,16 @@ export class IssueManager {
             this.cancel();
         }
 
-        const issue = this.request.post('/issue', newIssueModel, successFunc, errorFunc);
+        this.request.post('/issue', newIssueModel, successFunc, errorFunc);
+    }
+
+    public showVersions(): void {
+        //TODO request
+        this.render.rendVersions();
+    }
+
+    public showLabels(): void {
+        //TODO request
+        this.render.rendLabels();
     }
 }

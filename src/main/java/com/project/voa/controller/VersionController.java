@@ -32,4 +32,10 @@ public class VersionController {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
+
+	@Operation(summary = "버전들 조회")
+	@GetMapping("/versions")
+	public ResponseEntity<Object> getVersions() {
+		return new ResponseEntity<>(versionService.getVersions(), HttpStatus.OK);
+	}
 }

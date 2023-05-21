@@ -42,4 +42,8 @@ public class IssueModel {
 				.createdAt(issue.getCreatedAt().toString())
 				.build();
 	}
+
+	public static List<IssueModel> of(List<Issue> issues) {
+		return issues.stream().map(IssueModel::of).toList();
+	}
 }

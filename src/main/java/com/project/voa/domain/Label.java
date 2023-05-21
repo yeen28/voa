@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @NoArgsConstructor
 @Getter
-@Table(name = "label", indexes = {@Index(name = "label_id_index", columnList = "id")})
+@Table(name = "label", indexes = {@Index(name = "label_name_index", columnList = "name")})
 public class Label extends BaseTimeEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

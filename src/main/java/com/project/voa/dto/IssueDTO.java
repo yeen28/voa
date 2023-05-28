@@ -1,5 +1,6 @@
 package com.project.voa.dto;
 
+import com.project.voa.domain.IssueStatus;
 import lombok.Getter;
 import java.util.List;
 
@@ -16,4 +17,5 @@ public class IssueDTO {
 	private List<String> labelNames;
 	private long issueLinkType;
 	private String issueLink;
+	private IssueStatus issueStatus;
 }

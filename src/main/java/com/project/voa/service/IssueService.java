@@ -1,10 +1,11 @@
 package com.project.voa.service;
 
 import com.project.voa.domain.*;
+import com.project.voa.domain.Version;
 import com.project.voa.dto.IssueDTO;
 import com.project.voa.dto.IssueModel;
 import com.project.voa.repository.*;
-import jakarta.persistence.EntityNotFoundException;
+import jakarta.persistence.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -70,6 +71,17 @@ public class IssueService {
 	public IssueModel getIssue(final long id) {
 		Issue issue = issueRepository.findById(id).orElseThrow(EntityNotFoundException::new);
 		return IssueModel.of(issue);
+	}
+
+	/**
+	 * 이슈 상태만 업데이트
+	 * @param id
+	 * @param issueStatus
+	 */
+	public void updateIssueStatus(final long id, IssueStatus issueStatus) {
+		Issue issue = issueRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+		issue.setIssueStatus(issueStatus);
+		issueRepository.save(issue);
 	}
 
 	/**

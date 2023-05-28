@@ -64,7 +64,7 @@ public class IssueService {
 	}
 
 	/**
-	 * issue 얻기
+	 * 이슈 단 건 조회
 	 * @param id
 	 * @return
 	 */
@@ -85,14 +85,32 @@ public class IssueService {
 	}
 
 	/**
-	 * issue 업데이트
+	 * 이슈 업데이트
 	 * @param id
+	 * @param issueDTO
 	 */
-	public void update(final long id) {
-		// TODO 파라미터 하드코딩
-		// TODO linkType을 +1씩 증가로 update. 이후 수정 예정.
+	public void updateIssue(final long id, IssueDTO issueDTO) {
 		Issue issue = issueRepository.findById(id).orElseThrow(EntityNotFoundException::new);
-		issue.setIssueLinkType(issue.getIssueLinkType() + 1);
+
+		IssueType issueType = issueTypeRepository.findById(issueDTO.getIssueTypeId()).orElseThrow(EntityNotFoundException::new);
+		List<Version> versions = upsertVersions(issueDTO.getVersionNames());
+		List<Label> labels = upsertLabels(issueDTO.getLabelNames());
+		UserInfo owner = userInfoRepository.findById(issueDTO.getOwnerId()).orElseThrow(EntityNotFoundException::new);
+		UserInfo reporter = userInfoRepository.findById(issueDTO.getReporterId()).orElseThrow(EntityNotFoundException::new);
+
+		issue.setTitle(issueDTO.getTitle());
+		issue.setDescription(issueDTO.getDescription());
+		issue.setIssueStatus(issueDTO.getIssueStatus());
+		issue.setEnv(issueDTO.getEnv());
+		issue.setIssueType(issueType);
+		issue.setVersions(versions);
+		issue.setLabels(labels);
+		issue.setIssueLink(issueDTO.getIssueLink());
+		issue.setIssueLinkType(issueDTO.getIssueLinkType());
+		issue.setRank(issueDTO.getRank());
+		issue.setOwner(owner);
+		issue.setReporter(reporter);
+		// TODO attachment, project는 추후 작업 예정
 
 		issueRepository.save(issue);
 	}

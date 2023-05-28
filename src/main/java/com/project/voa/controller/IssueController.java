@@ -38,7 +38,7 @@ public class IssueController {
 	}
 
 	@Operation(summary = "이슈 상태 업데이트")
-	@PutMapping("/issue/status/{id}")
+	@PutMapping("/issue/{id}/status")
 	public ResponseEntity<Object> updateIssueStatus(
 			@PathVariable("id") long id,
 			@RequestParam IssueStatus issueStatus) { // TODO 받는 타입이 IssueStatus인지 확인 필요

@@ -17,4 +17,11 @@ public class LabelController {
 	public ResponseEntity<Object> getLabels() {
 		return new ResponseEntity<>(labelService.getLabels(), HttpStatus.OK);
 	}
+
+	@Operation(summary = "label id로 삭제")
+	@DeleteMapping("/label/{id}")
+	public ResponseEntity<Object> deleteLabel(@PathVariable("id") long id) {
+		labelService.deleteLabel(id);
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
 }

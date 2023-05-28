@@ -41,7 +41,7 @@ public class IssueController {
 	@PutMapping("/issue/{id}/status")
 	public ResponseEntity<Object> updateIssueStatus(
 			@PathVariable("id") long id,
-			@RequestParam IssueStatus issueStatus) { // TODO 받는 타입이 IssueStatus인지 확인 필요
+			@RequestParam IssueStatus issueStatus) {
 		try {
 			issueService.updateIssueStatus(id, issueStatus);
 			return new ResponseEntity<>(HttpStatus.OK);

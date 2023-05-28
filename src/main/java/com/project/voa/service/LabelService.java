@@ -20,4 +20,8 @@ public class LabelService {
 	public List<LabelModel> getLabels() {
 		return LabelModel.labelsToLabelModelList((List<Label>) labelRepository.findAll());
 	}
+
+	public void deleteLabel(final long id) {
+		labelRepository.deleteById(id);
+	}
 }

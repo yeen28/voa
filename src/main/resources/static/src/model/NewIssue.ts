@@ -1,6 +1,7 @@
 export class NewIssue {
     public id: string;
     public projectId: string;
+    public issueStatus: string;
     public issueTypeId: string;
     public issueType: string;
     public title: string;
@@ -18,6 +19,7 @@ export class NewIssue {
 
     constructor(
         projectId: string,
+        issueStatus: string,
         issueTypeId: string,
         title: string,
         labelNames: string[],
@@ -30,6 +32,7 @@ export class NewIssue {
         issueLink: string
     ) {
         this.projectId = projectId;
+        this.issueStatus = issueStatus;
         this.issueTypeId = issueTypeId;
         this.title = title;
         this.labelNames = labelNames;

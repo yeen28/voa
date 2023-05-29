@@ -120,9 +120,34 @@ export class Render {
         document.getElementsByClassName('issue-todo-item-wrap')[0].appendChild(elIssueCard);
     }
 
-    public rendVersions(): void {
-        document.getElementById('issue-label-select').classList.add('hide');
-        document.getElementById('issue-version-select').classList.remove('hide');
+    private clickVersionItem(): void {
+        const elVersionSelect: HTMLDivElement = document.getElementById('issue-edit-version-select') as HTMLDivElement;
+        const elVersionContent: HTMLDivElement = elVersionSelect.querySelector('.issue-version-select-item-wrap');
+        const elSpan: HTMLSpanElement = document.createElement('span');
+
+        elSpan.textContent = 'aaa';
+        elVersionSelect.appendChild(elSpan);
+        elVersionContent.classList.add('hide');
+    }
+
+    public rendVersions(versions: any): void {
+        const elVersionSelect: HTMLDivElement = document.getElementById('issue-edit-version-select') as HTMLDivElement;
+        const elVersionContent: HTMLDivElement = elVersionSelect.querySelector('.issue-version-select-item-wrap');
+        elVersionContent.innerHTML = '';
+
+        versions.forEach((version: any) => {
+            const elNewVersion: HTMLDivElement = document.createElement('div');
+            elNewVersion.textContent = version.name;
+            elNewVersion.classList.add('issue-version-select-item');
+            elNewVersion.setAttribute('data-version-id', version.id);
+            elNewVersion.addEventListener('click', this.clickVersionItem);
+
+            elVersionContent.appendChild(elNewVersion);
+        });
+
+        document.getElementById('issue-edit-label-select').classList.add('hide');
+        document.getElementById('issue-edit-version-select').classList.remove('hide');
+        document.getElementById('issue-edit-version-select-item-wrap').classList.remove('hide');
     }
 
     public rendLabels(): void {
@@ -134,8 +159,11 @@ export class Render {
      * 이슈 편집 페이지 오픈
      */
     public clickIssueEvent(): void {
+        const id: string = ((event.target as HTMLElement).closest('.issue-card') || (event.target as HTMLElement).closest('.row')).getAttribute('data-id');
+
         const successFunc: Function = (issue: NewIssue) => {
             const elEditIssue: any = document.getElementById('edit-issue');
+            elEditIssue.setAttribute('data-issue-id', id);
             (document.getElementById('issue-edit-title-input') as HTMLInputElement).value = issue.title;
             (document.getElementById('issue-edit-version-input') as HTMLInputElement).value = issue.versionNames.join(',');
             (document.getElementById('issue-edit-owner-select') as HTMLSelectElement).value = issue.ownerName;
@@ -149,14 +177,7 @@ export class Render {
              console.log(res);
         }
 
-        const id: string = ((event.target as HTMLElement).closest('.issue-card') || (event.target as HTMLElement).closest('.row')).getAttribute('data-id');
         this.request.get(`/issue/${id}`, {}, successFunc, errorFunc);
-    }
-
-    public updateIssue(): void {
-        //WIP request
-        const elEditIssue: any = document.getElementById('edit-issue');
-        elEditIssue.classList.add('hide');
     }
 
     public cancelEditIssue(): void {

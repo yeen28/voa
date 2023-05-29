@@ -95,7 +95,7 @@ public class IssueService {
 	 * @param id
 	 * @param issueDTO
 	 */
-	public void updateIssue(final long id, IssueDTO issueDTO) {
+	public IssueModel updateIssue(final long id, IssueDTO issueDTO) {
 		Issue issue = issueRepository.findById(id).orElseThrow(() ->
 				new EntityNotFoundException(ErrorCodes.ISSUE_NOT_FOUND.name()));
 
@@ -122,7 +122,7 @@ public class IssueService {
 		issue.setReporter(reporter);
 		// TODO attachment, project는 추후 작업 예정
 
-		issueRepository.save(issue);
+		return IssueModel.of(issueRepository.save(issue));
 	}
 
 	/**

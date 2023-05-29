@@ -53,8 +53,7 @@ public class IssueController {
 	public ResponseEntity<Object> updateIssue(
 			@PathVariable("id") long id,
 			@RequestBody IssueDTO issueDTO) {
-		issueService.updateIssue(id, issueDTO);
-		return new ResponseEntity<>(HttpStatus.OK);
+		return new ResponseEntity<>(issueService.updateIssue(id, issueDTO), HttpStatus.OK);
 	}
 
 	@Operation(summary = "이슈 삭제", description = "이슈를 삭제합니다.")

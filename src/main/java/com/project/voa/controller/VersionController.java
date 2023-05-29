@@ -24,13 +24,8 @@ public class VersionController {
 	@ApiResponse(responseCode = "404", description = "버전 id가 존재하지 않는 경우")
 	@DeleteMapping("/version/{id}")
 	public ResponseEntity<Object> deleteVersion(@PathVariable("id") long id) {
-		try {
-			versionService.deleteVersion(id);
-			return new ResponseEntity<>(HttpStatus.OK);
-
-		} catch (EntityNotFoundException e) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}
+		versionService.deleteVersion(id);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
 	@Operation(summary = "버전들 조회")

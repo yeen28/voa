@@ -34,12 +34,7 @@ public class IssueController {
 	@ApiResponse(responseCode = "404", description = "존재하지 않는 이슈")
 	@GetMapping("/issue/{id}")
 	public ResponseEntity<Object> getIssue(@PathVariable("id") long id) {
-		try {
-			return new ResponseEntity<>(issueService.getIssue(id), HttpStatus.OK);
-
-		} catch (EntityNotFoundException e) {
-			return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-		}
+		return new ResponseEntity<>(issueService.getIssue(id), HttpStatus.OK);
 	}
 
 	@Operation(summary = "이슈 상태 업데이트")
@@ -47,13 +42,8 @@ public class IssueController {
 	public ResponseEntity<Object> updateIssueStatus(
 			@PathVariable("id") long id,
 			@RequestParam IssueStatus issueStatus) {
-		try {
-			issueService.updateIssueStatus(id, issueStatus);
-			return new ResponseEntity<>(HttpStatus.OK);
-
-		} catch (EntityNotFoundException e) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}
+		issueService.updateIssueStatus(id, issueStatus);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
 	@Operation(summary = "이슈 내용 수정", description = "이슈 내용을 수정합니다.")
@@ -63,25 +53,15 @@ public class IssueController {
 	public ResponseEntity<Object> updateIssue(
 			@PathVariable("id") long id,
 			@RequestBody IssueDTO issueDTO) {
-		try {
-			issueService.updateIssue(id, issueDTO);
-			return new ResponseEntity<>(HttpStatus.OK);
-
-		} catch (EntityNotFoundException e) {
-			return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-		}
+		issueService.updateIssue(id, issueDTO);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
 	@Operation(summary = "이슈 삭제", description = "이슈를 삭제합니다.")
 	@ApiResponse(responseCode = "404", description = "존재하지 않는 이슈")
 	@DeleteMapping("/issue/{id}")
 	public ResponseEntity<Object> deleteIssue(@PathVariable("id") long id) {
-		try {
-			issueService.deleteIssue(id);
-			return new ResponseEntity<>(HttpStatus.OK);
-
-		} catch (EntityNotFoundException e) {
-			return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-		}
+		issueService.deleteIssue(id);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 }

@@ -4,7 +4,7 @@ import com.project.voa.domain.UserInfo;
 import com.project.voa.dto.UserInfoDto;
 import com.project.voa.dto.UserInfoModel;
 import com.project.voa.repository.UserInfoRepository;
-import com.project.voa.util.ErrorCodes;
+import com.project.voa.error.ErrorCodes;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;

@@ -2,6 +2,7 @@ package com.project.voa.service;
 
 import com.project.voa.domain.Version;
 import com.project.voa.dto.VersionModel;
+import com.project.voa.error.ErrorCodes;
 import com.project.voa.repository.VersionRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +29,8 @@ public class VersionService {
 	 * @param id
 	 */
 	public void deleteVersion(final long id) {
-		Version version = versionRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+		Version version = versionRepository.findById(id).orElseThrow(() ->
+				new EntityNotFoundException(ErrorCodes.VERSION_NOT_FOUND.name()));
 		versionRepository.delete(version);
 	}
 

@@ -25,4 +25,30 @@ export class RequestHelper {
         .then((data) => successFunc(data))
         .catch(errorFunc)
     }
+
+    public async put(url: string, data: {}, successFunc: any, errorFunc: any): Promise<any> {
+        await fetch(url, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data),
+        })
+        .then((res) => res.json())
+        .then((data) => successFunc(data))
+        .catch(errorFunc)
+    }
+
+    public async delete(url: string, data: {}, successFunc: any, errorFunc: any): Promise<any> {
+        await fetch(url, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data),
+        })
+        .then((res) => res.json())
+        .then((data) => successFunc(data))
+        .catch(errorFunc)
+    }
 }

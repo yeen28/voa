@@ -5,6 +5,7 @@ import com.project.voa.domain.Version;
 import com.project.voa.dto.IssueDTO;
 import com.project.voa.dto.IssueModel;
 import com.project.voa.repository.*;
+import com.project.voa.util.ErrorCodes;
 import jakarta.persistence.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -69,8 +70,13 @@ public class IssueService {
 	 * @return
 	 */
 	public IssueModel getIssue(final long id) {
-		Issue issue = issueRepository.findById(id).orElseThrow(EntityNotFoundException::new);
-		return IssueModel.of(issue);
+		try {
+			Issue issue = issueRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+			return IssueModel.of(issue);
+
+		} catch (EntityNotFoundException e) {
+			throw new EntityNotFoundException(ErrorCodes.ISSUE_NOT_FOUND.name());
+		}
 	}
 
 	/**
@@ -90,7 +96,12 @@ public class IssueService {
 	 * @param issueDTO
 	 */
 	public void updateIssue(final long id, IssueDTO issueDTO) {
-		Issue issue = issueRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+		Issue issue;
+		try {
+			issue = issueRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+		} catch (EntityNotFoundException e) {
+			throw new EntityNotFoundException(ErrorCodes.ISSUE_NOT_FOUND.name());
+		}
 
 		IssueType issueType = issueTypeRepository.findById(issueDTO.getIssueTypeId()).orElseThrow(EntityNotFoundException::new);
 		List<Version> versions = upsertVersions(issueDTO.getVersionNames());
@@ -119,10 +130,13 @@ public class IssueService {
 	 * issue 삭제
 	 * @param id
 	 */
-	public void delete(final long id) {
-		// TODO 파라미터 하드코딩
-		Issue issue = issueRepository.findById(id).orElseThrow(EntityNotFoundException::new);
-		issueRepository.delete(issue);
+	public void deleteIssue(final long id) {
+		try {
+			Issue issue = issueRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+			issueRepository.delete(issue);
+		} catch (EntityNotFoundException e) {
+			throw new EntityNotFoundException(ErrorCodes.ISSUE_NOT_FOUND.name());
+		}
 	}
 
 	/**

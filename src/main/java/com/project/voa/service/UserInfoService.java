@@ -4,6 +4,7 @@ import com.project.voa.domain.UserInfo;
 import com.project.voa.dto.UserInfoDto;
 import com.project.voa.dto.UserInfoModel;
 import com.project.voa.repository.UserInfoRepository;
+import com.project.voa.error.ErrorCodes;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
@@ -27,7 +28,7 @@ public class UserInfoService {
 		userInfo.setProfile(userInfoDto.getProfile());
 
 		if (userInfoRepository.existsByUserEmail(userInfoDto.getUserEmail())) {
-			throw new DuplicateKeyException("duplicated email");
+			throw new DuplicateKeyException(ErrorCodes.DUPLICATED_EMAIL.name());
 		}
 		return UserInfoModel.of(userInfoRepository.save(userInfo));
 	}

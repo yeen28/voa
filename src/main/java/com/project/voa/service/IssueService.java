@@ -5,6 +5,7 @@ import com.project.voa.domain.Version;
 import com.project.voa.dto.IssueDTO;
 import com.project.voa.dto.IssueModel;
 import com.project.voa.repository.*;
+import com.project.voa.error.ErrorCodes;
 import jakarta.persistence.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -24,10 +25,13 @@ public class IssueService {
 	 * 이슈 생성
 	 */
 	public IssueModel createIssue(IssueDTO issueDTO) {
-		IssueType issueType = issueTypeRepository.findById(issueDTO.getIssueTypeId()).orElseThrow(EntityNotFoundException::new);
+		IssueType issueType = issueTypeRepository.findById(issueDTO.getIssueTypeId()).orElseThrow(() ->
+				new EntityNotFoundException(ErrorCodes.ISSUE_TYPE_NOT_FOUND.name()));
 		List<Version> versions = upsertVersions(issueDTO.getVersionNames());
-		UserInfo owner = userInfoRepository.findById(issueDTO.getOwnerId()).orElseThrow(EntityNotFoundException::new);
-		UserInfo reporter = userInfoRepository.findById(issueDTO.getReporterId()).orElseThrow(EntityNotFoundException::new);
+		UserInfo owner = userInfoRepository.findById(issueDTO.getOwnerId()).orElseThrow(() ->
+				new EntityNotFoundException(ErrorCodes.OWNER_NOT_FOUND.name()));
+		UserInfo reporter = userInfoRepository.findById(issueDTO.getReporterId()).orElseThrow(() ->
+				new EntityNotFoundException(ErrorCodes.REPORTER_NOT_FOUND.name()));
 		List<Label> labels = upsertLabels(issueDTO.getLabelNames());
 
 		Issue issue = Issue.of(issueDTO, issueType, versions, owner, reporter, labels);
@@ -69,7 +73,8 @@ public class IssueService {
 	 * @return
 	 */
 	public IssueModel getIssue(final long id) {
-		Issue issue = issueRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+		Issue issue = issueRepository.findById(id).orElseThrow(() ->
+				new EntityNotFoundException(ErrorCodes.ISSUE_NOT_FOUND.name()));
 		return IssueModel.of(issue);
 	}
 
@@ -79,7 +84,8 @@ public class IssueService {
 	 * @param issueStatus
 	 */
 	public void updateIssueStatus(final long id, IssueStatus issueStatus) {
-		Issue issue = issueRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+		Issue issue = issueRepository.findById(id).orElseThrow(() ->
+				new EntityNotFoundException(ErrorCodes.ISSUE_NOT_FOUND.name()));
 		issue.setIssueStatus(issueStatus);
 		issueRepository.save(issue);
 	}
@@ -90,13 +96,17 @@ public class IssueService {
 	 * @param issueDTO
 	 */
 	public void updateIssue(final long id, IssueDTO issueDTO) {
-		Issue issue = issueRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+		Issue issue = issueRepository.findById(id).orElseThrow(() ->
+				new EntityNotFoundException(ErrorCodes.ISSUE_NOT_FOUND.name()));
 
-		IssueType issueType = issueTypeRepository.findById(issueDTO.getIssueTypeId()).orElseThrow(EntityNotFoundException::new);
+		IssueType issueType = issueTypeRepository.findById(issueDTO.getIssueTypeId()).orElseThrow(() ->
+				new EntityNotFoundException(ErrorCodes.ISSUE_TYPE_NOT_FOUND.name()));
 		List<Version> versions = upsertVersions(issueDTO.getVersionNames());
 		List<Label> labels = upsertLabels(issueDTO.getLabelNames());
-		UserInfo owner = userInfoRepository.findById(issueDTO.getOwnerId()).orElseThrow(EntityNotFoundException::new);
-		UserInfo reporter = userInfoRepository.findById(issueDTO.getReporterId()).orElseThrow(EntityNotFoundException::new);
+		UserInfo owner = userInfoRepository.findById(issueDTO.getOwnerId()).orElseThrow(() ->
+				new EntityNotFoundException(ErrorCodes.OWNER_NOT_FOUND.name()));
+		UserInfo reporter = userInfoRepository.findById(issueDTO.getReporterId()).orElseThrow(() ->
+				new EntityNotFoundException(ErrorCodes.REPORTER_NOT_FOUND.name()));
 
 		issue.setTitle(issueDTO.getTitle());
 		issue.setDescription(issueDTO.getDescription());
@@ -119,9 +129,9 @@ public class IssueService {
 	 * issue 삭제
 	 * @param id
 	 */
-	public void delete(final long id) {
-		// TODO 파라미터 하드코딩
-		Issue issue = issueRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+	public void deleteIssue(final long id) {
+		Issue issue = issueRepository.findById(id).orElseThrow(() ->
+				new EntityNotFoundException(ErrorCodes.ISSUE_NOT_FOUND.name()));
 		issueRepository.delete(issue);
 	}
 

@@ -415,6 +415,11 @@ tr {
     max-height: 150px;
 }
 
+.issue-new-version-wrap,
+.issue-new-label-wrap {
+    margin-top: -20px;
+}
+
 .issue-version-select-item,
 .issue-label-select-item {
     margin: 3px 0px 3px 5px;

@@ -401,3 +401,26 @@ tr {
  #edit-issue .issue-wrap {
     background-color: ghostwhite;
  }
+
+.issue-new-version-wrap,
+.issue-new-label-wrap,
+.issue-edit-version-wrap,
+.issue-edit-label-wrap {
+    position: absolute;
+    background-color: white;
+    border: 1px solid silver;
+    width: 509px;
+    margin-top: 1px;
+    overflow-y: auto;
+    max-height: 150px;
+}
+
+.issue-version-select-item,
+.issue-label-select-item {
+    margin: 3px 0px 3px 5px;
+}
+
+.issue-version-select-item:hover,
+.issue-label-select-item:hover {
+    background-color: silver;
+}

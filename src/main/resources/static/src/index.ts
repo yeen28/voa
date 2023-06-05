@@ -1,5 +1,6 @@
 import { Factory } from "./Factory";
 import { Render } from "./Render";
+import { Utils } from "./util/Utils";
 
 document.addEventListener('DOMContentLoaded', () => {
     const factory = new Factory();
@@ -16,8 +17,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const cmd: string = target.getAttribute('data-cmd');
     
         if (!that || !cmd) {
-            document.getElementById('issue-version-select').classList.add('hide');
-            document.getElementById('issue-label-select').classList.add('hide');
+            Utils.removeElement(document.querySelector('.issue-new-version-wrap'));
+            Utils.removeElement(document.querySelector('.issue-new-label-wrap'));
+            Utils.removeElement(document.querySelector('.issue-edit-version-wrap'));
+            Utils.removeElement(document.querySelector('.issue-edit-label-wrap'));
             return;
         }
 

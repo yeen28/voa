@@ -118,9 +118,9 @@ export class IssueManager {
     }
 
     public showVersions(): void {
-        //TODO request
+        const type: string = (event.target as HTMLInputElement).getAttribute('data-type');
         const successFunc: Function = (versions: any) => {
-            this.render.rendVersions(versions);
+            this.render.rendVersions(versions, type);
         }
 
         const errorFunc: Function = (res: Response) => {
@@ -130,8 +130,15 @@ export class IssueManager {
     }
 
     public showLabels(): void {
-        //TODO request
-        this.render.rendLabels();
+        const type: string = (event.target as HTMLInputElement).getAttribute('data-type');
+        const successFunc: Function = (labels: any) => {
+            this.render.rendLabels(labels, type);
+        }
+
+        const errorFunc: Function = (res: Response) => {
+            console.log(res);
+        }
+        this.request.get('labels', {}, successFunc, errorFunc);
     }
 
     public updateIssue(): void {

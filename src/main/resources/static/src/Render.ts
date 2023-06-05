@@ -1,5 +1,7 @@
 import { NewIssue } from './model/NewIssue';
 import { RequestHelper } from './request/RequestHelper';
+import { Utils } from './util/Utils';
+
 export class Render {
     private request: RequestHelper = new RequestHelper();
 
@@ -120,19 +122,51 @@ export class Render {
         document.getElementsByClassName('issue-todo-item-wrap')[0].appendChild(elIssueCard);
     }
 
-    private clickVersionItem(): void {
-        const elVersionSelect: HTMLDivElement = document.getElementById('issue-edit-version-select') as HTMLDivElement;
-        const elVersionContent: HTMLDivElement = elVersionSelect.querySelector('.issue-version-select-item-wrap');
-        const elSpan: HTMLSpanElement = document.createElement('span');
+    /**
+     * 이슈 생성 또는 편집 다이얼로그에서 버전을 클릭하면 추가
+     */
+    private clickVersionItem(type: string): void {
+        const elInputVersion: HTMLInputElement = document.querySelector(`#issue-${type}-version-input`);
+        const selectVersion: string = (event.target as HTMLDivElement).textContent;
+        let value: string = elInputVersion.value;
 
-        elSpan.textContent = 'aaa';
-        elVersionSelect.appendChild(elSpan);
-        elVersionContent.classList.add('hide');
+        if (!value) {
+            value += selectVersion;
+        } else {
+            value += `,${selectVersion}`;
+        }
+
+        elInputVersion.value = value;
+        Utils.removeElement(document.querySelector('.issue-version-wrap'));
     }
 
-    public rendVersions(versions: any): void {
-        const elVersionSelect: HTMLDivElement = document.getElementById('issue-edit-version-select') as HTMLDivElement;
-        const elVersionContent: HTMLDivElement = elVersionSelect.querySelector('.issue-version-select-item-wrap');
+    /**
+     * 이슈 생성 또는 편집 다이얼로그에서 라벨을 클릭하면 추가
+     */
+    private clickLabelItem(type: string): void {
+        const elInputLabel: HTMLInputElement = document.querySelector(`#issue-${type}-label-input`);
+        const selectLabel: string = (event.target as HTMLDivElement).textContent;
+        let value: string = elInputLabel.value;
+
+        if (!value) {
+            value += selectLabel;
+        } else {
+            value += `,${selectLabel}`;
+        }
+
+        elInputLabel.value = value;
+        Utils.removeElement(document.querySelector('.issue-label-wrap'));
+    }
+
+    /**
+     * 이슈 생성 또는 편집 다이얼로그에서 버전을 그립니다.
+     * @param versions 
+     */
+    public rendVersions(versions: any, type: string): void {
+        Utils.removeElement(document.querySelector(`.issue-${type}-version-wrap`));
+
+        const elVersionContent: HTMLDivElement = document.createElement('div');
+        elVersionContent.classList.add(`issue-${type}-version-wrap`)
         elVersionContent.innerHTML = '';
 
         versions.forEach((version: any) => {
@@ -140,19 +174,36 @@ export class Render {
             elNewVersion.textContent = version.name;
             elNewVersion.classList.add('issue-version-select-item');
             elNewVersion.setAttribute('data-version-id', version.id);
-            elNewVersion.addEventListener('click', this.clickVersionItem);
+            elNewVersion.addEventListener('click', this.clickVersionItem.bind(this, type));
 
             elVersionContent.appendChild(elNewVersion);
         });
 
-        document.getElementById('issue-edit-label-select').classList.add('hide');
-        document.getElementById('issue-edit-version-select').classList.remove('hide');
-        document.getElementById('issue-edit-version-select-item-wrap').classList.remove('hide');
+        document.querySelector(`#issue-${type}-version-input`).parentElement.appendChild(elVersionContent);
     }
 
-    public rendLabels(): void {
-        document.getElementById('issue-version-select').classList.add('hide');
-        document.getElementById('issue-label-select').classList.remove('hide');
+    /**
+     * 이슈 생성 또는 편집 다이얼로그에서 라벨을 그립니다.
+     * @param versions
+     */
+    public rendLabels(labels: any, type: string): void {
+        Utils.removeElement(document.querySelector(`.issue-${type}-label-wrap`));
+
+        const elLabelsContent: HTMLDivElement = document.createElement('div');
+        elLabelsContent.classList.add(`issue-${type}-label-wrap`)
+        elLabelsContent.innerHTML = '';
+
+        labels.forEach((version: any) => {
+            const elNewLabels: HTMLDivElement = document.createElement('div');
+            elNewLabels.textContent = version.name;
+            elNewLabels.classList.add('issue-label-select-item');
+            elNewLabels.setAttribute('data-version-id', version.id);
+            elNewLabels.addEventListener('click', this.clickLabelItem.bind(this, type));
+
+            elLabelsContent.appendChild(elNewLabels);
+        });
+
+        document.querySelector(`#issue-${type}-label-input`).parentElement.appendChild(elLabelsContent);
     }
 
     /**

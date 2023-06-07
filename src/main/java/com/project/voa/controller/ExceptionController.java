@@ -8,6 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import java.io.IOException;
+
 @ControllerAdvice
 public class ExceptionController {
 	@ExceptionHandler(value = EntityNotFoundException.class)
@@ -18,5 +20,10 @@ public class ExceptionController {
 	@ExceptionHandler(value = DuplicateKeyException.class)
 	public ResponseEntity<ErrorResponse> handlerDuplicateKeyException(DuplicateKeyException e) {
 		return ErrorResponse.toResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
+	}
+
+	@ExceptionHandler(value = IOException.class)
+	public ResponseEntity<ErrorResponse> ioException(IOException e) {
+		return ErrorResponse.toResponseEntity(e.getMessage(), HttpStatus.NOT_FOUND);
 	}
 }

@@ -25,6 +25,7 @@ public class IssueModel {
 	private String issueLinkType;
 	private String issueLink;
 	private IssueStatus issueStatus;
+	private List<String> attachmentIds;
 	private String createdAt;
 
 	public static IssueModel of(Issue issue) {
@@ -42,6 +43,7 @@ public class IssueModel {
 				.issueLinkType(String.valueOf(issue.getIssueLinkType()))
 				.issueLink(issue.getIssueLink())
 				.issueStatus(issue.getIssueStatus())
+				.attachmentIds(issue.getAttachments().stream().map(attachment -> String.valueOf(attachment.getId())).toList())
 				.createdAt(issue.getCreatedAt().toString())
 				.build();
 	}

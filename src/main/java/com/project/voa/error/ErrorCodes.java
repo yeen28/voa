@@ -19,5 +19,8 @@ public enum ErrorCodes {
 	REPORTER_NOT_FOUND,
 
 	@Schema(description = "존재하지 않는 버전")
-	VERSION_NOT_FOUND
+	VERSION_NOT_FOUND,
+
+	@Schema(description = "존재하지 않는 파일")
+	FILE_NOT_FOUND
 }

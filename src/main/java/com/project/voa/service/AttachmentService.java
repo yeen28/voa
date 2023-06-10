@@ -1,8 +1,12 @@
 package com.project.voa.service;
 
 import com.project.voa.domain.Attachment;
+import com.project.voa.domain.Issue;
 import com.project.voa.dto.AttachmentModel;
+import com.project.voa.error.ErrorCodes;
 import com.project.voa.repository.AttachmentRepository;
+import com.project.voa.repository.IssueRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -13,6 +17,7 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -21,6 +26,7 @@ import java.util.Optional;
 public class AttachmentService {
 	@Value("${spring.servlet.multipart.location}") String filePath;
 	private final AttachmentRepository attachmentRepository;
+	private final IssueRepository issueRepository;
 
 	/**
 	 * 첨부 파일 업로드
@@ -36,11 +42,14 @@ public class AttachmentService {
 		Path newFilePath = Files.createDirectories(Paths.get(filePath, issueId)).resolve(fileName);
 		uploadFile.transferTo(newFilePath);
 
-		return AttachmentModel.of(
-				attachmentRepository.save(new Attachment(
-						String.valueOf(Path.of(filePath, issueId)),
-						fileName)
-				));
+		Attachment savedAttachment = attachmentRepository.save(
+				new Attachment(String.valueOf(Paths.get(filePath, issueId)), fileName)
+		);
+
+		// 등록한 첨부파일을 이슈와 연결
+		connectIssue(Long.parseLong(issueId), savedAttachment);
+
+		return AttachmentModel.of(savedAttachment);
 	}
 
 	/**
@@ -69,5 +78,19 @@ public class AttachmentService {
 		}
 
 		return saveFileName;
+	}
+
+	/**
+	 * 업로드한 첨부파일 정보를 이슈와 연결
+	 * @param issueId
+	 * @param attachment
+	 */
+	private void connectIssue(final long issueId, Attachment attachment) {
+		Issue issue = issueRepository.findById(issueId).orElseThrow(() -> new EntityNotFoundException(ErrorCodes.ISSUE_NOT_FOUND.name()));
+
+		List<Attachment> attachments = issue.getAttachments();
+		attachments.add(attachment);
+		issue.setAttachments(attachments);
+		issueRepository.save(issue);
 	}
 }

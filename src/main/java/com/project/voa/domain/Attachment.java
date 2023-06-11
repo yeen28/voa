@@ -22,14 +22,10 @@ public class Attachment {
 	@Column(nullable = false)
 	private String name;
 
-	@Column(nullable = false)
-	private String filePath;
-
 	@CreatedDate
 	private LocalDateTime createdAt;
 
-	public Attachment(String filePath, String name) {
+	public Attachment(String name) {
 		this.name = name;
-		this.filePath = filePath;
 	}
 }

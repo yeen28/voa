@@ -24,7 +24,7 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class AttachmentService {
-	@Value("${spring.servlet.multipart.location}") String filePath;
+	@Value("${spring.servlet.multipart.location}") String uploadPath;
 	private final AttachmentRepository attachmentRepository;
 	private final IssueRepository issueRepository;
 
@@ -35,16 +35,16 @@ public class AttachmentService {
 	 * @return
 	 */
 	public AttachmentModel uploadAttachment(MultipartFile uploadFile, final String issueId) throws IOException {
-		String fileName = fileNameSuffix(
-				String.valueOf(Paths.get(filePath, issueId)),
-				Objects.requireNonNull(uploadFile.getOriginalFilename()));
+		if (issueRepository.findById(Long.valueOf(issueId)).isEmpty()) {
+			throw new EntityNotFoundException(ErrorCodes.ISSUE_NOT_FOUND.name());
+		}
 
-		Path newFilePath = Files.createDirectories(Paths.get(filePath, issueId)).resolve(fileName);
+		String fileName = fileNameSuffix(Objects.requireNonNull(uploadFile.getOriginalFilename()));
+
+		Path newFilePath = Files.createDirectories(Paths.get(uploadPath, issueId)).resolve(fileName);
 		uploadFile.transferTo(newFilePath);
 
-		Attachment savedAttachment = attachmentRepository.save(
-				new Attachment(String.valueOf(Paths.get(filePath, issueId)), fileName)
-		);
+		Attachment savedAttachment = attachmentRepository.save(new Attachment(fileName));
 
 		// 등록한 첨부파일을 이슈와 연결
 		connectIssue(Long.parseLong(issueId), savedAttachment);
@@ -55,16 +55,15 @@ public class AttachmentService {
 	/**
 	 * 중복되는 파일명이 존재하는 경우 파일명에 접미사 추가
 	 * ex) upload.txt -> upload(1).txt
-	 * @param uploadFilePath
 	 * @param fileName
 	 * @return
 	 */
-	private String fileNameSuffix(String uploadFilePath, String fileName) {
+	private String fileNameSuffix(String fileName) {
 		String name = fileName.substring(0, fileName.indexOf("."));
 		String extension = StringUtils.getFilenameExtension(fileName);
 
 		String saveFileName = fileName;
-		Optional<Attachment> optName = attachmentRepository.findByFilePathAndName(uploadFilePath, fileName);
+		Optional<Issue> optName = issueRepository.findAllByAttachments_Name(fileName);
 
 		// 중복되는 파일명이 존재하지 않는 경우
 		if (optName.isEmpty()) {
@@ -74,7 +73,7 @@ public class AttachmentService {
 		int idx = 0;
 		while(optName.isPresent()) {
 			saveFileName = String.format("%s(%s).%s", name, ++idx, extension);
-			optName = attachmentRepository.findByFilePathAndName(uploadFilePath, saveFileName);
+			optName = issueRepository.findAllByAttachments_Name(saveFileName);
 		}
 
 		return saveFileName;

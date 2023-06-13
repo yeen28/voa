@@ -22,5 +22,8 @@ public enum ErrorCodes {
 	VERSION_NOT_FOUND,
 
 	@Schema(description = "존재하지 않는 파일")
-	FILE_NOT_FOUND
+	FILE_NOT_FOUND,
+
+	@Schema(description = "아무것도 업로드하지 않은 경우")
+	FILE_IS_NULL
 }

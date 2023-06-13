@@ -1,5 +1,6 @@
 package com.project.voa.controller;
 
+import com.project.voa.error.ErrorCodes;
 import com.project.voa.service.AttachmentService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
@@ -21,9 +22,10 @@ public class AttachmentController {
 	public ResponseEntity<Object> uploadAttachment(
 			@RequestPart(value = "file", required = false) MultipartFile file,
 			@PathVariable("issueId") long issueId) throws IOException {
-		if (file.isEmpty()){
-			return new ResponseEntity<>(HttpStatus.OK);
+		if (file == null) {
+			return new ResponseEntity<>(ErrorCodes.FILE_IS_NULL, HttpStatus.BAD_REQUEST);
 		}
+
 		return new ResponseEntity<>(attachmentService.uploadAttachment(file, String.valueOf(issueId)), HttpStatus.OK);
 	}
 }

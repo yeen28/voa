@@ -41,7 +41,7 @@ public class AttachmentService {
 
 		String fileName = fileNameSuffix(Objects.requireNonNull(uploadFile.getOriginalFilename()));
 
-		Path newFilePath = Files.createDirectories(Paths.get(uploadPath, issueId)).resolve(fileName);
+		Path newFilePath = Files.createDirectories(new File(uploadPath, issueId).toPath()).resolve(fileName);
 		uploadFile.transferTo(newFilePath);
 
 		Attachment savedAttachment = attachmentRepository.save(new Attachment(fileName));

@@ -1,6 +1,7 @@
 package com.project.voa.controller;
 
 import com.project.voa.dto.ErrorResponse;
+import com.project.voa.error.ErrorCodes;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
@@ -23,7 +24,11 @@ public class ExceptionController {
 	}
 
 	@ExceptionHandler(value = IOException.class)
-	public ResponseEntity<ErrorResponse> ioException(IOException e) {
-		return ErrorResponse.toResponseEntity(e.getMessage(), HttpStatus.NOT_FOUND);
+	public ResponseEntity<ErrorResponse> ioException(IOException e) throws IOException {
+		String errorCode = e.getMessage();
+		if (ErrorCodes.FILE_NOT_FOUND.name().equals(errorCode)) {
+			return ErrorResponse.toResponseEntity(errorCode, HttpStatus.NOT_FOUND);
+		}
+		throw new IOException();
 	}
 }

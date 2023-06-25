@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 
 import java.util.List;
+import java.util.Objects;
 
 @Getter
 @Builder
@@ -31,17 +32,23 @@ public class IssueModel {
 				.title(issue.getTitle())
 				.issueType(issue.getIssueType().getName())
 				.rank(String.valueOf(issue.getRank()))
-				.versionNames(issue.getVersions().stream().map(Version::getName).toList())
+				.versionNames(Objects.isNull(issue.getVersions()) ?
+						null :
+						issue.getVersions().stream().map(Version::getName).toList())
 				.ownerName(issue.getOwner().getUserName())
 				.reporterName(issue.getReporter().getUserName())
 				.env(issue.getEnv())
 				.description(issue.getDescription())
-				.labelNames(issue.getLabels().stream().map(Label::getName).toList())
+				.labelNames(Objects.isNull(issue.getLabels()) ?
+						null :
+						issue.getLabels().stream().map(Label::getName).toList())
 				.issueLinkType(String.valueOf(issue.getIssueLinkType()))
 				.issueLink(issue.getIssueLink())
 				.issueStatus(issue.getIssueStatus())
-				.attachmentNames(issue.getAttachments().stream().map(Attachment::getName).toList())
-				.createdAt(issue.getCreatedAt().toString())
+				.attachmentNames(Objects.isNull(issue.getAttachments()) ?
+						null :
+						issue.getAttachments().stream().map(Attachment::getName).toList())
+				.createdAt(String.valueOf(issue.getCreatedAt()))
 				.build();
 	}
 

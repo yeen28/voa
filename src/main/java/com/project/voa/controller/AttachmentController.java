@@ -3,6 +3,7 @@ package com.project.voa.controller;
 import com.project.voa.error.ErrorCodes;
 import com.project.voa.service.AttachmentService;
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -27,5 +28,15 @@ public class AttachmentController {
 		}
 
 		return new ResponseEntity<>(attachmentService.uploadAttachment(file, String.valueOf(issueId)), HttpStatus.OK);
+	}
+
+	@Operation(summary = "첨부파일 다운로드")
+	@GetMapping(value = "/issue/{issueId}/attachment/{attachmentId}")
+	public ResponseEntity<Object> downloadAttachment(
+			@PathVariable("attachmentId") long fileId,
+			@PathVariable("issueId") long issueId,
+			final HttpServletResponse response) throws IOException {
+		attachmentService.downloadAttachment(fileId, issueId, response);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 }

@@ -4,3 +4,8 @@ spring:
     driver-class-name: org.mariadb.jdbc.Driver
     username: ${DB_USERNAME:root}
     password: ${DB_PASSWORD:}
+
+  servlet:
+    multipart:
+      enabled: true # 파일 업로드 가능 여부
+      location: C:\\upload\

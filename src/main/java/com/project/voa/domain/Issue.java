@@ -42,7 +42,7 @@ public class Issue extends BaseTimeEntity {
 	private String description;
 
 	@OneToMany
-	private List<Attachment> attachment;
+	private List<Attachment> attachments;
 
 	@ManyToMany
 	private List<Label> labels;

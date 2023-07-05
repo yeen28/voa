@@ -1,12 +1,10 @@
 package com.project.voa.domain;
 
 import jakarta.persistence.*;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 
@@ -22,10 +20,14 @@ public class Attachment {
 	@Column(nullable = false)
 	private String name;
 
+	@Column(nullable = false)
+	private String uuidName;
+
 	@CreatedDate
 	private LocalDateTime createdAt;
 
-	public Attachment(String name) {
+	public Attachment(String name, String savedFileName) {
 		this.name = name;
+		this.uuidName = savedFileName;
 	}
 }

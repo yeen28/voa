@@ -43,11 +43,11 @@ public class AttachmentService {
 
 		String fileName = uploadFile.getOriginalFilename();
 
-		String savedFileName = String.valueOf(UUID.randomUUID());
-		Path newFilePath = Files.createDirectories(new File(uploadPath, issueId).toPath()).resolve(savedFileName);
+		String uuidFileName = String.valueOf(UUID.randomUUID());
+		Path newFilePath = Files.createDirectories(new File(uploadPath, issueId).toPath()).resolve(uuidFileName);
 		uploadFile.transferTo(newFilePath);
 
-		Attachment savedAttachment = attachmentRepository.save(new Attachment(fileName, savedFileName));
+		Attachment savedAttachment = attachmentRepository.save(new Attachment(fileName, uuidFileName));
 
 		// 등록한 첨부파일을 이슈와 연결
 		connectIssue(Long.parseLong(issueId), savedAttachment);
@@ -81,17 +81,13 @@ public class AttachmentService {
 		}
 
 		File downloadFilePath = new File(uploadPath, String.valueOf(issueId));
-		String uuidName = attachmentRepository.findById(fileId)
-				.orElseThrow(() -> new FileNotFoundException(downloadFilePath.toString()))
-				.getUuidName();
-		String fileName = attachmentRepository.findById(fileId)
-				.orElseThrow(() -> new FileNotFoundException(downloadFilePath.toString()))
-				.getName();
+		Attachment attachment = attachmentRepository.findById(fileId)
+				.orElseThrow(() -> new FileNotFoundException(downloadFilePath.toString()));
 
-		String realPath = new File(downloadFilePath, uuidName).getPath();
+		String realPath = new File(downloadFilePath, attachment.getUuidName()).getPath();
 		try (FileInputStream fis = new FileInputStream(realPath);
 		     BufferedOutputStream bos = new BufferedOutputStream(response.getOutputStream())) {
-			String encodedName = URLEncoder.encode(fileName, StandardCharsets.UTF_8);
+			String encodedName = URLEncoder.encode(attachment.getName(), StandardCharsets.UTF_8);
 			encodedName = encodedName.replaceAll("\\+", "%20"); // 파일 이름에서 '+'된 부분을 다시 공백으로 변경
 
 			response.setHeader("Content-Disposition", "attachment;filename=" + encodedName);

@@ -26,8 +26,8 @@ public class Attachment {
 	@CreatedDate
 	private LocalDateTime createdAt;
 
-	public Attachment(String name, String savedFileName) {
+	public Attachment(String name, String uuidName) {
 		this.name = name;
-		this.uuidName = savedFileName;
+		this.uuidName = uuidName;
 	}
 }

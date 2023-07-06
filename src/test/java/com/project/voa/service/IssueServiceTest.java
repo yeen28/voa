@@ -21,7 +21,6 @@ class IssueServiceTest {
 	@Mock UserInfoRepository userInfoRepository;
 	@Mock VersionRepository versionRepository;
 	@Mock LabelRepository labelRepository;
-	@Mock IssueDTO issueDTO;
 	@Mock IssueRepository issueRepository;
 	@InjectMocks IssueService issueService;
 
@@ -33,19 +32,19 @@ class IssueServiceTest {
 		Label label = new Label();
 		UserInfo userInfo = new UserInfo();
 
-		//when
-		when(issueTypeRepository.findById(any()))
-				.thenReturn(Optional.of(issueType));
-		when(userInfoRepository.findById(any()))
-				.thenReturn(Optional.of(userInfo));
-		when(issueDTO.getIssueTypeId()).thenReturn(1L);
-		when(issueDTO.getVersionNames()).thenReturn(List.of("version"));
-		when(issueDTO.getOwnerId()).thenReturn(1L);
-		when(issueDTO.getReporterId()).thenReturn(1L);
-		when(issueDTO.getLabelNames()).thenReturn(List.of("label"));
+		IssueDTO issueDTO = new IssueDTO();
+		issueDTO.setIssueTypeId(1L);
+		issueDTO.setVersionNames(List.of("version"));
+		issueDTO.setOwnerId(1L);
+		issueDTO.setReporterId(1L);
+		issueDTO.setLabelNames(List.of("label"));
+
+		when(issueTypeRepository.findById(any())).thenReturn(Optional.of(issueType));
+		when(userInfoRepository.findById(any())).thenReturn(Optional.of(userInfo));
 		when(versionRepository.findByName(anyString())).thenReturn(Optional.of(version));
 		when(labelRepository.findByName(anyString())).thenReturn(Optional.of(label));
 
+		//when
 		issueService.createIssue(issueDTO);
 
 		//then

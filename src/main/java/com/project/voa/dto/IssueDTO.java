@@ -2,9 +2,12 @@ package com.project.voa.dto;
 
 import com.project.voa.domain.IssueStatus;
 import lombok.Getter;
+import lombok.Setter;
+
 import java.util.List;
 
 @Getter
+@Setter
 public class IssueDTO {
 	private long issueTypeId;
 	private String title;

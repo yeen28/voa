@@ -6,7 +6,7 @@ import lombok.*;
 @Entity
 @Getter
 @Setter
-public class UserInfo {
+public class UserInfo extends BaseTimeEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;

@@ -22,4 +22,7 @@ public class UserInfo extends BaseTimeEntity {
 
 	@Column
 	private String profile;
+
+	@ManyToOne
+	private Team team;
 }

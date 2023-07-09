@@ -13,6 +13,7 @@ public class UserInfoModel {
     private String userName;
     private String userEmail;
     private String profile;
+    private String teamName;
 
     public static UserInfoModel of(UserInfo userInfo) {
         return UserInfoModel.builder()
@@ -20,6 +21,7 @@ public class UserInfoModel {
                 .userName(userInfo.getUserName())
                 .userEmail(userInfo.getUserEmail())
                 .profile(userInfo.getProfile())
+                .teamName(userInfo.getTeam().getName())
                 .build();
     }
 

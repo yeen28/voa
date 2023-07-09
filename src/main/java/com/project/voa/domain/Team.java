@@ -4,8 +4,6 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.List;
-
 @Entity
 @Setter
 @Getter
@@ -16,7 +14,4 @@ public class Team extends BaseTimeEntity {
 
 	@Column(nullable = false, unique = true)
 	private String name;
-
-	@OneToMany
-	private List<UserInfo> user;
 }

@@ -86,11 +86,11 @@ export class IssueManager {
     public create(): void {
         const newIssueModel: NewIssue = new NewIssue(
             '1', //TODO projectId
-            '',
+            'TO_DO',
             this.getIssueTypeId('issue-type-select'),
             this.getIssueTitle('issue-title-input'),
-            this.getIssueLabel('issue-relation-input').split(','),
-            this.getIssueVersion('issue-version-input').split(','),
+            this.getIssueLabel('issue-new-label-input').split(','),
+            this.getIssueVersion('issue-new-version-input').split(','),
             this.getIssueEnv('issue-env-content'),
             this.getIssueDesc('issue-desc-content'),
             '1', //TODO rank

@@ -11,6 +11,11 @@ username: ${DB_USERNAME:your mariaDB id}
 password: ${DB_PASSWORD:your mariaDB password}
 ```
 
+2. How to build  
+   1) <code>src/main/resources/static</code> 이동
+   2) <code>npm install</code>
+   3) <code>npm run bundle</code>
+
 ## Requirements
 
 Java 17<br/>

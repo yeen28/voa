@@ -1,11 +1,13 @@
 package com.project.voa.service;
 
+import com.project.voa.domain.Team;
 import com.project.voa.domain.UserInfo;
 import com.project.voa.dto.LoginUserInfoDto;
 import com.project.voa.dto.UserInfoDto;
 import com.project.voa.dto.UserInfoModel;
 import com.project.voa.jwt.JwtTokenInfo;
 import com.project.voa.jwt.JwtTokenProvider;
+import com.project.voa.repository.TeamRepository;
 import com.project.voa.repository.UserInfoRepository;
 import com.project.voa.error.ErrorCodes;
 import com.project.voa.utils.CookieUtils;
@@ -30,20 +32,33 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class UserInfoService {
 	private final UserInfoRepository userInfoRepository;
+	private final TeamRepository teamRepository;
 	private final JwtTokenProvider jwtTokenProvider;
 	private final AuthenticationManagerBuilder authenticationManagerBuilder;
 
 	/**
 	 * 사용자 등록
+	 * @param userInfoDto
 	 * @return
 	 */
 	public UserInfoModel insertUser(UserInfoDto userInfoDto) {
+		// team name을 DB에서 찾을 수 없으면 team 생성
+		Team team = teamRepository.findByName(userInfoDto.getTeamName())
+				.orElseGet(() -> createTeam(userInfoDto.getTeamName()));
+
 		UserInfo userInfo = UserInfo.of(userInfoDto);
+		userInfo.setTeam(team);
 
 		if (userInfoRepository.existsByUserEmail(userInfoDto.getUserEmail())) {
 			throw new DuplicateKeyException(ErrorCodes.DUPLICATED_EMAIL.name());
 		}
 		return UserInfoModel.of(userInfoRepository.save(userInfo));
+	}
+
+	private Team createTeam(String name) {
+		Team team = new Team();
+		team.setName(name);
+		return teamRepository.save(team);
 	}
 
 	/**

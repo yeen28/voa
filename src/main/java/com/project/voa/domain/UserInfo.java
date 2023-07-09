@@ -27,6 +27,9 @@ public class UserInfo extends BaseTimeEntity {
 	@Column
 	private String profile;
 
+	@ManyToOne
+	private Team team;
+
 	public static UserInfo of(UserInfoDto userInfoDto) {
 		return UserInfo.builder()
 				.userEmail(userInfoDto.getUserEmail())

@@ -34,5 +34,8 @@ public enum ErrorCodes {
 	FILE_NOT_FOUND,
 
 	@Schema(description = "아무것도 업로드하지 않은 경우")
-	FILE_IS_NULL
+	FILE_IS_NULL,
+
+	@Schema(description = "존재하지 않는 팀")
+	TEAM_NOT_FOUND;
 }

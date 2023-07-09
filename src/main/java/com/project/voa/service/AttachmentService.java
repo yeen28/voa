@@ -12,7 +12,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
@@ -21,8 +20,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.UUID;
 
 @Slf4j
 @Service
@@ -43,44 +41,18 @@ public class AttachmentService {
 			throw new EntityNotFoundException(ErrorCodes.ISSUE_NOT_FOUND.name());
 		}
 
-		String fileName = fileNameSuffix(Objects.requireNonNull(uploadFile.getOriginalFilename()));
+		String fileName = uploadFile.getOriginalFilename();
 
-		Path newFilePath = Files.createDirectories(new File(uploadPath, issueId).toPath()).resolve(fileName);
+		String uuidFileName = String.valueOf(UUID.randomUUID());
+		Path newFilePath = Files.createDirectories(new File(uploadPath, issueId).toPath()).resolve(uuidFileName);
 		uploadFile.transferTo(newFilePath);
 
-		Attachment savedAttachment = attachmentRepository.save(new Attachment(fileName));
+		Attachment savedAttachment = attachmentRepository.save(new Attachment(fileName, uuidFileName));
 
 		// 등록한 첨부파일을 이슈와 연결
 		connectIssue(Long.parseLong(issueId), savedAttachment);
 
 		return AttachmentModel.of(savedAttachment);
-	}
-
-	/**
-	 * 중복되는 파일명이 존재하는 경우 파일명에 접미사 추가
-	 * ex) upload.txt -> upload(1).txt
-	 * @param fileName
-	 * @return
-	 */
-	private String fileNameSuffix(String fileName) {
-		String name = fileName.substring(0, fileName.indexOf("."));
-		String extension = StringUtils.getFilenameExtension(fileName);
-
-		String saveFileName = fileName;
-		Optional<Issue> optName = issueRepository.findAllByAttachments_Name(fileName);
-
-		// 중복되는 파일명이 존재하지 않는 경우
-		if (optName.isEmpty()) {
-			return fileName;
-		}
-
-		int idx = 0;
-		while(optName.isPresent()) {
-			saveFileName = String.format("%s(%s).%s", name, ++idx, extension);
-			optName = issueRepository.findAllByAttachments_Name(saveFileName);
-		}
-
-		return saveFileName;
 	}
 
 	/**
@@ -109,14 +81,13 @@ public class AttachmentService {
 		}
 
 		File downloadFilePath = new File(uploadPath, String.valueOf(issueId));
-		String fileName = attachmentRepository.findById(fileId)
-				.orElseThrow(() -> new FileNotFoundException(downloadFilePath.toString()))
-				.getName();
+		Attachment attachment = attachmentRepository.findById(fileId)
+				.orElseThrow(() -> new FileNotFoundException(downloadFilePath.toString()));
 
-		String realPath = new File(downloadFilePath, fileName).getPath();
+		String realPath = new File(downloadFilePath, attachment.getUuidName()).getPath();
 		try (FileInputStream fis = new FileInputStream(realPath);
 		     BufferedOutputStream bos = new BufferedOutputStream(response.getOutputStream())) {
-			String encodedName = URLEncoder.encode(fileName, StandardCharsets.UTF_8);
+			String encodedName = URLEncoder.encode(attachment.getName(), StandardCharsets.UTF_8);
 			encodedName = encodedName.replaceAll("\\+", "%20"); // 파일 이름에서 '+'된 부분을 다시 공백으로 변경
 
 			response.setHeader("Content-Disposition", "attachment;filename=" + encodedName);

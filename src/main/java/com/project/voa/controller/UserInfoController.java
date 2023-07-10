@@ -22,7 +22,7 @@ public class UserInfoController {
 	private final UserInfoService userInfoService;
 
 	@Operation(summary = "사용자 등록")
-	@Parameter(name = "userInfoDto", description = "사용자를 등록합니다.", example = "{\"userName\": \"user\",\"userEmail\": \"email@email.com\",\"password\":\"123\",\"profile\": \"\",\"teamName\": \"WE\"}")
+	@Parameter(name = "userInfoDto", description = "사용자를 등록합니다.", example = "{\"userName\": \"user\",\"userEmail\": \"email@email.com\",\"password\":\"123\",\"profile\": \"\",\"teamId\": \"1\"}")
 	@PostMapping("/user")
 	public ResponseEntity<Object> insertUser(@RequestBody UserInfoDto userInfoDto) {
 		return new ResponseEntity<>(userInfoService.insertUser(userInfoDto), HttpStatus.OK);

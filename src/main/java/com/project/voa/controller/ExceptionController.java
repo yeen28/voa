@@ -3,6 +3,7 @@ package com.project.voa.controller;
 import com.project.voa.dto.ErrorResponse;
 import com.project.voa.error.ErrorCodes;
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,5 +31,10 @@ public class ExceptionController {
 			return ErrorResponse.toResponseEntity(errorCode, HttpStatus.NOT_FOUND);
 		}
 		throw new IOException();
+	}
+
+	@ExceptionHandler(value = DataIntegrityViolationException.class)
+	public ResponseEntity<ErrorResponse> dataIntegrityViolationException(DataIntegrityViolationException e) {
+		return ErrorResponse.toResponseEntity(e.getMessage(), HttpStatus.NOT_ACCEPTABLE);
 	}
 }

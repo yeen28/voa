@@ -28,5 +28,8 @@ public enum ErrorCodes {
 	FILE_IS_NULL,
 
 	@Schema(description = "존재하지 않는 팀")
-	TEAM_NOT_FOUND;
+	TEAM_NOT_FOUND,
+
+	@Schema(description = "외래키로 삭제 불가한 경우")
+	DO_NOT_DELETE;
 }

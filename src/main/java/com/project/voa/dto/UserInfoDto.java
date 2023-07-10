@@ -8,5 +8,5 @@ public class UserInfoDto {
     private String userEmail;
     private String password;
     private String profile;
-    private String teamName;
+    private String teamId;
 }

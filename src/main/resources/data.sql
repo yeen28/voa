@@ -10,5 +10,5 @@ INSERT INTO team (name, created_at, last_modified_at)
 VALUES ('WE', now(), now());
 
 -- admin 자동 추가 ( email: admin@email.com, password: admin )
-INSERT INTO user_info (user_name, user_email, password, profile)
-VALUES ('admin', 'admin@email.com', '$2a$08$lDnHPz7eUkSi6ao14Twuau08mzhWrL4kyZGGU5xfiGALO/Vxd5DOi', '');
+INSERT INTO user_info (user_name, user_email, password, profile, team_id)
+VALUES ('admin', 'admin@email.com', '$2a$08$lDnHPz7eUkSi6ao14Twuau08mzhWrL4kyZGGU5xfiGALO/Vxd5DOi', '', 1);

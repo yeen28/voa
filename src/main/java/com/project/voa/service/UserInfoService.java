@@ -1,6 +1,5 @@
 package com.project.voa.service;
 
-import com.project.voa.domain.Team;
 import com.project.voa.domain.UserInfo;
 import com.project.voa.dto.LoginUserInfoDto;
 import com.project.voa.dto.UserInfoDto;
@@ -12,8 +11,10 @@ import com.project.voa.repository.UserInfoRepository;
 import com.project.voa.error.ErrorCodes;
 import com.project.voa.utils.CookieUtils;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -42,23 +43,18 @@ public class UserInfoService {
 	 * @return
 	 */
 	public UserInfoModel insertUser(UserInfoDto userInfoDto) {
-		// team name을 DB에서 찾을 수 없으면 team 생성
-		Team team = teamRepository.findByName(userInfoDto.getTeamName())
-				.orElseGet(() -> createTeam(userInfoDto.getTeamName()));
-
-		UserInfo userInfo = UserInfo.of(userInfoDto);
-		userInfo.setTeam(team);
+		UserInfo userInfo = new UserInfo();
+		userInfo.setUserName(userInfoDto.getUserName());
+		userInfo.setPassword(userInfoDto.getPassword());
+		userInfo.setUserEmail(userInfoDto.getUserEmail());
+		userInfo.setProfile(userInfoDto.getProfile());
+		userInfo.setTeam(teamRepository.findById(NumberUtils.toLong(userInfoDto.getTeamId(), 0))
+				.orElseThrow(() -> new EntityNotFoundException(ErrorCodes.TEAM_NOT_FOUND.name())));
 
 		if (userInfoRepository.existsByUserEmail(userInfoDto.getUserEmail())) {
 			throw new DuplicateKeyException(ErrorCodes.DUPLICATED_EMAIL.name());
 		}
 		return UserInfoModel.of(userInfoRepository.save(userInfo));
-	}
-
-	private Team createTeam(String name) {
-		Team team = new Team();
-		team.setName(name);
-		return teamRepository.save(team);
 	}
 
 	/**

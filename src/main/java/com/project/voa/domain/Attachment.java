@@ -23,11 +23,15 @@ public class Attachment {
 	@Column(nullable = false)
 	private String uuidName;
 
+	@Column(nullable = false)
+	private String relativePath;
+
 	@CreatedDate
 	private LocalDateTime createdAt;
 
-	public Attachment(String name, String uuidName) {
+	public Attachment(String name, String uuidName, String relativePath) {
 		this.name = name;
 		this.uuidName = uuidName;
+		this.relativePath = relativePath;
 	}
 }

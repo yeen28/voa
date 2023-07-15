@@ -8,6 +8,7 @@ import com.project.voa.repository.AttachmentRepository;
 import com.project.voa.repository.IssueRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,6 +20,8 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.UUID;
 
@@ -36,18 +39,18 @@ public class AttachmentService {
 	 * @param issueId
 	 * @return
 	 */
+	@Transactional
 	public AttachmentModel uploadAttachment(MultipartFile uploadFile, final String issueId) throws IOException {
 		if (issueRepository.findById(Long.valueOf(issueId)).isEmpty()) {
 			throw new EntityNotFoundException(ErrorCodes.ISSUE_NOT_FOUND.name());
 		}
 
-		String fileName = uploadFile.getOriginalFilename();
-
 		String uuidFileName = String.valueOf(UUID.randomUUID());
-		Path newFilePath = Files.createDirectories(new File(uploadPath, issueId).toPath()).resolve(uuidFileName);
+		String uploadFolder = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+		Path newFilePath = Files.createDirectories(new File(uploadPath, uploadFolder).toPath()).resolve(uuidFileName);
 		uploadFile.transferTo(newFilePath);
 
-		Attachment savedAttachment = attachmentRepository.save(new Attachment(fileName, uuidFileName));
+		Attachment savedAttachment = attachmentRepository.save(new Attachment(uploadFile.getOriginalFilename(), uuidFileName, uploadFolder));
 
 		// 등록한 첨부파일을 이슈와 연결
 		connectIssue(Long.parseLong(issueId), savedAttachment);
@@ -72,17 +75,12 @@ public class AttachmentService {
 	/**
 	 * 파일 다운로드
 	 * @param fileId
-	 * @param issueId
 	 * @param response
 	 */
-	public void downloadAttachment(final long fileId, final long issueId, final HttpServletResponse response) throws IOException {
-		if (!issueRepository.existsById(issueId)) {
-			throw new EntityNotFoundException(ErrorCodes.ISSUE_NOT_FOUND.name());
-		}
-
-		File downloadFilePath = new File(uploadPath, String.valueOf(issueId));
+	public void downloadAttachment(final long fileId, final HttpServletResponse response) {
 		Attachment attachment = attachmentRepository.findById(fileId)
-				.orElseThrow(() -> new FileNotFoundException(downloadFilePath.toString()));
+				.orElseThrow(() -> new EntityNotFoundException(ErrorCodes.FILE_NOT_FOUND.name()));
+		File downloadFilePath = new File(uploadPath, attachment.getRelativePath());
 
 		String realPath = new File(downloadFilePath, attachment.getUuidName()).getPath();
 		try (FileInputStream fis = new FileInputStream(realPath);

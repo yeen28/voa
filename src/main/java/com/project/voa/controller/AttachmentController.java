@@ -31,12 +31,11 @@ public class AttachmentController {
 	}
 
 	@Operation(summary = "첨부파일 다운로드")
-	@GetMapping(value = "/issue/{issueId}/attachment/{attachmentId}")
+	@GetMapping(value = "/attachment/{id}")
 	public ResponseEntity<Object> downloadAttachment(
-			@PathVariable("attachmentId") long fileId,
-			@PathVariable("issueId") long issueId,
-			final HttpServletResponse response) throws IOException {
-		attachmentService.downloadAttachment(fileId, issueId, response);
+			@PathVariable("id") long fileId,
+			final HttpServletResponse response) {
+		attachmentService.downloadAttachment(fileId, response);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 }

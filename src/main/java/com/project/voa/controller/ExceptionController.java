@@ -6,6 +6,7 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -30,5 +31,11 @@ public class ExceptionController {
 			return ErrorResponse.toResponseEntity(errorCode, HttpStatus.NOT_FOUND);
 		}
 		throw new IOException();
+	}
+
+	@ExceptionHandler(MethodArgumentNotValidException.class)
+	public ResponseEntity<ErrorResponse> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
+		String errorMessage = e.getBindingResult().getAllErrors().get(0).getDefaultMessage();
+		return ErrorResponse.toResponseEntity(errorMessage, HttpStatus.BAD_REQUEST);
 	}
 }

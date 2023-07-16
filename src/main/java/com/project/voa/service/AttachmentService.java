@@ -20,7 +20,6 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.UUID;
@@ -41,12 +40,11 @@ public class AttachmentService {
 	 */
 	@Transactional
 	public AttachmentModel uploadAttachment(MultipartFile uploadFile, final String issueId) throws IOException {
-		if (issueRepository.findById(Long.valueOf(issueId)).isEmpty()) {
-			throw new EntityNotFoundException(ErrorCodes.ISSUE_NOT_FOUND.name());
-		}
+		Issue issue = issueRepository.findById(Long.valueOf(issueId)).orElseThrow(() ->
+				new EntityNotFoundException(ErrorCodes.ISSUE_NOT_FOUND.name()));
 
 		String uuidFileName = String.valueOf(UUID.randomUUID());
-		String uploadFolder = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+		String uploadFolder = issue.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
 		Path newFilePath = Files.createDirectories(new File(uploadPath, uploadFolder).toPath()).resolve(uuidFileName);
 		uploadFile.transferTo(newFilePath);
 

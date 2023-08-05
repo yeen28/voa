@@ -1,6 +1,7 @@
 package com.project.voa.dto;
 
 import com.project.voa.domain.IssueStatus;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,6 +11,7 @@ import java.util.List;
 @Setter
 public class IssueDTO {
 	private long issueTypeId;
+	@NotEmpty(message = "TITLE_IS_NULL")
 	private String title;
 	private long rank;
 	private List<String> versionNames;

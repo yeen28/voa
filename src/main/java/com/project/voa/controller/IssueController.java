@@ -6,6 +6,7 @@ import com.project.voa.service.IssueService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +20,7 @@ public class IssueController {
 	@Operation(summary = "이슈 생성")
 	@Parameter(name = "issueDTO", description = "생성할 이슈 정보입니다.", example = "{\"issueTypeId\": 1,\"title\": \"voa issue\",\"rank\": 1,\"versionNames\": [\"2305\"],\"ownerId\": 1,\"reporterId\": 1,\"env\": \"Windows\",\"description\": \"이슈생성합니다.\",\"labelNames\": [\"라벨\"],\"issueLinkType\": 1,\"issueLink\": \"ISSUE-01\"}")
 	@PostMapping("/issue")
-	public ResponseEntity<Object> createIssue(@RequestBody IssueDTO issueDTO) {
+	public ResponseEntity<Object> createIssue(@RequestBody @Valid IssueDTO issueDTO) {
 		return new ResponseEntity<>(issueService.createIssue(issueDTO), HttpStatus.OK);
 	}
 

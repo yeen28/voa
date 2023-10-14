@@ -1,6 +1,7 @@
 import { RequestHelper } from './request/RequestHelper';
 import { NewIssue } from './model/NewIssue';
 import { Render } from './Render';
+import { updateIssueStatusId } from "./index";
 
 export class IssueManager {
     private elCreateIssue: Element;
@@ -206,5 +207,30 @@ export class IssueManager {
     public getUsers(): void {
         console.log('users');
         // WIP request
+    }
+
+    public updateIssueStatus(status: string): void {
+        switch (status) {
+            case 'issue-todo-wrap':
+                status = 'TO_DO';
+                break;
+
+            case 'issue-progress-wrap':
+                status = 'IN_PROGRESS';
+                break;
+
+            default:
+                status = 'DONE';
+        }
+
+        const successFunc: Function = (res: Response): void => {
+            console.log(res);
+        }
+
+        const errorFunc: Function = (res: Response): void => {
+            console.log(res);
+        }
+
+        this.request.put(`/issue/${updateIssueStatusId}/status/${status}`, {}, successFunc, errorFunc);
     }
 }

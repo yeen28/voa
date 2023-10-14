@@ -112,6 +112,7 @@ export class Render {
         elIssueCard.setAttribute('data-obj', 'render');
         elIssueCard.setAttribute('data-cmd', 'clickIssueEvent');
         elIssueCard.innerHTML = (document.getElementById('template-new-issue') as HTMLTextAreaElement).value;
+        elIssueCard.draggable = true;
 
         elIssueCard.getElementsByClassName('issue-card-title-text')[0].textContent = issue.title;
         elIssueCard.getElementsByClassName('issue-card-type')[0].textContent = issue.issueType;
@@ -119,7 +120,17 @@ export class Render {
         elIssueCard.getElementsByClassName('issue-card-version')[0].textContent = issue.versionNames;
         elIssueCard.getElementsByClassName('issue-card-label')[0].textContent = issue.labelNames;
 
-        document.getElementsByClassName('issue-todo-item-wrap')[0].appendChild(elIssueCard);
+        let statusClassName: string = 'issue-todo-item-wrap';
+        switch (issue.issueStatus) {
+            case 'IN_PROGRESS':
+                statusClassName = 'issue-progress-item-wrap';
+                break;
+
+            case 'DONE':
+                statusClassName = 'issue-resolve-item-wrap';
+                break;
+        }
+        document.getElementsByClassName(statusClassName)[0].appendChild(elIssueCard);
     }
 
     /**

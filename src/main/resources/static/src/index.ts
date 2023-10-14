@@ -1,10 +1,13 @@
 import { Factory } from "./Factory";
 import { Render } from "./Render";
 import { Utils } from "./util/Utils";
+import {IssueManager} from "./IssueManager";
 
+export let updateIssueStatusId: string = '';
 document.addEventListener('DOMContentLoaded', () => {
     const factory = new Factory();
     const render: Render = factory.getObj('render');
+    const issueManager: IssueManager = factory.getObj('issueManager');
     render.rendBoard();
 
     document.addEventListener('click', () => {
@@ -26,5 +29,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const obj = factory.getObj(that);
         obj[cmd].call(obj, target);
+    });
+
+    document.addEventListener('dragstart', (e: any) => {
+        updateIssueStatusId = e.target.getAttribute('data-id');
+    })
+
+    document.addEventListener('drop', (e: any) => {
+        e.preventDefault();
+        const target = e.target;
+        if (target.closest('#issue-track-body')) {
+            let issueStatus = target.parentElement.className;
+            issueManager.updateIssueStatus(issueStatus);
+
+            location.reload();
+        }
     });
 }, false);

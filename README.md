@@ -11,6 +11,15 @@ username: ${DB_USERNAME:your mariaDB id}
 password: ${DB_PASSWORD:your mariaDB password}
 ```
 
+2. Build front-end
+```bash
+$ cd front-voa
+$ npm i
+  # "svelte" version Must be "^3.39.0"
+$ npm run dev
+  # or npm run build
+```
+
 ## Requirements
 
 Java 17<br/>

@@ -1,7 +1,5 @@
 <script>
 	import Main from './main/Main.svelte';
-
-	export let name;
 </script>
 
 <svelte:head>

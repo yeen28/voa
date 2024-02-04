@@ -103,6 +103,32 @@
 		const elEditIssue = document.getElementById('edit-issue');
 		elEditIssue.classList.add('hide');
 	}
+
+	function deleteIssue() {
+		const issueId = document.getElementById('edit-issue').getAttribute('data-issue-id');
+
+		fetch(`/issue/${issueId}`, {
+			method: 'DELETE'
+		})
+			.then(issue => {
+				console.log(issue);
+				const elEditIssue = document.getElementById('edit-issue');
+				elEditIssue.classList.add('hide');
+
+				if (document.getElementById('issue-track-body').classList.contains('hide')) {
+					// this.render.rendIssueIntoTable(newIssue);
+				} else {
+					// this.render.rendIssueIntoBoard(newIssue);
+				}
+
+				location.reload();
+			})
+			.catch(error => {
+				console.log(error);
+				const elEditIssue = document.getElementById('edit-issue');
+				elEditIssue.classList.add('hide');
+			});
+	}
 </script>
 
 <div id="edit-issue" class="hide">
@@ -217,5 +243,6 @@
 	<div class="issue-footer-wrap">
 		<button class="create-issue-btn button" data-obj="render" on:click={updateIssue}>확인</button>
 		<button id="cancel-edit-issue" class="cancel-issue-btn" data-obj="render" on:click={closeEditTemplate}>취소</button>
+		<button class="delete-issue-btn" data-obj="render" on:click={deleteIssue}>삭제</button>
 	</div>
 </div>

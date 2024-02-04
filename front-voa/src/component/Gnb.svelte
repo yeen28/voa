@@ -7,33 +7,6 @@
 		elGnb.classList.add('hidden');
 		elContents.classList.add('hidden');
 	}
-
-	function create() {
-		fetch('/issue', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-				// 추가적인 헤더 정보 설정 가능
-			},
-			body: JSON.stringify({
-				issueTypeId: 1,
-				title: 'voa issue',
-				rank: 1,
-				versionNames: ['2305'],
-				ownerId: 1,
-				reporterId: 1,
-				env: 'Windows',
-				description: '이슈생성합니다.',
-				labelNames: ['라벨'],
-				issueLinkType: 1,
-				issueLink: 'ISSUE-01'
-			})
-		})
-			.then(response => response.json())
-			.then(response => {
-				console.log(response);
-			})
-	}
 </script>
 
 <div id="gnb">

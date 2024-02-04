@@ -1,6 +1,6 @@
 <script>
 	import { Router, Route } from "svelte-routing";
-	import Main from "../main/Main.svelte";
+	import Main from "../issue/Main.svelte";
 	import Login from "../login/src/Login.svelte";
 </script>
 

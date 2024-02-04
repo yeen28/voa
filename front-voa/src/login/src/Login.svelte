@@ -1,5 +1,5 @@
 <script>
-import Gnb from "../../Component/Gnb.svelte";
+import Gnb from "../../component/Gnb.svelte";
 </script>
 
 <Gnb/>

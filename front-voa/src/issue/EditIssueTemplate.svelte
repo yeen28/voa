@@ -1,4 +1,108 @@
 <script>
+	function getIssueStatus(id) {
+		const elIssueStatusSelect = document.getElementById(id);
+		return elIssueStatusSelect.options[elIssueStatusSelect.selectedIndex].value;
+	}
+
+	function getIssueTypeId(id) {
+		const elIssueTypeSelect = document.getElementById(id);
+		return elIssueTypeSelect.options[elIssueTypeSelect.selectedIndex].value
+	}
+
+	function getIssueRank(id) {
+		const elIssueRankSelect = document.getElementById(id);
+		return elIssueRankSelect.options[elIssueRankSelect.selectedIndex].value
+	}
+
+	function getIssueOwner(id) {
+		const elIssueOwnerSelect = document.getElementById(id);
+		return elIssueOwnerSelect.options[elIssueOwnerSelect.selectedIndex].value
+	}
+
+	function getIssueReporter(id) {
+		const elIssueReporterSelect = document.getElementById(id);
+		return elIssueReporterSelect.options[elIssueReporterSelect.selectedIndex].value
+	}
+
+	function getIssueTitle(id) {
+		const elTitleInput = document.getElementById(id);
+		return elTitleInput.value;
+	}
+
+	function getIssueVersion(id) {
+		const elVersionInput = document.getElementById(id);
+		return elVersionInput.value;
+	}
+
+	function getIssueLabel(id) {
+		const elLabelInput = document.getElementById(id);
+		return elLabelInput.value;
+	}
+
+	function getIssueRelation(id) {
+		const elRelationInput = document.getElementById(id);
+		return elRelationInput.value;
+	}
+
+	function getIssueEnv(id) {
+		const elEnvContent = document.getElementById(id);
+		return elEnvContent.value;
+	}
+
+	function getIssueDesc(id) {
+		const elDescContent = document.getElementById(id);
+		return elDescContent.value;
+	}
+
+	function updateIssue() {
+		const issueId = document.getElementById('edit-issue').getAttribute('data-issue-id');
+
+		//WIP request
+		fetch(`/issue/${issueId}`, {
+			method: 'PUT',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({
+				projectId: '1', //TODO projectId
+				issueStatus: 'TO_DO', // issueStatus: getIssueStatus('issue-edit-status-select'),
+				issueTypeId: getIssueTypeId('issue-edit-type-select'),
+				title: getIssueTitle('issue-edit-title-input'),
+				labelNames: getIssueLabel('issue-edit-label-input').split(','),
+				versionNames: getIssueVersion('issue-edit-version-input').split(','),
+				env: getIssueEnv('issue-edit-env-content'),
+				description: getIssueDesc('issue-edit-desc-content'),
+				rank: '1', //TODO rank
+				ownerId: '1', //TODO ownerId
+				reporterId: '1', //TODO reporterId
+				issueLink: getIssueRelation('issue-edit-relation-input')
+			})
+		})
+			.then(response => response.json())
+			.then(newIssue => {
+				console.log(newIssue);
+				if (document.getElementById('issue-track-body').classList.contains('hide')) {
+					// this.render.rendIssueIntoTable(newIssue);
+				} else {
+					// this.render.rendIssueIntoBoard(newIssue);
+				}
+
+				const elEditIssue = document.getElementById('edit-issue');
+				elEditIssue.classList.add('hide');
+			})
+			.catch(error => {
+				const elEditIssue = document.getElementById('edit-issue');
+				elEditIssue.classList.add('hide');
+				console.log(error);
+			});
+
+		closeEditTemplate();
+	}
+
+	function closeEditTemplate() {
+		const elEditIssue = document.getElementById('edit-issue');
+		elEditIssue.classList.add('hide');
+	}
 </script>
 
 <div id="edit-issue" class="hide">
@@ -111,7 +215,7 @@
 		</div>
 	</div>
 	<div class="issue-footer-wrap">
-		<button class="create-issue-btn button" data-obj="render" data-cmd="updateIssue">확인</button>
-		<button id="cancel-edit-issue" class="cancel-issue-btn" data-obj="render" data-cmd="cancelEditIssue">취소</button>
+		<button class="create-issue-btn button" data-obj="render" on:click={updateIssue}>확인</button>
+		<button id="cancel-edit-issue" class="cancel-issue-btn" data-obj="render" on:click={closeEditTemplate}>취소</button>
 	</div>
 </div>

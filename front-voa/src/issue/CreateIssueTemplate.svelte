@@ -1,4 +1,41 @@
 <script>
+	function create() {
+		fetch('/issue', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			// TODO 모델로 만들어서 입력한 값을 백으로 넘겨주기
+			body: JSON.stringify({
+				issueTypeId: 1,
+				title: 'voa issue',
+				rank: 1,
+				versionNames: ['2305'],
+				ownerId: 1,
+				reporterId: 1,
+				env: 'Windows',
+				description: '이슈생성합니다.',
+				labelNames: ['라벨'],
+				issueLinkType: 1,
+				issueLink: 'ISSUE-01'
+			})
+		})
+			.then(response => response.json())
+			.then(response => {
+				console.log(response);
+				closeTemplate();
+			})
+			.catch(e => console.log(e));
+	}
+
+	function closeTemplate() {
+		const elCreateIssue = document.getElementById('create-issue');
+		const elContents = document.getElementsByClassName('contents')[0];
+		const elGnb = document.getElementById('gnb');
+		elCreateIssue.classList.add('hide');
+		elGnb.classList.remove('hidden');
+		elContents.classList.remove('hidden');
+	}
 </script>
 
 <div id="create-issue" class="hide">
@@ -118,7 +155,7 @@
 		</div>
 	</div>
 	<div class="issue-footer-wrap">
-		<button class="create-issue-btn button" data-obj="issueManager" data-cmd="create">만들기</button>
-		<button id="cancel-issue" class="cancel-issue-btn" data-obj="issueManager" data-cmd="cancel">취소</button>
+		<button class="create-issue-btn button" data-obj="issueManager" on:click={create}>만들기</button>
+		<button id="cancel-issue" class="cancel-issue-btn" data-obj="issueManager" on:click={closeTemplate}>취소</button>
 	</div>
 </div>

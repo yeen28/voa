@@ -1,6 +1,6 @@
-import App from './App.svelte';
+import Route from "./routes/Route.svelte";
 
-const app = new App({
+const app = new Route({
 	target: document.body
 });
 

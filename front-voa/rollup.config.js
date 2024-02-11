@@ -24,11 +24,11 @@ export default entries.map( entryName =>
 		},
 		plugins: [
 			commonjs(),
-			css(),
+			css({ output: 'bundle.css' }),
 			svelte({
 				dev: !production,
 				css: css => {
-					css.write('public/build/bundle.css');
+					css.write('../src/main/resources/static/dist/bundle.css');
 				}
 			}),
 			resolve({

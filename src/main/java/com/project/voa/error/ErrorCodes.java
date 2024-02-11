@@ -6,6 +6,9 @@ public enum ErrorCodes {
 	@Schema(description = "이메일 중복")
 	DUPLICATED_EMAIL,
 
+	@Schema(description = "존재하지 않는 사용자")
+	USER_NOT_FOUND,
+
 	@Schema(description = "존재하지 않는 이슈")
 	ISSUE_NOT_FOUND,
 

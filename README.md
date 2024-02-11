@@ -11,14 +11,24 @@ username: ${DB_USERNAME:your mariaDB id}
 password: ${DB_PASSWORD:your mariaDB password}
 ```
 
-2. Build front-end
-```bash
-$ cd front-voa
-$ npm i
-  # "svelte" version Must be "^3.39.0"
-$ npm run dev
-  # or npm run build
-```
+2. Build front-end  <br/> 
+   <u>(You can choose one of the following options to use.)</u>
+   1. vanilla JS
+   ```bash
+   $ cd src/main/resources/static
+   $ npm i
+   $ npm run bundle
+     # or npm run watch
+   ```
+   OR
+   2. svelte
+   ```bash
+   $ cd front-voa
+   $ npm i
+     # "svelte" version Must be "^3.39.0"
+   $ npm run dev
+     # or npm run build
+   ```
 
 ## Requirements
 

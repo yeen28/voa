@@ -25,7 +25,6 @@ password: ${DB_PASSWORD:your mariaDB password}
    ```bash
    $ cd front-voa
    $ npm i
-     # "svelte" version Must be "^3.39.0"
    $ npm run dev
      # or npm run build
    ```

@@ -5,6 +5,7 @@ import com.project.voa.dto.UserInfoDto;
 import com.project.voa.service.UserInfoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,10 +37,10 @@ public class UserInfoController {
 	}
 
 	@Operation(summary = "로그인 성공/실패")
-	@Parameter(name = "loginUserInfo", description = "로그인을 합니다.", example = "{\"email\": email@voa.com\",\"password\":\"123\"}")
+	@Parameter(name = "loginUserInfo", example = "{\"email\": voa@voa.com\",\"password\":\"123\"}")
 	@PostMapping("/login/user")
-	public ResponseEntity<Object> login(@RequestBody LoginUserInfoDto dto) {
-		// TODO 임시. 실제 로그인 구현으로 수정 필요.
-		return new ResponseEntity<>(userInfoService.login(dto), HttpStatus.OK);
+	public ModelAndView login(@Valid @RequestBody LoginUserInfoDto dto) {
+		ModelAndView mv = new ModelAndView("main");
+		return mv;
 	}
 }

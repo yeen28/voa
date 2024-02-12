@@ -9,3 +9,7 @@ spring:
     multipart:
       enabled: true # 파일 업로드 가능 여부
       location: C:\\upload\
+
+# JWT를 위해서 영문숫자 조합의 32글자 이상의 키가 필요
+jwt:
+  secret: # 다음 명령어로 생성한 암호키. -> $ openssl rand -hex 32

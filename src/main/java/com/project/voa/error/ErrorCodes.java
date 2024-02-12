@@ -9,6 +9,12 @@ public enum ErrorCodes {
 	@Schema(description = "존재하지 않는 사용자")
 	USER_NOT_FOUND,
 
+	@Schema(description = "권한 정보가 없는 토큰")
+	NOT_AUTHORIZATION_TOKEN,
+
+	@Schema(description = "권한 정보가 없는 토큰")
+	EMAIL_NOT_FOUND,
+
 	@Schema(description = "존재하지 않는 이슈")
 	ISSUE_NOT_FOUND,
 

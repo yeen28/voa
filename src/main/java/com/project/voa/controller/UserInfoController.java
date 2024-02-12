@@ -2,11 +2,13 @@ package com.project.voa.controller;
 
 import com.project.voa.dto.LoginUserInfoDto;
 import com.project.voa.dto.UserInfoDto;
+import com.project.voa.jwt.JwtTokenInfo;
 import com.project.voa.service.UserInfoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -39,8 +41,16 @@ public class UserInfoController {
 	@Operation(summary = "로그인 성공/실패")
 	@Parameter(name = "loginUserInfo", example = "{\"email\": voa@voa.com\",\"password\":\"123\"}")
 	@PostMapping("/login/user")
-	public ModelAndView login(@Valid @RequestBody LoginUserInfoDto dto) {
-		ModelAndView mv = new ModelAndView("main");
-		return mv;
+	public ResponseEntity<Object> login(@Valid @RequestBody LoginUserInfoDto dto) {
+		JwtTokenInfo jwtTokenInfo = userInfoService.login(dto);
+		HttpHeaders httpHeaders = new HttpHeaders();
+		httpHeaders.add("Authorization", "bearer " + jwtTokenInfo.getAccessToken());
+
+		return new ResponseEntity<>(jwtTokenInfo, httpHeaders, HttpStatus.OK);
+	}
+
+	@PostMapping("/signup")
+	public long signup(@RequestBody UserInfoDto userInfoDto) {
+		return userInfoService.signup(userInfoDto);
 	}
 }

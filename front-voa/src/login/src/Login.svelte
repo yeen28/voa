@@ -5,19 +5,36 @@
 		email: '',
 		password: ''
 	}
-	let loginForm;
 
 	function login() {
-		// TODO 추후 제거 필요
-		loginInput.email = "admin@email.com";
-		loginInput.password = "123";
-
 		if (loginInput.email === '' || loginInput.password === '') {
 			alert('이메일 또는 비밀번호를 입력해 주세요.');
 			return;
 		}
 
-		loginForm.submit();
+		fetch('/login/user', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({'email':loginInput.email, 'password':loginInput.password})
+		})
+			.then(response => {
+				if (!response.ok) {
+					alert('아이디 비밀번호가 올바르지 않습니다.');
+					return;
+				}
+
+				const token = response.headers.get('Authorization').substring(7);
+				response.json();
+			})
+			.then(response => {
+				if (response) {
+					console.log(response);
+					window.location.href = '/main';
+				}
+			})
+			.catch(e => console.log(e));
 	}
 </script>
 
@@ -34,11 +51,6 @@
 		<Checkbox class="mb-6">Remember me</Checkbox>
 		<Button color="blue" type="submit" on:click={login}>Login</Button>
 	</div>
-
-	<form bind:this={loginForm} method="post" action="/login/user">
-		<input type="hidden" name="email" bind:value={loginInput.email}>
-		<input type="hidden" name="password" bind:value={loginInput.password}>
-	</form>
 </section>
 
 <style>

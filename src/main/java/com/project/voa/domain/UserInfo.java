@@ -1,11 +1,15 @@
 package com.project.voa.domain;
 
+import com.project.voa.dto.UserInfoDto;
 import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
 @Getter
 @Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserInfo {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,4 +26,13 @@ public class UserInfo {
 
 	@Column
 	private String profile;
+
+	public static UserInfo of(UserInfoDto userInfoDto) {
+		return UserInfo.builder()
+				.userEmail(userInfoDto.getUserEmail())
+				.userName(userInfoDto.getUserName())
+				.password(userInfoDto.getPassword())
+				.profile(userInfoDto.getProfile())
+				.build();
+	}
 }

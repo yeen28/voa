@@ -31,13 +31,4 @@ public class ExceptionController {
 		}
 		throw new IOException();
 	}
-
-	@ExceptionHandler(value = SecurityException.class)
-	public ResponseEntity<ErrorResponse> securityException(SecurityException e) throws SecurityException {
-		String errorCode = e.getMessage();
-		if (ErrorCodes.USER_NOT_FOUND.name().equals(errorCode)) {
-			return ErrorResponse.toResponseEntity(errorCode, HttpStatus.FORBIDDEN);
-		}
-		throw new SecurityException();
-	}
 }

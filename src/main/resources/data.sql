@@ -6,5 +6,6 @@ VALUES ('버그', now(), now()),
        ('스토리', now(), now());
 
 -- admin 자동 추가
+-- admin 자동 추가 ( email: admin@email.com, password: admin )
 INSERT INTO user_info (user_name, user_email, password, profile)
-VALUES ('admin', 'admin@email.com', '123', '')
+VALUES ('admin', 'admin@email.com', '$2a$08$lDnHPz7eUkSi6ao14Twuau08mzhWrL4kyZGGU5xfiGALO/Vxd5DOi', '');

@@ -6,6 +6,8 @@ import com.project.voa.jwt.JwtTokenInfo;
 import com.project.voa.service.UserInfoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -13,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 @RestController
 @RequiredArgsConstructor
@@ -44,13 +47,8 @@ public class UserInfoController {
 	public ResponseEntity<Object> login(@Valid @RequestBody LoginUserInfoDto dto) {
 		JwtTokenInfo jwtTokenInfo = userInfoService.login(dto);
 		HttpHeaders httpHeaders = new HttpHeaders();
-		httpHeaders.add("Authorization", "bearer " + jwtTokenInfo.getAccessToken());
+		httpHeaders.add("Authorization", "Bearer " + jwtTokenInfo.getAccessToken());
 
 		return new ResponseEntity<>(jwtTokenInfo, httpHeaders, HttpStatus.OK);
-	}
-
-	@PostMapping("/signup")
-	public long signup(@RequestBody UserInfoDto userInfoDto) {
-		return userInfoService.signup(userInfoDto);
 	}
 }

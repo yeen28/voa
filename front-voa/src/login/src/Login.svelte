@@ -1,5 +1,6 @@
 <script>
 	import { Label, Input, Checkbox, Button } from 'flowbite-svelte';
+	import { setCookie, getCookie } from '../../utils/CookieUtils.js';
 
 	let loginInput = {
 		email: '',
@@ -25,13 +26,17 @@
 					return;
 				}
 
-				const token = response.headers.get('Authorization').substring(7);
-				response.json();
+				setCookie('token', response.headers.get('Authorization'), 30);
+				return response.json();
 			})
 			.then(response => {
 				if (response) {
-					console.log(response);
-					window.location.href = '/main';
+					fetch('/main', {
+						method: 'GET',
+						headers: {
+							'Authorization': getCookie('token')
+						}
+					})
 				}
 			})
 			.catch(e => console.log(e));

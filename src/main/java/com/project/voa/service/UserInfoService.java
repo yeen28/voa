@@ -28,7 +28,6 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class UserInfoService {
 	private final UserInfoRepository userInfoRepository;
-	private final PasswordEncoder encoder;
 	private final JwtTokenProvider jwtTokenProvider;
 	private final AuthenticationManagerBuilder authenticationManagerBuilder;
 
@@ -71,40 +70,5 @@ public class UserInfoService {
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 		// 검증된 인증 정보로 JWT 토큰 생성
 		return jwtTokenProvider.generateToken(authentication);
-	}
-
-	/**
-	 * session으로 인증하는 로그인
-	 * @param dto
-	 * @return
-	 */
-	@Transactional
-	public String sessionLogin(final LoginUserInfoDto dto) {
-		UserInfo userInfo = userInfoRepository.findUserInfoByUserEmail(dto.getEmail());
-
-		// TODO 존재하지 않는 사용자에 대한 예외처리 수정 필요
-		if (Objects.isNull(userInfo)) {
-			throw new SecurityException(ErrorCodes.USER_NOT_FOUND.name());
-		}
-
-		if (userInfo.getPassword().equals(dto.getPassword())) {
-			return "";
-		}
-
-		// TODO 비밀번호 틀렸을 때 처리 필요
-		return "";
-	}
-
-	public long signup(final UserInfoDto userInfoDto) {
-//		boolean check = checkEmailExists(userInfoDto.getUserEmail());
-
-//		if (check) {
-//			throw new IllegalArgumentException("이미 존재하는 유저입니다.");
-//		}
-
-		UserInfo userInfo = UserInfo.of(userInfoDto);
-		userInfo.setPassword(encoder.encode(userInfoDto.getPassword()));
-
-		return userInfoRepository.save(userInfo).getId();
 	}
 }

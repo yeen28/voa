@@ -16,31 +16,27 @@ import java.util.stream.Stream;
 
 @Component("userDetailsService")
 public class CustomUserDetailsService implements UserDetailsService {
-   private final UserInfoRepository userRepository;
+	private final UserInfoRepository userRepository;
 
-   public CustomUserDetailsService(UserInfoRepository userRepository) {
-      this.userRepository = userRepository;
-   }
+	public CustomUserDetailsService(UserInfoRepository userRepository) {
+		this.userRepository = userRepository;
+	}
 
-   @Override
-   @Transactional
-   public UserDetails loadUserByUsername(final String username) {
-      return userRepository.findByUserEmail(username)
-         .map(user -> createUser(username, user))
-         .orElseThrow(() -> new UsernameNotFoundException(username + " -> 데이터베이스에서 찾을 수 없습니다."));
-   }
+	@Override
+	@Transactional
+	public UserDetails loadUserByUsername(final String username) {
+		return userRepository.findByUserEmail(username)
+				.map(user -> createUser(username, user))
+				.orElseThrow(() -> new UsernameNotFoundException(username + " -> 데이터베이스에서 찾을 수 없습니다."));
+	}
 
-   private org.springframework.security.core.userdetails.User createUser(String username, UserInfo user) {
-//      if (!user.isActivated()) {
-//         throw new RuntimeException(username + " -> 활성화되어 있지 않습니다.");
-//      }
+	private org.springframework.security.core.userdetails.User createUser(String username, UserInfo user) {
+		List<GrantedAuthority> grantedAuthorities = Stream.of("ROLE_ADMIN", "ROLE_USER")
+				.map(SimpleGrantedAuthority::new)
+				.collect(Collectors.toList());
 
-      List<GrantedAuthority> grantedAuthorities = Stream.of("ROLE_ADMIN", "ROLE_USER")
-              .map(SimpleGrantedAuthority::new)
-              .collect(Collectors.toList());
-
-      return new org.springframework.security.core.userdetails.User(user.getUserEmail(),
-              user.getPassword(),
-              grantedAuthorities);
-   }
+		return new org.springframework.security.core.userdetails.User(user.getUserEmail(),
+				user.getPassword(),
+				grantedAuthorities);
+	}
 }

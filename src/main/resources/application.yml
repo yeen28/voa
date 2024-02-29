@@ -10,6 +10,6 @@ spring:
       enabled: true # 파일 업로드 가능 여부
       location: C:\\upload\
 
-# JWT를 위해서 영문숫자 조합의 32글자 이상의 키가 필요
+# HS512 알고리즘을 사용할 것이기 때문에 512bit, 즉 64byte 이상의 secret key가 필요
 jwt:
-  secret: # 다음 명령어로 생성한 암호키. -> $ openssl rand -hex 32
+  secret: c2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQtc2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQK

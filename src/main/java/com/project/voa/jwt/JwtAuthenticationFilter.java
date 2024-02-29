@@ -1,5 +1,7 @@
 package com.project.voa.jwt;
 
+import com.project.voa.type.JwtType;
+import com.project.voa.utils.CookieUtils;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRequest;
@@ -25,8 +27,8 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain) throws IOException, ServletException {
 		// 1. Request Header에서 JWT token 추출
 		HttpServletRequest httpServletRequest = (HttpServletRequest) request;
-		String token = resolveToken(httpServletRequest);
 		String requestURI = httpServletRequest.getRequestURI();
+		String token = resolveToken(httpServletRequest);
 
 		// 2. validateToken으로 token 유효성 검사
 		if (StringUtils.hasText(token) && jwtTokenProvider.validateToken(token)) {
@@ -40,11 +42,17 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
 		filterChain.doFilter(request, response);
 	}
 
-	// Request Header에서 token 정보 추출
+	/**
+	 * Request Header에서 token 정보 추출.
+	 * Request Header에 token 정보가 없다면 Cookie에서 정보 추출.
+	 */
 	private String resolveToken(HttpServletRequest request) {
 		String bearerToken = request.getHeader(AUTHORIZATION_HEADER);
+		if (!StringUtils.hasText(bearerToken)) {
+			bearerToken = String.format("%s %s", JwtType.BEARER.getValue(), CookieUtils.getCookie(request, "token"));
+		}
 
-		if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
+		if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(JwtType.BEARER.getValue())) {
 			return bearerToken.substring(7);
 		}
 

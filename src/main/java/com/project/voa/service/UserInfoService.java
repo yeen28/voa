@@ -8,6 +8,8 @@ import com.project.voa.jwt.JwtTokenInfo;
 import com.project.voa.jwt.JwtTokenProvider;
 import com.project.voa.repository.UserInfoRepository;
 import com.project.voa.error.ErrorCodes;
+import com.project.voa.utils.CookieUtils;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DuplicateKeyException;
@@ -16,10 +18,10 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Duration;
 import java.util.List;
 import java.util.Objects;
 
@@ -58,7 +60,7 @@ public class UserInfoService {
 	 * @return 이동할 URL
 	 */
 	@Transactional
-	public JwtTokenInfo login(final LoginUserInfoDto dto) {
+	public JwtTokenInfo login(HttpServletResponse response, final LoginUserInfoDto dto) {
 		UserInfo userInfo = userInfoRepository.findUserInfoByUserEmail(dto.getEmail());
 		if (Objects.isNull(userInfo)) {
 			throw new UsernameNotFoundException(ErrorCodes.EMAIL_NOT_FOUND.name());
@@ -69,6 +71,17 @@ public class UserInfoService {
 		Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 		// 검증된 인증 정보로 JWT 토큰 생성
-		return jwtTokenProvider.generateToken(authentication);
+		JwtTokenInfo jwtTokenInfo = jwtTokenProvider.generateToken(authentication);
+
+		// token을 쿠키에 저장
+		CookieUtils.setCookie(
+				response,
+				"token",
+				jwtTokenInfo.getAccessToken(),
+				(int)Duration.ofDays(1).toSeconds(),
+				"/",
+				true);
+		// 검증된 인증 정보로 JWT 토큰 생성
+		return jwtTokenInfo;
 	}
 }

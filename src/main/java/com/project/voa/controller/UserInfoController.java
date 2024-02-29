@@ -4,9 +4,9 @@ import com.project.voa.dto.LoginUserInfoDto;
 import com.project.voa.dto.UserInfoDto;
 import com.project.voa.jwt.JwtTokenInfo;
 import com.project.voa.service.UserInfoService;
+import com.project.voa.type.JwtType;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +15,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.view.RedirectView;
 
 @RestController
 @RequiredArgsConstructor
@@ -36,7 +35,7 @@ public class UserInfoController {
 	}
 
 	@Operation(summary = "로그인 화면")
-	@GetMapping("login")
+	@GetMapping("/login")
 	public ModelAndView login() {
 		return new ModelAndView("components/login");
 	}
@@ -44,10 +43,10 @@ public class UserInfoController {
 	@Operation(summary = "로그인 성공/실패")
 	@Parameter(name = "loginUserInfo", example = "{\"email\": voa@voa.com\",\"password\":\"123\"}")
 	@PostMapping("/login/user")
-	public ResponseEntity<Object> login(@Valid @RequestBody LoginUserInfoDto dto) {
-		JwtTokenInfo jwtTokenInfo = userInfoService.login(dto);
+	public ResponseEntity<Object> login(HttpServletResponse response, @Valid @RequestBody LoginUserInfoDto dto) {
+		JwtTokenInfo jwtTokenInfo = userInfoService.login(response, dto);
 		HttpHeaders httpHeaders = new HttpHeaders();
-		httpHeaders.add("Authorization", "Bearer " + jwtTokenInfo.getAccessToken());
+		httpHeaders.add("Authorization", JwtType.BEARER.getValue() + " " + jwtTokenInfo.getAccessToken());
 
 		return new ResponseEntity<>(jwtTokenInfo, httpHeaders, HttpStatus.OK);
 	}

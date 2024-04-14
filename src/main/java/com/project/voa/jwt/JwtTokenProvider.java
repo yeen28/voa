@@ -123,12 +123,12 @@ public class JwtTokenProvider implements InitializingBean {
 		return false;
 	}
 
-	private Claims parseClaims(String accessToekn) {
+	private Claims parseClaims(String accessToken) {
 		try {
 			return Jwts.parserBuilder()
 					.setSigningKey(key)
 					.build()
-					.parseClaimsJws(accessToekn)
+					.parseClaimsJws(accessToken)
 					.getBody();
 		} catch (ExpiredJwtException e) {
 			return e.getClaims();

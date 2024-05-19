@@ -28,7 +28,18 @@ password: ${DB_PASSWORD:your mariaDB password}
    $ npm run dev
      # or npm run build
    ```
-
+   
+3. Setting up a development environment in the <u>Svelte</u> environment
+   1. DB insert
+      - ```
+        INSERT INTO user_info (user_name, user_email, password, profile)
+        VALUES ('admin', 'admin@email.com', '$2a$08$lDnHPz7eUkSi6ao14Twuau08mzhWrL4kyZGGU5xfiGALO/Vxd5DOi', '');
+        ```
+   2. localhost:{port}/login
+   3. ID: admin@email.com <br/>
+      PW: admin
+   4. localhost:{port}/main
+   
 ## Requirements
 
 Java 17<br/>

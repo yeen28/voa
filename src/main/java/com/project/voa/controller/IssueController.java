@@ -40,12 +40,11 @@ public class IssueController {
 	}
 
 	@Operation(summary = "이슈 상태 업데이트")
-	@PutMapping("/issue/{id}/status")
+	@PutMapping("/issue/{id}/status/{status}")
 	public ResponseEntity<Object> updateIssueStatus(
 			@PathVariable("id") long id,
-			@RequestParam IssueStatus issueStatus) {
-		issueService.updateIssueStatus(id, issueStatus);
-		return new ResponseEntity<>(HttpStatus.OK);
+			@PathVariable("status") IssueStatus status) {
+		return new ResponseEntity<>(issueService.updateIssueStatus(id, status), HttpStatus.OK);
 	}
 
 	@Operation(summary = "이슈 내용 수정", description = "이슈 내용을 수정합니다.")

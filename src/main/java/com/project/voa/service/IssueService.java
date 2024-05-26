@@ -83,11 +83,12 @@ public class IssueService {
 	 * @param id
 	 * @param issueStatus
 	 */
-	public void updateIssueStatus(final long id, IssueStatus issueStatus) {
+	public IssueModel updateIssueStatus(final long id, IssueStatus issueStatus) {
 		Issue issue = issueRepository.findById(id).orElseThrow(() ->
 				new EntityNotFoundException(ErrorCodes.ISSUE_NOT_FOUND.name()));
 		issue.setIssueStatus(issueStatus);
-		issueRepository.save(issue);
+
+		return IssueModel.of(issueRepository.save(issue));
 	}
 
 	/**

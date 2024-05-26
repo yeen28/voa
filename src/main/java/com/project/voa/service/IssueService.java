@@ -99,7 +99,7 @@ public class IssueService {
 		Issue issue = issueRepository.findById(id).orElseThrow(() ->
 				new EntityNotFoundException(ErrorCodes.ISSUE_NOT_FOUND.name()));
 
-		IssueType issueType = issueTypeRepository.findById(issueDTO.getIssueTypeId()).orElseThrow(() ->
+		IssueType issueType = issueTypeRepository.findById(id).orElseThrow(() ->
 				new EntityNotFoundException(ErrorCodes.ISSUE_TYPE_NOT_FOUND.name()));
 		List<Version> versions = upsertVersions(issueDTO.getVersionNames());
 		List<Label> labels = upsertLabels(issueDTO.getLabelNames());

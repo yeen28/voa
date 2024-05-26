@@ -1,13 +1,30 @@
 <script>
 	export let issue;
 	export let onClick;
+	export let onDragStart;
+	export let onDragEnd;
 
 	function handleClick() {
 		onClick(issue.id);
 	}
+
+	function handleDragStart(event) {
+		onDragStart(issue.id, event);
+	}
+
+	function handleDragEnd(event) {
+		onDragEnd(issue.id, event);
+	}
 </script>
 
-<div class="issue-card" data-id={issue.id} on:click={handleClick}>
+<div
+		class="issue-card"
+		data-id={issue.id}
+		on:click={handleClick}
+		draggable="true"
+		on:dragstart={handleDragStart}
+		on:dragend={handleDragEnd}
+>
 	<div class="issue-card-title issue-item-attr">
 		<span class="issue-card-title-icon"></span>
 		<span class="issue-card-title-text">{issue.title}</span>
@@ -19,6 +36,7 @@
 </div>
 
 <style>
-    .issue-card {
-    }
+	.issue-card {
+		cursor: grab;
+	}
 </style>

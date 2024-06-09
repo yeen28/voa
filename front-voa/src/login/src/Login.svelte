@@ -53,7 +53,9 @@
 
 <style>
     section {
-        width: 100%;
+        height: 100vh;
+        margin: 0;
+        align-content: center;
     }
 
     .form-wrap {

@@ -12,6 +12,7 @@ import java.util.Objects;
 public class IssueModel {
 	private String id;
 	private String title;
+	private long typeId;
 	private String issueType;
 	private String rank;
 	private List<String> versionNames;
@@ -30,6 +31,7 @@ public class IssueModel {
 		return IssueModel.builder()
 				.id(String.valueOf(issue.getId()))
 				.title(issue.getTitle())
+				.typeId(issue.getIssueType().getId())
 				.issueType(issue.getIssueType().getName())
 				.rank(String.valueOf(issue.getRank()))
 				.versionNames(Objects.isNull(issue.getVersions()) ?

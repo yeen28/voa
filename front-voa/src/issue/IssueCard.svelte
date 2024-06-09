@@ -38,5 +38,6 @@
 <style>
 	.issue-card {
 		cursor: grab;
+		width: initial;
 	}
 </style>

@@ -9,7 +9,7 @@ import java.util.List;
 @Getter
 @Setter
 public class IssueDTO {
-	private long issueTypeId;
+	private long typeId;
 	private String title;
 	private long rank;
 	private List<String> versionNames;

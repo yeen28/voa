@@ -1,12 +1,13 @@
 <script>
 	import {createEventDispatcher, onMount} from 'svelte';
+	import {Button, Textarea, Select, Input} from 'flowbite-svelte';
 	export let issue = null;
 	const dispatch = createEventDispatcher();
 
 	let updatedIssue = {
-		issueTypeId: 0,
+		typeId: 0,
 		title: '',
-		rank: '',
+		rank: 0,
 		versionNames: '',
 		ownerId: 0,
 		reporterId: 0,
@@ -17,11 +18,23 @@
 		issueLink: '',
 		issueStatus: '',
 	};
+	let rankOptions = [
+		{ value: 1, name: '🔥주요' },
+		{ value: 2, name: '💥크리티컬' },
+		{ value: 3, name: '➖마이너' },
+		{ value: 4, name: '↘️사소한' }
+	];
+	let typeOptions = [
+		{ value: 1, name: '🐞버그' },
+		{ value: 2, name: '✅작업' },
+		{ value: 3, name: '💡개선사항' },
+		{ value: 4, name: '📋스토리' }
+	];
 
 	// Issue data initialization
 	onMount(() => {
 		if (issue) {
-			updatedIssue.issueTypeId = issue.id;
+			updatedIssue.typeId = issue.typeId;
 			updatedIssue.issueStatus = issue.issueStatus;
 			updatedIssue.title = issue.title;
 			updatedIssue.rank = issue.rank;
@@ -37,12 +50,13 @@
 	});
 
 	function updateIssue() {
+		updatedIssue.rank = issue.rank;
 		fetch(`/issue/${issue.id}`, {
 			method: 'PUT',
 			headers: {
 				'Content-Type': 'application/json'
 			},
-			body: JSON.stringify(updatedIssue)
+			body: JSON.stringify(issue)
 		})
 			.then(response => response.json())
 			.then(newIssue => {
@@ -51,7 +65,6 @@
 			})
 			.catch(error => {
 				console.log(error);
-				closeEditTemplate();
 			});
 	}
 
@@ -66,7 +79,6 @@
 			})
 			.catch(error => {
 				console.log(error);
-				closeEditTemplate();
 			});
 	}
 
@@ -85,12 +97,7 @@
 					<span class="issue-tiny-text issue-title-align">이슈 유형*</span>
 				</div>
 				<div class="issue-content-wrap">
-					<select bind:value={updatedIssue.issueType}>
-						<option value="1">🐞버그</option>
-						<option value="2">✅작업</option>
-						<option value="3">💡개선사항</option>
-						<option value="4">📋스토리</option>
-					</select>
+					<Select class="mt-2" items={typeOptions} bind:value={updatedIssue.typeId} />
 				</div>
 			</div>
 			<div class="line"></div>
@@ -99,7 +106,7 @@
 					<span class="issue-tiny-text">제목*</span>
 				</div>
 				<div class="issue-content-wrap">
-					<input bind:value={updatedIssue.title} class="issue-input" type="text" />
+					<Input id="small-input" size="sm" placeholder="None" bind:value={updatedIssue.title} class="issue-input" type="text" />
 				</div>
 			</div>
 			<div class="issue-field-wrap">
@@ -107,12 +114,7 @@
 					<span class="issue-tiny-text">우선순위</span>
 				</div>
 				<div class="issue-content-wrap">
-					<select bind:value={updatedIssue.rank}>
-						<option value="major">🔥주요</option>
-						<option value="critical">💥크리티컬</option>
-						<option value="minor">➖마이너</option>
-						<option value="trivial">↘️사소한</option>
-					</select>
+					<Select class="mt-2" items={rankOptions} bind:value={issue.rank} />
 				</div>
 			</div>
 			<div class="issue-field-wrap">
@@ -120,7 +122,7 @@
 					<span class="issue-tiny-text issue-title-align">버전</span>
 				</div>
 				<div class="issue-content-wrap">
-					<input bind:value={updatedIssue.versionNames} class="issue-input" type="text" />
+					<Input id="small-input" size="sm" placeholder="None" bind:value={updatedIssue.versionNames} class="issue-input" type="text" />
 				</div>
 			</div>
 			<div class="issue-field-wrap">
@@ -138,7 +140,7 @@
 					<span class="issue-tiny-text issue-title-align">환경</span>
 				</div>
 				<div class="issue-content-wrap">
-					<textarea bind:value={updatedIssue.env}></textarea>
+					<Textarea placeholder="None" rows="4" bind:value={updatedIssue.env}></Textarea>
 				</div>
 			</div>
 			<div class="issue-field-wrap">
@@ -146,7 +148,7 @@
 					<span class="issue-tiny-text">설명</span>
 				</div>
 				<div class="issue-content-wrap">
-					<textarea bind:value={updatedIssue.description}></textarea>
+					<Textarea placeholder="None" rows="4" bind:value={updatedIssue.description}></Textarea>
 				</div>
 			</div>
 			<div class="issue-field-wrap">
@@ -154,7 +156,7 @@
 					<span class="issue-tiny-text">첨부파일</span>
 				</div>
 				<div class="issue-content-wrap">
-					<input class="issue-input" type="text" />
+					<Input id="small-input" size="sm" placeholder="None" class="issue-input" type="text" />
 				</div>
 			</div>
 			<div class="issue-field-wrap">
@@ -162,7 +164,7 @@
 					<span class="issue-tiny-text issue-title-align">라벨</span>
 				</div>
 				<div class="issue-content-wrap">
-					<input bind:value={updatedIssue.labelNames} class="issue-input" type="text" />
+					<Input id="small-input" size="sm" placeholder="None" bind:value={updatedIssue.labelNames} class="issue-input" type="text" />
 				</div>
 			</div>
 			<div class="issue-field-wrap">
@@ -181,17 +183,20 @@
 					<span class="issue-tiny-text issue-title-align">이슈</span>
 				</div>
 				<div class="issue-content-wrap">
-					<input bind:value={updatedIssue.issueLinkType} class="issue-input" type="text" />
+					<Input id="small-input" size="sm" placeholder="None" bind:value={updatedIssue.issueLinkType} class="issue-input" type="text" />
 				</div>
 			</div>
 		</div>
 		<div class="issue-footer-wrap">
-			<button class="create-issue-btn button" on:click={updateIssue}>확인</button>
-			<button class="cancel-issue-btn" on:click={closeEditTemplate}>취소</button>
-			<button class="delete-issue-btn" on:click={deleteIssue}>삭제</button>
+			<Button color="blue" class="create-issue-btn button" on:click={updateIssue}>확인</Button>
+			<Button color="alternative" class="cancel-issue-btn" on:click={closeEditTemplate}>취소</Button>
+			<Button color="red" class="delete-issue-btn" on:click={deleteIssue}>삭제</Button>
 		</div>
 	</div>
 {/if}
 
 <style>
+	#edit-issue {
+		position: initial;
+	}
 </style>

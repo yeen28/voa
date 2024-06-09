@@ -25,7 +25,18 @@
 			.catch(error => console.log(error));
 	});
 
+	function toggleShowDetail() {
+		const elIssueDetail = document.getElementById('issue-track-detail');
+		if (elIssueDetail.classList.contains('hide')) {
+			elIssueDetail.classList.remove('hide');
+		} else {
+			elIssueDetail.classList.add('hide');
+		}
+	}
+
 	function handleIssueClick(id) {
+		toggleShowDetail();
+
 		fetch(`/issue/${id}`)
 			.then(response => response.json())
 			.then(data => {
@@ -86,39 +97,46 @@
 	}
 </script>
 
-<Gnb />
 <section>
+	<Gnb />
 	<div class="contents box track">
-		<div id="issue-track-body">
-			<div class="issue-todo-wrap" on:drop={() => handleDrop(statusEnum.todo)} on:dragover={allowDrop}>
-				<div class="issue-sub-track-title">
-					<span class="text">Todo</span>
+		<div id="issue-track-body-wrap">
+			<div id="issue-track-body">
+				<div class="issue-todo-wrap" on:drop={() => handleDrop(statusEnum.todo)} on:dragover={allowDrop}>
+					<div class="issue-sub-track-title">
+						<span class="text">Todo</span>
+					</div>
+					<div class="issue-item-wrap issue-todo-item-wrap">
+						{#each toDoIssues as issue (issue.id)}
+							<IssueCard {issue} onClick={handleIssueClick} onDragStart={handleDragStart} onDragEnd={allowDrop} on:dragstart={handleDragStart} on:dragend={allowDrop} />
+						{/each}
+					</div>
 				</div>
-				<div class="issue-item-wrap issue-todo-item-wrap">
-					{#each toDoIssues as issue (issue.id)}
-						<IssueCard {issue} onClick={handleIssueClick} onDragStart={handleDragStart} onDragEnd={allowDrop} on:dragstart={handleDragStart} on:dragend={allowDrop} />
-					{/each}
+				<div class="issue-progress-wrap" on:drop={() => handleDrop(statusEnum.progress)} on:dragover={allowDrop}>
+					<div class="issue-sub-track-title">
+						<span class="text">Progress</span>
+					</div>
+					<div class="issue-item-wrap issue-progress-item-wrap">
+						{#each progressIssues as issue (issue.id)}
+							<IssueCard {issue} onClick={handleIssueClick} onDragStart={handleDragStart} onDragEnd={allowDrop} on:dragstart={handleDragStart} on:dragend={allowDrop} />
+						{/each}
+					</div>
+				</div>
+				<div class="issue-resolve-wrap" on:drop={() => handleDrop(statusEnum.resolve)} on:dragover={allowDrop}>
+					<div class="issue-sub-track-title">
+						<span class="text">Resolve</span>
+					</div>
+					<div class="issue-item-wrap issue-resolve-item-wrap">
+						{#each resolveIssues as issue (issue.id)}
+							<IssueCard {issue} onClick={handleIssueClick} onDragStart={handleDragStart} onDragEnd={allowDrop} on:dragstart={handleDragStart} on:dragend={allowDrop} />
+						{/each}
+					</div>
 				</div>
 			</div>
-			<div class="issue-progress-wrap" on:drop={() => handleDrop(statusEnum.progress)} on:dragover={allowDrop}>
-				<div class="issue-sub-track-title">
-					<span class="text">Progress</span>
-				</div>
-				<div class="issue-item-wrap issue-progress-item-wrap">
-					{#each progressIssues as issue (issue.id)}
-						<IssueCard {issue} onClick={handleIssueClick} onDragStart={handleDragStart} onDragEnd={allowDrop} on:dragstart={handleDragStart} on:dragend={allowDrop} />
-					{/each}
-				</div>
-			</div>
-			<div class="issue-resolve-wrap" on:drop={() => handleDrop(statusEnum.resolve)} on:dragover={allowDrop}>
-				<div class="issue-sub-track-title">
-					<span class="text">Resolve</span>
-				</div>
-				<div class="issue-item-wrap issue-resolve-item-wrap">
-					{#each resolveIssues as issue (issue.id)}
-						<IssueCard {issue} onClick={handleIssueClick} onDragStart={handleDragStart} onDragEnd={allowDrop} on:dragstart={handleDragStart} on:dragend={allowDrop} />
-					{/each}
-				</div>
+		</div>
+		<div id="issue-track-detail" class="hide">
+			<div id="issue-track-detail-contents">
+				<EditIssueTemplate issue={selectedIssue} on:close={closeEditModal} on:update={updateIssue} on:delete={deleteIssue} />
 			</div>
 		</div>
 
@@ -144,20 +162,50 @@
 
 	<!-- 이슈 만들기 템플릿  -->
 	<CreateIssueTemplate />
-
-	<!-- 이슈 편집 템플릿  -->
-	{#if selectedIssue}
-		<EditIssueTemplate issue={selectedIssue} on:close={closeEditModal} on:update={updateIssue} on:delete={deleteIssue} />
-	{/if}
 </section>
 
 <style>
+	:global(body) {
+		width: initial;
+		margin: 30px auto 0 !important;
+	}
+
+	section {
+		justify-self: center;
+		display: grid;
+		gap: 15px;
+		margin: 0 35px;
+	}
+
 	.issue-item-wrap {
 		min-height: 200px;
 		border: 2px dashed #ccc;
 		padding: 10px;
 	}
-	.issue-item-wrap.over {
-		border-color: #666;
+
+	#issue-track-body {
+		display: grid;
+		grid-template-columns: 1fr 1fr 1fr;
+		height: 100%;
+		text-align: center;
+	}
+
+	.contents.box.track {
+		display: table;
+		table-layout: fixed;
+		width: 100%;
+	}
+
+	#issue-track-body-wrap,
+    #issue-track-detail {
+		display: table-cell;
+		height: inherit;
+		vertical-align: top;
+	}
+
+	#issue-track-detail {
+		width: 450px;
+		font-size: 0.8rem;
+		padding: 35px 0 0 20px;
 	}
 </style>

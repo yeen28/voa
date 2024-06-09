@@ -53,7 +53,7 @@ class IssueServiceTest {
 	private IssueDTO issueDtoSetup() {
 		IssueDTO issueDTO = new IssueDTO();
 		issueDTO.setTitle("issue title");
-		issueDTO.setIssueTypeId(1L);
+		issueDTO.setTypeId(1L);
 		issueDTO.setVersionNames(List.of("version"));
 		issueDTO.setOwnerId(1L);
 		issueDTO.setReporterId(1L);

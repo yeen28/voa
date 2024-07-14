@@ -106,8 +106,6 @@ public class IssueService {
 		List<Label> labels = upsertLabels(issueDTO.getLabelNames());
 		UserInfo owner = userInfoRepository.findById(issueDTO.getOwnerId()).orElseThrow(() ->
 				new EntityNotFoundException(ErrorCodes.OWNER_NOT_FOUND.name()));
-		UserInfo reporter = userInfoRepository.findById(issueDTO.getReporterId()).orElseThrow(() ->
-				new EntityNotFoundException(ErrorCodes.REPORTER_NOT_FOUND.name()));
 
 		issue.setTitle(issueDTO.getTitle());
 		issue.setDescription(issueDTO.getDescription());
@@ -120,7 +118,6 @@ public class IssueService {
 		issue.setIssueLinkType(issueDTO.getIssueLinkType());
 		issue.setRank(issueDTO.getRank());
 		issue.setOwner(owner);
-		issue.setReporter(reporter);
 		// TODO attachment, project는 추후 작업 예정
 
 		return IssueModel.of(issueRepository.save(issue));

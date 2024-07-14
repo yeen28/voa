@@ -1,7 +1,7 @@
 <script>
 	import {createEventDispatcher, onMount} from 'svelte';
 	import {Button, Textarea, Select, Input} from 'flowbite-svelte';
-	export let issue = null;
+	export let issue;
 	const dispatch = createEventDispatcher();
 
 	let updatedIssue = {
@@ -39,7 +39,7 @@
 			updatedIssue.title = issue.title;
 			updatedIssue.rank = issue.rank;
 			updatedIssue.versionNames = issue.versionNames;
-			updatedIssue.ownerId = '1';
+			updatedIssue.ownerId = 1;
 			updatedIssue.env = issue.env;
 			updatedIssue.description = issue.description;
 			updatedIssue.labelNames = issue.labelNames;
@@ -97,7 +97,7 @@
 					<span class="issue-tiny-text issue-title-align">이슈 유형*</span>
 				</div>
 				<div class="issue-content-wrap">
-					<Select class="mt-2" items={typeOptions} bind:value={updatedIssue.typeId} />
+					<Select class="mt-2" items={typeOptions} bind:value={issue.typeId} />
 				</div>
 			</div>
 			<div class="line"></div>
@@ -106,7 +106,7 @@
 					<span class="issue-tiny-text">제목*</span>
 				</div>
 				<div class="issue-content-wrap">
-					<Input id="small-input" size="sm" placeholder="None" bind:value={updatedIssue.title} class="issue-input" type="text" />
+					<Input id="small-input" size="sm" placeholder="None" bind:value={issue.title} class="issue-input" type="text" />
 				</div>
 			</div>
 			<div class="issue-field-wrap">
@@ -122,7 +122,7 @@
 					<span class="issue-tiny-text issue-title-align">버전</span>
 				</div>
 				<div class="issue-content-wrap">
-					<Input id="small-input" size="sm" placeholder="None" bind:value={updatedIssue.versionNames} class="issue-input" type="text" />
+					<Input id="small-input" size="sm" placeholder="None" bind:value={issue.versionNames} class="issue-input" type="text" />
 				</div>
 			</div>
 			<div class="issue-field-wrap">
@@ -130,8 +130,8 @@
 					<span class="issue-tiny-text issue-title-align">담당자*</span>
 				</div>
 				<div class="issue-content-wrap">
-					<select bind:value={updatedIssue.ownerId}>
-						<option value="auto">자동</option>
+					<select bind:value={issue.ownerId}>
+						<option value={issue.ownerId}>자동</option>
 					</select>
 				</div>
 			</div>
@@ -140,7 +140,7 @@
 					<span class="issue-tiny-text issue-title-align">환경</span>
 				</div>
 				<div class="issue-content-wrap">
-					<Textarea placeholder="None" rows="4" bind:value={updatedIssue.env}></Textarea>
+					<Textarea placeholder="None" rows="4" bind:value={issue.env}></Textarea>
 				</div>
 			</div>
 			<div class="issue-field-wrap">
@@ -148,7 +148,7 @@
 					<span class="issue-tiny-text">설명</span>
 				</div>
 				<div class="issue-content-wrap">
-					<Textarea placeholder="None" rows="4" bind:value={updatedIssue.description}></Textarea>
+					<Textarea placeholder="None" rows="4" bind:value={issue.description}></Textarea>
 				</div>
 			</div>
 			<div class="issue-field-wrap">
@@ -164,7 +164,7 @@
 					<span class="issue-tiny-text issue-title-align">라벨</span>
 				</div>
 				<div class="issue-content-wrap">
-					<Input id="small-input" size="sm" placeholder="None" bind:value={updatedIssue.labelNames} class="issue-input" type="text" />
+					<Input id="small-input" size="sm" placeholder="None" bind:value={issue.labelNames} class="issue-input" type="text" />
 				</div>
 			</div>
 			<div class="issue-field-wrap">
@@ -172,7 +172,7 @@
 					<span class="issue-tiny-text">연결된 이슈</span>
 				</div>
 				<div class="issue-content-wrap">
-					<select bind:value={updatedIssue.issueLink}>
+					<select bind:value={issue.issueLink}>
 						<option value="duplicate">다음 이슈와 중복됨</option>
 						<option value="relation">다음 이슈와 연관됨</option>
 					</select>
@@ -183,7 +183,7 @@
 					<span class="issue-tiny-text issue-title-align">이슈</span>
 				</div>
 				<div class="issue-content-wrap">
-					<Input id="small-input" size="sm" placeholder="None" bind:value={updatedIssue.issueLinkType} class="issue-input" type="text" />
+					<Input id="small-input" size="sm" placeholder="None" bind:value={issue.issueLinkType} class="issue-input" type="text" />
 				</div>
 			</div>
 		</div>

@@ -16,6 +16,7 @@ public class IssueModel {
 	private String issueType;
 	private String rank;
 	private List<String> versionNames;
+	private long ownerId;
 	private String ownerName;
 	private String reporterName;
 	private String env;
@@ -37,6 +38,7 @@ public class IssueModel {
 				.versionNames(Objects.isNull(issue.getVersions()) ?
 						null :
 						issue.getVersions().stream().map(Version::getName).toList())
+				.ownerId(issue.getOwner().getId())
 				.ownerName(issue.getOwner().getUserName())
 				.reporterName(issue.getReporter().getUserName())
 				.env(issue.getEnv())

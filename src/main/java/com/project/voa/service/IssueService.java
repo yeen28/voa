@@ -24,7 +24,7 @@ public class IssueService {
 	/**
 	 * 이슈 생성
 	 */
-	public IssueModel createIssue(IssueDTO issueDTO) {
+	public IssueModel createIssue(UserInfo userInfo, IssueDTO issueDTO) {
 		IssueType issueType = issueTypeRepository.findById(issueDTO.getTypeId()).orElseThrow(() ->
 				new EntityNotFoundException(ErrorCodes.ISSUE_TYPE_NOT_FOUND.name()));
 		List<Version> versions = upsertVersions(issueDTO.getVersionNames());

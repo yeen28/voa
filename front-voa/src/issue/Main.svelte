@@ -1,6 +1,5 @@
 <script>
 	import Gnb from '../component/Gnb.svelte';
-	import CreateIssueTemplate from './CreateIssueTemplate.svelte';
 	import EditIssueTemplate from './EditIssueTemplate.svelte';
 	import IssueCard from './IssueCard.svelte';
 	import { onMount } from 'svelte';
@@ -159,9 +158,6 @@
 			<tbody id="issue-table-tbody"></tbody>
 		</table>
 	</div>
-
-	<!-- 이슈 만들기 템플릿  -->
-	<CreateIssueTemplate />
 </section>
 
 <style>

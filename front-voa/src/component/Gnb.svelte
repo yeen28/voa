@@ -1,14 +1,8 @@
 <script>
 	import { Input } from 'flowbite-svelte';
+	import CreateIssueTemplate from "../issue/CreateIssueTemplate.svelte";
 
-	function open() {
-		const elCreateIssue = document.getElementById('create-issue');
-		const elContents = document.getElementsByClassName('contents')[0];
-		const elGnb = document.getElementById('gnb');
-		elCreateIssue.classList.remove('hide');
-		elGnb.classList.add('hidden');
-		elContents.classList.add('hidden');
-	}
+	let showCreateIssue = false;
 </script>
 
 <div id="gnb">
@@ -20,11 +14,14 @@
 		<div class="board" data-obj="render" data-cmd="viewBoard"></div>
 		<div class="table" data-obj="render" data-cmd="viewTable"></div>
 	</div>
-	<div id="createIssue" class="button" on:click={open}>CREATE</div>
+	<div id="createIssue" class="button" on:click={() => showCreateIssue = !showCreateIssue}>CREATE</div>
 	<div class="profile-wrap">
 		<div id="profile-name">Jake</div>
 	</div>
 </div>
+
+<!-- 이슈 만들기 템플릿  -->
+<CreateIssueTemplate showCreateIssue="{showCreateIssue}"/>
 
 <style>
 	#gnb {

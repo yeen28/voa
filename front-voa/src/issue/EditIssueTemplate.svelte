@@ -19,10 +19,10 @@
 		issueStatus: '',
 	};
 	let rankOptions = [
-		{ value: 1, name: '🔥주요' },
-		{ value: 2, name: '💥크리티컬' },
-		{ value: 3, name: '➖마이너' },
-		{ value: 4, name: '↘️사소한' }
+		{ value: "1", name: '🔥주요' },
+		{ value: "2", name: '💥크리티컬' },
+		{ value: "3", name: '➖마이너' },
+		{ value: "4", name: '↘️사소한' }
 	];
 	let typeOptions = [
 		{ value: 1, name: '🐞버그' },

@@ -75,7 +75,7 @@ class IssueServiceTest {
 		when(versionRepository.findByName(anyString())).thenReturn(Optional.of(version));
 		when(labelRepository.findByName(anyString())).thenReturn(Optional.of(label));
 
-		issueService.createIssue(issueDTO);
+		issueService.createIssue(userInfo, issueDTO);
 
 		verify(issueRepository, times(1)).save(any(Issue.class));
 	}

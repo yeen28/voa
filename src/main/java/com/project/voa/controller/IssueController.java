@@ -25,7 +25,7 @@ public class IssueController {
 	public ResponseEntity<Object> createIssue(
 			@RequestBody IssueDTO issueDTO,
 			final UserInfo userInfo) {
-		return new ResponseEntity<>(issueService.createIssue(issueDTO), HttpStatus.OK);
+		return new ResponseEntity<>(issueService.createIssue(userInfo, issueDTO), HttpStatus.OK);
 	}
 
 	@PreAuthorize("hasRole('ROLE_USER')")

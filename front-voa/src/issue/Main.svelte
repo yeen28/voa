@@ -24,22 +24,35 @@
 			.catch(error => console.log(error));
 	});
 
-	function toggleShowDetail() {
+	function toggleIssueDetailVisibility(id) {
 		const elIssueDetail = document.getElementById('issue-track-detail');
-		if (elIssueDetail.classList.contains('hide')) {
-			elIssueDetail.classList.remove('hide');
-		} else {
-			elIssueDetail.classList.add('hide');
+		const isShow = id !== elIssueDetail.getAttribute('issue-id');
+
+		elIssueDetail.classList.toggle('hide', !isShow);
+
+		if (!isShow) {
+			elIssueDetail.removeAttribute('issue-id');
+			selectedIssue = null;
 		}
+
+		return isShow;
 	}
 
 	function handleIssueClick(id) {
-		toggleShowDetail();
+		if (toggleIssueDetailVisibility(id)) {
+			fetchIssueDetail(id);
+		}
+	}
 
+	function fetchIssueDetail(id) {
 		fetch(`/issue/${id}`)
 			.then(response => response.json())
 			.then(data => {
-				selectedIssue = data;
+				if (data) {
+					const elIssueDetail = document.getElementById('issue-track-detail');
+					elIssueDetail.setAttribute('issue-id', data?.id);
+					selectedIssue = data;
+				}
 			})
 			.catch(error => console.log(error));
 	}

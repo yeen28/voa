@@ -5,10 +5,19 @@ Plan, track and manage agile and software development projects.
 ## Quick Build
 
 1. Modify application.yml
-```
-<!-- DB -->
+```yaml
+# DB
 username: ${DB_USERNAME:your mariaDB id}
 password: ${DB_PASSWORD:your mariaDB password}
+
+# When building a DB for the first time
+spring:
+   sql:
+      init:
+         mode: always
+   jpa:
+      hibernate:
+         ddl-auto: create
 ```
 
 2. Build front-end  <br/> 

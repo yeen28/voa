@@ -5,6 +5,14 @@ spring:
     username: ${DB_USERNAME:root}
     password: ${DB_PASSWORD:}
 
+  sql:
+    init:
+      mode: never # DB 최초 구축 시에만 always로 변경
+
+  jpa:
+    hibernate:
+      ddl-auto: none # create
+
   servlet:
     multipart:
       enabled: true # 파일 업로드 가능 여부

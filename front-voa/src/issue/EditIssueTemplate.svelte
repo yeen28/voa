@@ -8,12 +8,12 @@
 		typeId: 0,
 		title: '',
 		rank: 0,
-		versionNames: '',
+		versionNames: [],
 		ownerId: 0,
 		reporterId: 0,
 		env: '',
 		description: '',
-		labelNames: '',
+		labelNames: [],
 		issueLinkType: 0,
 		issueLink: '',
 		issueStatus: '',
@@ -86,6 +86,16 @@
 		dispatch('close');
 		window.location.reload();
 	}
+
+	function handleVersionNamesInput(event) {
+		// TODO ,클릭하면 버전에 테두리 생기게 하기
+		issue.versionNames = event.target.value.split(',').map(name => name.trim()).filter(name => name);
+	}
+
+	function handleLabelNamesInput(event) {
+		// TODO ,클릭하면 라벨에 테두리 생기게 하기
+		issue.labelNames = event.target.value.split(',').map(name => name.trim()).filter(name => name);
+	}
 </script>
 
 {#if issue}
@@ -122,7 +132,14 @@
 					<span class="issue-tiny-text issue-title-align">버전</span>
 				</div>
 				<div class="issue-content-wrap">
-					<Input id="small-input" size="sm" placeholder="None" bind:value={issue.versionNames} class="issue-input" type="text" />
+					<Input
+						id="small-input"
+						size="sm"
+						placeholder="None"
+						value={issue.versionNames.join(', ')}
+						on:input={handleVersionNamesInput}
+						class="issue-input" type="text"
+					/>
 				</div>
 			</div>
 			<div class="issue-field-wrap">
@@ -164,7 +181,15 @@
 					<span class="issue-tiny-text issue-title-align">라벨</span>
 				</div>
 				<div class="issue-content-wrap">
-					<Input id="small-input" size="sm" placeholder="None" bind:value={issue.labelNames} class="issue-input" type="text" />
+					<Input
+						id="small-input"
+						size="sm"
+						placeholder="None"
+						value={issue.labelNames.join(', ')}
+						on:input={handleLabelNamesInput}
+						class="issue-input"
+						type="text"
+					/>
 				</div>
 			</div>
 			<div class="issue-field-wrap">

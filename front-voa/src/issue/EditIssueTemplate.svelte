@@ -1,8 +1,11 @@
 <script>
 	import {createEventDispatcher, onMount} from 'svelte';
 	import {Button, Textarea, Select, Input} from 'flowbite-svelte';
+
 	export let issue;
 	const dispatch = createEventDispatcher();
+	let parts = [];
+	let versionName = '';
 
 	let updatedIssue = {
 		typeId: 0,
@@ -18,17 +21,24 @@
 		issueLink: '',
 		issueStatus: '',
 	};
-	let rankOptions = [
+
+	const rankOptions = [
 		{ value: "1", name: '🔥주요' },
 		{ value: "2", name: '💥크리티컬' },
 		{ value: "3", name: '➖마이너' },
 		{ value: "4", name: '↘️사소한' }
 	];
-	let typeOptions = [
+
+	const typeOptions = [
 		{ value: 1, name: '🐞버그' },
 		{ value: 2, name: '✅작업' },
 		{ value: 3, name: '💡개선사항' },
 		{ value: 4, name: '📋스토리' }
+	];
+
+	const linkedIssue = [
+		{ value: 'duplicate', name: '다음 이슈와 중복됨'},
+		{ value: 'relation', name: '다음 이슈와 연관됨'}
 	];
 
 	// Issue data initialization
@@ -88,13 +98,22 @@
 	}
 
 	function handleVersionNamesInput(event) {
-		// TODO ,클릭하면 버전에 테두리 생기게 하기
-		issue.versionNames = event.target.value.split(',').map(name => name.trim()).filter(name => name);
+		versionName = event.target.value;
+
+		if (versionName.includes(',')) {
+			parts = parts.concat(versionName.split(',').map(part => part.trim()).filter(part => part));
+			versionName = '';
+			issue.versionNames = parts;
+		}
 	}
 
 	function handleLabelNamesInput(event) {
 		// TODO ,클릭하면 라벨에 테두리 생기게 하기
 		issue.labelNames = event.target.value.split(',').map(name => name.trim()).filter(name => name);
+	}
+
+	$: if (issue && issue.versionNames) {
+		parts = [...issue.versionNames];
 	}
 </script>
 
@@ -132,13 +151,21 @@
 					<span class="issue-tiny-text issue-title-align">버전</span>
 				</div>
 				<div class="issue-content-wrap">
+					<div>
+						{#each parts as part (part)}
+							{#if part}
+								<span class="part">{part}</span>
+							{/if}
+						{/each}
+					</div>
 					<Input
 						id="small-input"
 						size="sm"
 						placeholder="None"
-						value={issue.versionNames.join(', ')}
+						bind:value={versionName}
 						on:input={handleVersionNamesInput}
-						class="issue-input" type="text"
+						class="issue-input"
+						type="text"
 					/>
 				</div>
 			</div>
@@ -197,10 +224,7 @@
 					<span class="issue-tiny-text">연결된 이슈</span>
 				</div>
 				<div class="issue-content-wrap">
-					<select bind:value={issue.issueLink}>
-						<option value="duplicate">다음 이슈와 중복됨</option>
-						<option value="relation">다음 이슈와 연관됨</option>
-					</select>
+					<Select items={linkedIssue} bind:value={issue.issueLink}/>
 				</div>
 			</div>
 			<div class="issue-field-wrap">
@@ -223,5 +247,22 @@
 <style>
 	#edit-issue {
 		position: initial;
+	}
+
+	.part {
+		display: inline-block;
+		padding: 4px 8px;
+		margin: 4px;
+		border: 1px solid #ccc;
+		border-radius: 4px;
+	}
+
+	.issue-content-wrap {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 4px;
+		border: 1px solid #ccc;
+		padding: 4px;
+		border-radius: 4px;
 	}
 </style>

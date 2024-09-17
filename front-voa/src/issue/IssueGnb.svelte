@@ -1,7 +1,9 @@
 <script>
 	import { Input } from 'flowbite-svelte';
-	import CreateIssueTemplate from "../issue/CreateIssueTemplate.svelte";
+	import CreateIssueTemplate from './CreateIssueTemplate.svelte';
+	import {createEventDispatcher} from 'svelte';
 
+	const dispatch = createEventDispatcher();
 	let showCreateIssue = false;
 </script>
 
@@ -11,8 +13,8 @@
 		<Input type="text" class="search-input border-0" placeholder="Search..."/>
 	</div>
 	<div>
-		<div class="board" data-obj="render" data-cmd="viewBoard"></div>
-		<div class="table" data-obj="render" data-cmd="viewTable"></div>
+		<div class="board" on:click={() => dispatch('viewType', 'board')}></div>
+		<div class="table" on:click={() => dispatch('viewType', 'table')}></div>
 	</div>
 	<div id="createIssue" class="button" on:click={() => showCreateIssue = !showCreateIssue}>CREATE</div>
 	<div class="profile-wrap">
@@ -21,7 +23,7 @@
 </div>
 
 <!-- 이슈 만들기 템플릿  -->
-<CreateIssueTemplate showCreateIssue="{showCreateIssue}"/>
+<CreateIssueTemplate {showCreateIssue}/>
 
 <style>
 	#gnb {

@@ -30,8 +30,8 @@ public class IssueController {
 
 	@PreAuthorize("hasRole('ROLE_USER')")
 	@Operation(summary = "사용자에게 할당된 이슈 조회")
-	@GetMapping("/issues")
-	public ResponseEntity<Object> getIssues(@RequestParam("ownerId") final long ownerId) {
+	@GetMapping("/issues/user/{ownerId}")
+	public ResponseEntity<Object> getIssues(@PathVariable("ownerId") final long ownerId) {
 		return new ResponseEntity<>(issueService.getIssues(ownerId), HttpStatus.OK);
 	}
 

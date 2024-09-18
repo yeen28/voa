@@ -4,8 +4,7 @@
 	let issues = [];
 
 	onMount(() => {
-		// TODO 본인 id로 수정
-		fetch(`/issues/user/${1}`, {
+		fetch('/issues', {
 			method: 'GET'
 		})
 			.then(res => res.json())

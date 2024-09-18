@@ -12,7 +12,7 @@
 	let draggedIssueId = null;
 
 	onMount(() => {
-		fetch(`/issues/user/${1}`)
+		fetch('/issues')
 			.then(response => response.json())
 			.then(data => {
 				issues = data;

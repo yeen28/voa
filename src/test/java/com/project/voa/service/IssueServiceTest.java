@@ -33,7 +33,7 @@ class IssueServiceTest {
 		UserInfo userInfo = new UserInfo();
 
 		IssueDTO issueDTO = new IssueDTO();
-		issueDTO.setIssueTypeId(1L);
+		issueDTO.setTypeId(1L);
 		issueDTO.setVersionNames(List.of("version"));
 		issueDTO.setOwnerId(1L);
 		issueDTO.setReporterId(1L);
@@ -45,7 +45,7 @@ class IssueServiceTest {
 		when(labelRepository.findByName(anyString())).thenReturn(Optional.of(label));
 
 		//when
-		issueService.createIssue(issueDTO);
+		issueService.createIssue(userInfo, issueDTO);
 
 		//then
 		verify(issueRepository, atLeastOnce()).save(any(Issue.class));

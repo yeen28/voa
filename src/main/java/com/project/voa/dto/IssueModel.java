@@ -12,9 +12,11 @@ import java.util.Objects;
 public class IssueModel {
 	private String id;
 	private String title;
+	private long typeId;
 	private String issueType;
 	private String rank;
 	private List<String> versionNames;
+	private long ownerId;
 	private String ownerName;
 	private String reporterName;
 	private String env;
@@ -30,11 +32,13 @@ public class IssueModel {
 		return IssueModel.builder()
 				.id(String.valueOf(issue.getId()))
 				.title(issue.getTitle())
+				.typeId(issue.getIssueType().getId())
 				.issueType(issue.getIssueType().getName())
 				.rank(String.valueOf(issue.getRank()))
 				.versionNames(Objects.isNull(issue.getVersions()) ?
 						null :
 						issue.getVersions().stream().map(Version::getName).toList())
+				.ownerId(issue.getOwner().getId())
 				.ownerName(issue.getOwner().getUserName())
 				.reporterName(issue.getReporter().getUserName())
 				.env(issue.getEnv())

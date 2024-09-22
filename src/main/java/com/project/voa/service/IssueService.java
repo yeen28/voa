@@ -24,8 +24,8 @@ public class IssueService {
 	/**
 	 * 이슈 생성
 	 */
-	public IssueModel createIssue(IssueDTO issueDTO) {
-		IssueType issueType = issueTypeRepository.findById(issueDTO.getIssueTypeId()).orElseThrow(() ->
+	public IssueModel createIssue(UserInfo userInfo, IssueDTO issueDTO) {
+		IssueType issueType = issueTypeRepository.findById(issueDTO.getTypeId()).orElseThrow(() ->
 				new EntityNotFoundException(ErrorCodes.ISSUE_TYPE_NOT_FOUND.name()));
 		List<Version> versions = upsertVersions(issueDTO.getVersionNames());
 		UserInfo owner = userInfoRepository.findById(issueDTO.getOwnerId()).orElseThrow(() ->
@@ -83,11 +83,12 @@ public class IssueService {
 	 * @param id
 	 * @param issueStatus
 	 */
-	public void updateIssueStatus(final long id, IssueStatus issueStatus) {
+	public IssueModel updateIssueStatus(final long id, IssueStatus issueStatus) {
 		Issue issue = issueRepository.findById(id).orElseThrow(() ->
 				new EntityNotFoundException(ErrorCodes.ISSUE_NOT_FOUND.name()));
 		issue.setIssueStatus(issueStatus);
-		issueRepository.save(issue);
+
+		return IssueModel.of(issueRepository.save(issue));
 	}
 
 	/**
@@ -95,18 +96,16 @@ public class IssueService {
 	 * @param id
 	 * @param issueDTO
 	 */
-	public IssueModel updateIssue(final long id, IssueDTO issueDTO) {
+	public IssueModel updateIssue(final long id, final IssueDTO issueDTO) {
 		Issue issue = issueRepository.findById(id).orElseThrow(() ->
 				new EntityNotFoundException(ErrorCodes.ISSUE_NOT_FOUND.name()));
 
-		IssueType issueType = issueTypeRepository.findById(issueDTO.getIssueTypeId()).orElseThrow(() ->
+		IssueType issueType = issueTypeRepository.findById(issueDTO.getTypeId()).orElseThrow(() ->
 				new EntityNotFoundException(ErrorCodes.ISSUE_TYPE_NOT_FOUND.name()));
 		List<Version> versions = upsertVersions(issueDTO.getVersionNames());
 		List<Label> labels = upsertLabels(issueDTO.getLabelNames());
 		UserInfo owner = userInfoRepository.findById(issueDTO.getOwnerId()).orElseThrow(() ->
 				new EntityNotFoundException(ErrorCodes.OWNER_NOT_FOUND.name()));
-		UserInfo reporter = userInfoRepository.findById(issueDTO.getReporterId()).orElseThrow(() ->
-				new EntityNotFoundException(ErrorCodes.REPORTER_NOT_FOUND.name()));
 
 		issue.setTitle(issueDTO.getTitle());
 		issue.setDescription(issueDTO.getDescription());
@@ -119,7 +118,6 @@ public class IssueService {
 		issue.setIssueLinkType(issueDTO.getIssueLinkType());
 		issue.setRank(issueDTO.getRank());
 		issue.setOwner(owner);
-		issue.setReporter(reporter);
 		// TODO attachment, project는 추후 작업 예정
 
 		return IssueModel.of(issueRepository.save(issue));

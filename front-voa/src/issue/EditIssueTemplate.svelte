@@ -82,7 +82,6 @@
 		fetch(`/issue/${issue.id}`, {
 			method: 'DELETE'
 		})
-			.then(response => response.json())
 			.then(() => {
 				dispatch('delete', issue.id);
 				closeEditTemplate();
@@ -94,7 +93,6 @@
 
 	function closeEditTemplate() {
 		dispatch('close');
-		window.location.reload();
 	}
 
 	function handleVersionNamesInput(event) {

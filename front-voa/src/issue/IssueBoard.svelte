@@ -25,9 +25,9 @@
 
 	function toggleIssueDetailVisibility(id) {
 		const elIssueDetail = document.getElementById('issue-track-detail');
-		const isShow = id !== elIssueDetail.getAttribute('issue-id');
+		const isShow = id !== elIssueDetail?.getAttribute('issue-id');
 
-		elIssueDetail.classList.toggle('hide', !isShow);
+		elIssueDetail?.classList.toggle('hide', !isShow);
 
 		if (!isShow) {
 			elIssueDetail.removeAttribute('issue-id');
@@ -105,6 +105,8 @@
 
 	function closeEditModal() {
 		selectedIssue = null;
+		const elIssueDetail = document.getElementById('issue-track-detail');
+		elIssueDetail?.classList.add('hide');
 	}
 </script>
 
@@ -144,6 +146,7 @@
 				</div>
 			</div>
 		</div>
+
 		<div id="issue-track-detail" class="hide">
 			<div id="issue-track-detail-contents">
 				<EditIssueTemplate issue={selectedIssue} on:close={closeEditModal} on:update={updateIssue} on:delete={deleteIssue} />

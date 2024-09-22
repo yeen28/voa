@@ -96,11 +96,11 @@ public class IssueService {
 	 * @param id
 	 * @param issueDTO
 	 */
-	public IssueModel updateIssue(final long id, IssueDTO issueDTO) {
+	public IssueModel updateIssue(final long id, final IssueDTO issueDTO) {
 		Issue issue = issueRepository.findById(id).orElseThrow(() ->
 				new EntityNotFoundException(ErrorCodes.ISSUE_NOT_FOUND.name()));
 
-		IssueType issueType = issueTypeRepository.findById(id).orElseThrow(() ->
+		IssueType issueType = issueTypeRepository.findById(issueDTO.getTypeId()).orElseThrow(() ->
 				new EntityNotFoundException(ErrorCodes.ISSUE_TYPE_NOT_FOUND.name()));
 		List<Version> versions = upsertVersions(issueDTO.getVersionNames());
 		List<Label> labels = upsertLabels(issueDTO.getLabelNames());

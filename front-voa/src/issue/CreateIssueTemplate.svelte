@@ -14,12 +14,12 @@
 		typeId: 1,
 		title: '',
 		rank: 1,
-		versionNames: [''],
+		versionNames: [],
 		ownerId: 1, // TODO userInfo로 수정
 		reporterId: 1, // TODO userInfo로 수정
 		env: '' || 'Windows',
 		description: '',
-		labelNames: [''],
+		labelNames: [],
 		issueLinkType: 0,
 		issueLink: 'ISSUE-01'
 	}
@@ -34,8 +34,8 @@
 		})
 			.then(response => response.json())
 			.then(response => {
-				console.log(response);
 				showCreateIssue = false;
+				location.reload();
 			})
 			.catch(e => console.error(e));
 	}

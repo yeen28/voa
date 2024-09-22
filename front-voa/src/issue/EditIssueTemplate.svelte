@@ -108,7 +108,6 @@
 	}
 
 	function handleLabelNamesInput(event) {
-		// TODO ,클릭하면 라벨에 테두리 생기게 하기
 		issue.labelNames = event.target.value.split(',').map(name => name.trim()).filter(name => name);
 	}
 
@@ -119,7 +118,6 @@
 
 {#if issue}
 	<div id="edit-issue">
-		<div class="issue-header-wrap"></div>
 		<div class="issue-wrap">
 			<div class="issue-field-wrap">
 				<div class="issue-title-wrap">
@@ -129,13 +127,12 @@
 					<Select class="mt-2" items={typeOptions} bind:value={issue.typeId} />
 				</div>
 			</div>
-			<div class="line"></div>
 			<div class="issue-field-wrap">
 				<div class="issue-title-wrap">
 					<span class="issue-tiny-text">제목*</span>
 				</div>
 				<div class="issue-content-wrap">
-					<Input id="small-input" size="sm" placeholder="None" bind:value={issue.title} class="issue-input" type="text" />
+					<Input id="small-input" size="sm" placeholder="제목을 입력하세요." bind:value={issue.title} class="issue-input" type="text" />
 				</div>
 			</div>
 			<div class="issue-field-wrap">
@@ -161,7 +158,7 @@
 					<Input
 						id="small-input"
 						size="sm"
-						placeholder="None"
+						placeholder="버전을 콤마(,)로 구분하여 입력하세요."
 						bind:value={versionName}
 						on:input={handleVersionNamesInput}
 						class="issue-input"
@@ -184,7 +181,7 @@
 					<span class="issue-tiny-text issue-title-align">환경</span>
 				</div>
 				<div class="issue-content-wrap">
-					<Textarea placeholder="None" rows="4" bind:value={issue.env}></Textarea>
+					<Textarea placeholder="환경을 입력하세요." rows="4" bind:value={issue.env}></Textarea>
 				</div>
 			</div>
 			<div class="issue-field-wrap">
@@ -192,7 +189,7 @@
 					<span class="issue-tiny-text">설명</span>
 				</div>
 				<div class="issue-content-wrap">
-					<Textarea placeholder="None" rows="4" bind:value={issue.description}></Textarea>
+					<Textarea placeholder="설명을 입력하세요." rows="4" bind:value={issue.description}></Textarea>
 				</div>
 			</div>
 			<div class="issue-field-wrap">
@@ -200,7 +197,7 @@
 					<span class="issue-tiny-text">첨부파일</span>
 				</div>
 				<div class="issue-content-wrap">
-					<Input id="small-input" size="sm" placeholder="None" class="issue-input" type="text" />
+					<Input id="small-input" size="sm" class="issue-input" type="file" />
 				</div>
 			</div>
 			<div class="issue-field-wrap">
@@ -211,7 +208,7 @@
 					<Input
 						id="small-input"
 						size="sm"
-						placeholder="None"
+						placeholder="라벨을 입력하세요."
 						value={issue.labelNames.join(', ')}
 						on:input={handleLabelNamesInput}
 						class="issue-input"
@@ -237,9 +234,9 @@
 			</div>
 		</div>
 		<div class="issue-footer-wrap">
-			<Button color="blue" class="create-issue-btn button" on:click={updateIssue}>확인</Button>
-			<Button color="alternative" class="cancel-issue-btn" on:click={closeEditTemplate}>취소</Button>
-			<Button color="red" class="delete-issue-btn" on:click={deleteIssue}>삭제</Button>
+			<Button class="create-issue-btn" on:click={updateIssue}>확인</Button>
+			<Button class="cancel-issue-btn" on:click={closeEditTemplate}>취소</Button>
+			<Button class="delete-issue-btn" on:click={deleteIssue}>삭제</Button>
 		</div>
 	</div>
 {/if}
@@ -247,6 +244,7 @@
 <style>
 	#edit-issue {
 		position: initial;
+		border: initial;
 	}
 
 	.part {
@@ -261,8 +259,58 @@
 		display: flex;
 		flex-wrap: wrap;
 		gap: 4px;
-		border: 1px solid #ccc;
-		padding: 4px;
 		border-radius: 4px;
+		margin: 2px 0;
+	}
+
+	.issue-field-wrap {
+		padding: 5px 0;
+	}
+
+	#edit-issue .issue-wrap {
+		background-color: initial;
+	}
+
+	:global(
+	#edit-issue select,
+	#edit-issue input,
+	#edit-issue textarea
+	) {
+		padding: 8px;
+		border: 1px solid #ddd;
+		border-radius: 4px;
+		background-color: #fff;
+		font-size: 0.8rem;
+	}
+
+	#edit-issue .issue-footer-wrap {
+		display: flex;
+		justify-content: flex-end;
+		background-color: initial;
+		border-bottom: initial;
+		border-radius: initial;
+	}
+
+	:global(
+	.issue-footer-wrap .create-issue-btn,
+	.issue-footer-wrap .cancel-issue-btn,
+	.issue-footer-wrap .delete-issue-btn
+	) {
+		padding: 8px 12px;
+		border-radius: 4px;
+		font-size: 0.9rem;
+		color: white;
+	}
+
+	:global(.issue-footer-wrap .create-issue-btn) {
+		background-color: blue;
+	}
+
+	:global(.issue-footer-wrap .cancel-issue-btn) {
+		background-color: grey;
+	}
+
+	:global(.issue-footer-wrap .delete-issue-btn) {
+		background-color: red;
 	}
 </style>

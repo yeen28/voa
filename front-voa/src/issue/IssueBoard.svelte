@@ -182,6 +182,24 @@
 	#issue-track-detail {
 		width: 450px;
 		font-size: 0.8rem;
-		padding: 35px 0 0 20px;
+		padding-top: 35px;
+	}
+
+	#issue-track-detail-contents {
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+		padding: 20px 35px;
+		background-color: #f8f9fa;
+		border-radius: 8px;
+		font-family: Arial, sans-serif;
+		box-shadow:
+				rgba(15, 15, 15, 0.04) 0px 0px 0px 1px,
+				rgba(15, 15, 15, 0.03) 0px 3px 6px,
+				rgba(15, 15, 15, 0.06) 0px 9px 24px;
+	}
+
+	.issue-sub-track-title > span {
+		background-color: #D3D1CB;
 	}
 </style>

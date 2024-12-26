@@ -41,8 +41,8 @@ spring:
 3. Setting up a development environment in the <u>Svelte</u> environment
    1. DB insert
       - ```
-        INSERT INTO user_info (user_name, user_email, password, profile)
-        VALUES ('admin', 'admin@email.com', '$2a$08$lDnHPz7eUkSi6ao14Twuau08mzhWrL4kyZGGU5xfiGALO/Vxd5DOi', '');
+        INSERT INTO user_info (user_name, user_email, password, profile, team_id, created_at, last_modified_at)
+        VALUES ('admin', 'admin@email.com', '$2a$08$lDnHPz7eUkSi6ao14Twuau08mzhWrL4kyZGGU5xfiGALO/Vxd5DOi', '', 1, now(), now());
         ```
    2. localhost:{port}/login
    3. ID: admin@email.com <br/>

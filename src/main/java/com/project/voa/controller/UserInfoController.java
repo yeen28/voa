@@ -10,17 +10,23 @@ import io.swagger.v3.oas.annotations.Parameter;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 public class UserInfoController {
 	private final UserInfoService userInfoService;
 
+	@PreAuthorize("hasRole('ROLE_USER')")
 	@Operation(summary = "사용자 등록")
 	@Parameter(name = "userInfoDto", description = "사용자를 등록합니다.", example = "{\"userName\": \"user\",\"userEmail\": \"email@email.com\",\"password\":\"123\",\"profile\": \"\",\"teamId\": \"1\"}")
 	@PostMapping("/user")
@@ -28,6 +34,7 @@ public class UserInfoController {
 		return new ResponseEntity<>(userInfoService.insertUser(userInfoDto), HttpStatus.OK);
 	}
 
+	@PreAuthorize("hasRole('ROLE_USER')")
 	@Operation(summary = "사용자들 목록 조회")
 	@GetMapping("/users")
 	public ResponseEntity<Object> getUsers() {
@@ -44,10 +51,15 @@ public class UserInfoController {
 	@Parameter(name = "loginUserInfo", example = "{\"email\": voa@voa.com\",\"password\":\"123\"}")
 	@PostMapping("/login/user")
 	public ResponseEntity<Object> login(HttpServletResponse response, @Valid @RequestBody LoginUserInfoDto dto) {
-		JwtTokenInfo jwtTokenInfo = userInfoService.login(response, dto);
-		HttpHeaders httpHeaders = new HttpHeaders();
-		httpHeaders.add("Authorization", JwtType.BEARER.getValue() + " " + jwtTokenInfo.getAccessToken());
+		try {
+			JwtTokenInfo jwtTokenInfo = userInfoService.login(response, dto);
+			HttpHeaders httpHeaders = new HttpHeaders();
+			httpHeaders.add("Authorization", JwtType.BEARER.getValue() + " " + jwtTokenInfo.getAccessToken());
 
-		return new ResponseEntity<>(jwtTokenInfo, httpHeaders, HttpStatus.OK);
+			return new ResponseEntity<>(jwtTokenInfo, httpHeaders, HttpStatus.OK);
+		} catch (BadCredentialsException | UsernameNotFoundException e) {
+			log.warn("BadCredentialsException - {}", e.getMessage());
+			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+		}
 	}
 }

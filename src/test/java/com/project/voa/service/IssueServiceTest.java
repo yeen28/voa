@@ -53,7 +53,7 @@ class IssueServiceTest {
 	private IssueDTO issueDtoSetup() {
 		IssueDTO issueDTO = new IssueDTO();
 		issueDTO.setTitle("issue title");
-		issueDTO.setIssueTypeId(1L);
+		issueDTO.setTypeId(1L);
 		issueDTO.setVersionNames(List.of("version"));
 		issueDTO.setOwnerId(1L);
 		issueDTO.setReporterId(1L);
@@ -75,7 +75,7 @@ class IssueServiceTest {
 		when(versionRepository.findByName(anyString())).thenReturn(Optional.of(version));
 		when(labelRepository.findByName(anyString())).thenReturn(Optional.of(label));
 
-		issueService.createIssue(issueDTO);
+		issueService.createIssue(userInfo, issueDTO);
 
 		verify(issueRepository, times(1)).save(any(Issue.class));
 	}
@@ -95,6 +95,7 @@ class IssueServiceTest {
 	void updateIssueStatusTest() {
 		Issue issue = issueSetup();
 		doReturn(Optional.of(issue)).when(issueRepository).findById(anyLong());
+		doReturn(issue).when(issueRepository).save(issue);
 
 		issueService.updateIssueStatus(1L, IssueStatus.TO_DO);
 

@@ -60,7 +60,7 @@ export class Render {
         const errorFunc: Function = (res: Response) => {
             console.log(res);
         }
-        this.request.get('/issues', {ownerId:1}, successFunc, errorFunc);
+        this.request.get('/issues', {}, successFunc, errorFunc);
     }
 
     /**
@@ -98,7 +98,7 @@ export class Render {
         const errorFunc: Function = (res: Response) => {
              console.log(res);
         }
-        this.request.get('/issues', {ownerId: 1}, successFunc, errorFunc);
+        this.request.get('/issues', {}, successFunc, errorFunc);
     }
 
     /**

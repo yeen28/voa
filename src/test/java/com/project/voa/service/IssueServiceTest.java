@@ -95,6 +95,7 @@ class IssueServiceTest {
 	void updateIssueStatusTest() {
 		Issue issue = issueSetup();
 		doReturn(Optional.of(issue)).when(issueRepository).findById(anyLong());
+		doReturn(issue).when(issueRepository).save(issue);
 
 		issueService.updateIssueStatus(1L, IssueStatus.TO_DO);
 

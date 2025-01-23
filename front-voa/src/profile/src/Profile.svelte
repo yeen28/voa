@@ -1,22 +1,41 @@
 <script>
-	import Sidebar from "../../components/Sidebar.svelte";
-	import Header from "../../components/Header.svelte";
-	import { ChartPieSolid, GridSolid, MailBoxSolid, UserSolid, ShoppingBagSolid, ArrowRightToBracketOutline, EditOutline, FireSolid, BookSolid, RestoreWindowOutline, LifeSaverSolid } from 'flowbite-svelte-icons';
+	import { Label, Input, Button } from 'flowbite-svelte';
 
-	const topMenus = [
-		{menu: 'Profile', name: 'Profile', icon: 'profile', iconTag: UserSolid},
-		{menu: 'Dashboard', name: 'Dashboard', icon: 'dashboard', iconTag: ChartPieSolid},
-		{menu: 'Kanban', name: 'Kanban', icon: 'kanban', iconTag: GridSolid},
-		{menu: 'Team', name: 'Team', icon: 'team', iconTag: MailBoxSolid},
-		{menu: 'Project', name: 'Project', icon: 'project', iconTag: ChartPieSolid}
-	];
+	let password = '';
 
-	const bottomMenus = [
-		{menu: 'Logout', name: 'Logout', icon: 'logout', iconTag: ArrowRightToBracketOutline},
-		{menu: 'Help', name: 'Help', icon: 'help', iconTag: LifeSaverSolid}
-	];
+	const updatePassword = () => {
+		console.log(password);
+	}
 </script>
 
-<div>
-	<Sidebar topMenus={topMenus} bottomMenus={bottomMenus}/>
+<div class="profile-wrap">
+	<div class="profile-title">Profile</div>
+
+	<div class="input-wrap">
+		<div class="mb-6">
+			<Label for="default-input" class="block mb-2">Change Nickname</Label>
+			<Input id="default-input" placeholder="VOA" value="Jake" bind={password}/>
+		</div>
+
+		<div class="mb-6">
+			<Label for="default-input" class="block mb-2">Change Password</Label>
+			<Input id="default-input" placeholder="number, character, 8" />
+		</div>
+	</div>
+
+	<Button color="blue" on:click={updatePassword}>SAVE</Button>
 </div>
+
+<style>
+	.profile-wrap {
+		width: 50%;
+		margin: 80px 135px;
+		display: grid;
+		gap: 35px;
+	}
+
+	.profile-title {
+		font-weight: bold;
+		font-size: 1.8rem;
+	}
+</style>

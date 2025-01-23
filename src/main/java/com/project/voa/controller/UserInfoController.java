@@ -1,22 +1,14 @@
 package com.project.voa.controller;
 
-import com.project.voa.dto.LoginUserInfoDto;
 import com.project.voa.dto.UserInfoDto;
-import com.project.voa.jwt.JwtTokenInfo;
 import com.project.voa.service.UserInfoService;
-import com.project.voa.type.JwtType;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -40,26 +32,11 @@ public class UserInfoController {
 	public ResponseEntity<Object> getUsers() {
 		return new ResponseEntity<>(userInfoService.getUsers(), HttpStatus.OK);
 	}
-
-	@Operation(summary = "로그인 화면")
-	@GetMapping("/login")
-	public ModelAndView login() {
-		return new ModelAndView("components/login");
-	}
-
-	@Operation(summary = "로그인 성공/실패")
-	@Parameter(name = "loginUserInfo", example = "{\"email\": voa@voa.com\",\"password\":\"123\"}")
-	@PostMapping("/login/user")
-	public ResponseEntity<Object> login(HttpServletResponse response, @Valid @RequestBody LoginUserInfoDto dto) {
-		try {
-			JwtTokenInfo jwtTokenInfo = userInfoService.login(response, dto);
-			HttpHeaders httpHeaders = new HttpHeaders();
-			httpHeaders.add("Authorization", JwtType.BEARER.getValue() + " " + jwtTokenInfo.getAccessToken());
-
-			return new ResponseEntity<>(jwtTokenInfo, httpHeaders, HttpStatus.OK);
-		} catch (BadCredentialsException | UsernameNotFoundException e) {
-			log.warn("BadCredentialsException - {}", e.getMessage());
-			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-		}
+	
+	@PreAuthorize("hasRole('ROLE_USER')")
+	@Operation(summary = "마이페이지")
+	@GetMapping("/profile")
+	public ModelAndView profile() {
+		return new ModelAndView("components/profile");
 	}
 }

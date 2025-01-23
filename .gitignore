@@ -44,3 +44,4 @@ front-voa/node_modules/
 /src/main/resources/static/package-lock.json
 
 package-lock.json
+.history

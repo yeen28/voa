@@ -2,6 +2,7 @@
 	import IssueGnb from './IssueGnb.svelte';
 	import IssueBoard from './IssueBoard.svelte';
 	import IssueTable from './IssueTable.svelte';
+	import BottomNav from '../components/BottomNav.svelte';
 
 	let viewType = 'board'; // issue 보여주기 유형 - board | table
 </script>
@@ -14,6 +15,7 @@
 	{:else}
 		<IssueTable/>
 	{/if}
+	<BottomNav/>
 </section>
 
 <style>

@@ -65,6 +65,12 @@ public class WebSecurityConfig {
 						sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 				)
 
+				.logout(httpSecurityLogoutConfigurer -> {
+					httpSecurityLogoutConfigurer.logoutUrl("/logout");
+					// 쿠키 제거
+					httpSecurityLogoutConfigurer.deleteCookies("token");
+				})
+
 				.with(new JwtSecurityConfig(jwtTokenProvider), customizer -> {});
 		return httpSecurity.build();
 	}

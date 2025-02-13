@@ -1,4 +1,4 @@
-## VOA
+## VOA  [![Java CI](https://github.com/yeen28/voa/actions/workflows/gradle.yml/badge.svg?branch=dev)](https://github.com/yeen28/voa/actions/workflows/gradle.yml)
 
 Plan, track and manage agile and software development projects.
 
@@ -56,11 +56,10 @@ mariaDB 10.9.2
 
 ## License
 
-Network-Monitoring is licensed under the [MIT License]. The terms of the license are as follows:
 ```
 MIT License
 
-Copyright (c) 2018
+Copyright (c) 2023
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

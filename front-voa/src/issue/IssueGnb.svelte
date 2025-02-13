@@ -17,9 +17,6 @@
 		<div class="table" on:click={() => dispatch('viewType', 'table')}></div>
 	</div>
 	<div id="createIssue" class="button" on:click={() => showCreateIssue = !showCreateIssue}>CREATE</div>
-	<div class="profile-wrap">
-		<div id="profile-name">Jake</div>
-	</div>
 </div>
 
 <!-- 이슈 만들기 템플릿  -->
@@ -28,7 +25,7 @@
 <style>
 	#gnb {
 		display: grid;
-		grid-template-columns: auto 100px 90px 200px;
+		grid-template-columns: auto 100px 90px;
 		align-items: center;
 		border-radius: 0.375rem;
 		padding: 0 1.5rem;

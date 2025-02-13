@@ -13,7 +13,7 @@
 	}
 
 	function handleDragEnd(event) {
-		onDragEnd(issue.id, event);
+		onDragEnd(event, issue.id);
 	}
 </script>
 
@@ -31,13 +31,19 @@
 	</div>
 	<div class="issue-card-type issue-item-attr">{issue.issueType}</div>
 	<div class="issue-card-user issue-item-attr">{issue.ownerName}</div>
-	<div class="issue-card-version issue-item-attr">{issue.versionNames}</div>
-	<div class="issue-card-label issue-item-attr">{issue.labelNames}</div>
+	{#if issue.versionNames.length !== 0}
+		<div class="issue-card-version issue-item-attr">{issue.versionNames}</div>
+	{/if}
+	{#if issue.labelNames.length !== 0}
+		<div class="issue-card-label issue-item-attr">{issue.labelNames}</div>
+	{/if}
 </div>
 
 <style>
 	.issue-card {
 		cursor: grab;
 		width: initial;
+		height: fit-content;
+		padding: 2px 0;
 	}
 </style>

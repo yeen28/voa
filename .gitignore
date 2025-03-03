@@ -1,4 +1,3 @@
-HELP.md
 .gradle
 build/
 !gradle/wrapper/gradle-wrapper.jar
@@ -32,7 +31,7 @@ out/
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/
-/dist/
+**/dist/
 /nbdist/
 /.nb-gradle/
 
@@ -45,3 +44,4 @@ front-voa/node_modules/
 
 package-lock.json
 .history
+.DS_Store

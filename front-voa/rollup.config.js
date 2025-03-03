@@ -19,8 +19,8 @@ export default entries.map( entryName =>
 			format: 'iife',
 			name: 'app',
 			// TODO 추후 svelte 빌드 결과물을 springboot 실행 시 자동 빌드를 위해 springboot의 static 디렉토리로 위치시킴.
-			// file: `../src/main/resources/static/dist/${entryName}/bundle.js`
-			file: `../src/main/resources/static/dist/bundle.js`
+			// file: `../issue/src/main/resources/static/dist/${entryName}/bundle.js`
+			file: `../issue/src/main/resources/static/dist/bundle.js`
 		},
 		plugins: [
 			commonjs(),
@@ -28,7 +28,7 @@ export default entries.map( entryName =>
 			svelte({
 				dev: !production,
 				css: css => {
-					css.write('../src/main/resources/static/dist/bundle.css');
+					css.write('../issue/src/main/resources/static/dist/bundle.css');
 				}
 			}),
 			resolve({

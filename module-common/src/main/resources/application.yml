@@ -1,0 +1,17 @@
+spring:
+  datasource:
+    url: jdbc:mariadb://${DB_HOST:localhost}:${DB_PORT:3306}/voa
+    driver-class-name: org.mariadb.jdbc.Driver
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:}
+
+  sql:
+    init:
+      mode: never # DB 최초 구축 시에만 always로 변경
+
+  jpa:
+    hibernate:
+      ddl-auto: none # create / update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MariaDBDialect

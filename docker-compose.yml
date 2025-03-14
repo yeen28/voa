@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  # Spring Boot 애플리케이션
+  voa-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"  # 호스트와 컨테이너 간 포트 매핑
+    depends_on:
+      - db  # db 서비스가 먼저 시작되도록 설정
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mariadb://db:3306/voa_db  # MariaDB 연결 URL
+      - SPRING_DATASOURCE_USERNAME=root  # MariaDB 사용자명
+      - SPRING_DATASOURCE_PASSWORD=password  # MariaDB 비밀번호
+    networks:
+      - voa-network
+
+  # MariaDB 서비스
+  db:
+    image: mariadb:latest  # 최신 MariaDB 이미지 사용
+    environment:
+      MYSQL_ROOT_PASSWORD: password  # MariaDB root 비밀번호 설정
+      MYSQL_DATABASE: voa_db  # 사용할 데이터베이스 이름
+    networks:
+      - voa-network
+
+networks:
+  voa-network:
+    driver: bridge  # 서비스 간 네트워크 설정
